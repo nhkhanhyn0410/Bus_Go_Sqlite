@@ -256,7 +256,7 @@ Tổng: 500,000 VNĐ
 
 ## Điểm nổi bật
 
-### 🚏 Smart Pickup/Dropoff
+### Smart Pickup/Dropoff
 Không giống app đặt vé thông thường chỉ có điểm đi/đến cố định:
 
 ```java
