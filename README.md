@@ -326,6 +326,6 @@ try {
 
 **Nếu project hữu ích, hãy cho 1 star!**
 
-Made with ❤️ by TDMU Students
+Made with by TDMU Students
 
 </div>
