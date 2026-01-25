@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_BUS = "bus";
     public static final String TABLE_DROPOFF_POINT = "dropoffpoint";
@@ -31,21 +31,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "CREATE TABLE " + TABLE_BUS + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "license_plate TEXT NOT NULL," +
-                        "model TEXT," +
-                        "capacity INTEGER NOT NULL DEFAULT 0," +
-                        "manufacturer TEXT," +
-                        "year INTEGER" +
+                        "bus_number TEXT NOT NULL," +
+                        "bus_type TEXT," +
+                        "total_seats INTEGER NOT NULL DEFAULT 0," +
+                        "seat_layout TEXT," +
+                        "is_active INTEGER NOT NULL DEFAULT 1" +
                         ")"
         );
 
         db.execSQL(
                 "CREATE TABLE " + TABLE_ROUTE + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "name TEXT NOT NULL," +
-                        "origin TEXT NOT NULL," +
+                        "departure TEXT NOT NULL," +
                         "destination TEXT NOT NULL," +
-                        "distance_km REAL NOT NULL DEFAULT 0" +
+                        "distance INTEGER NOT NULL DEFAULT 0," +
+                        "duration INTEGER NOT NULL DEFAULT 0," +
+                        "is_active INTEGER NOT NULL DEFAULT 1" +
                         ")"
         );
 
@@ -53,11 +54,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + TABLE_PICKUP_POINT + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "route_id INTEGER NOT NULL," +
-                        "name TEXT NOT NULL," +
+                        "point_name TEXT NOT NULL," +
                         "address TEXT," +
-                        "latitude REAL," +
-                        "longitude REAL," +
-                        "sequence INTEGER NOT NULL DEFAULT 0," +
+                        "time_offset INTEGER NOT NULL DEFAULT 0," +
+                        "is_active INTEGER NOT NULL DEFAULT 1," +
+                        "actual_pickup_time TEXT," +
                         "FOREIGN KEY(route_id) REFERENCES " + TABLE_ROUTE + "(id) ON DELETE CASCADE" +
                         ")"
         );
@@ -66,11 +67,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + TABLE_DROPOFF_POINT + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "route_id INTEGER NOT NULL," +
-                        "name TEXT NOT NULL," +
+                        "point_name TEXT NOT NULL," +
                         "address TEXT," +
-                        "latitude REAL," +
-                        "longitude REAL," +
-                        "sequence INTEGER NOT NULL DEFAULT 0," +
+                        "time_offset INTEGER NOT NULL DEFAULT 0," +
+                        "is_active INTEGER NOT NULL DEFAULT 1," +
+                        "actual_dropoff_time TEXT," +
                         "FOREIGN KEY(route_id) REFERENCES " + TABLE_ROUTE + "(id) ON DELETE CASCADE" +
                         ")"
         );
@@ -79,11 +80,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + TABLE_STOP_POINT + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "route_id INTEGER NOT NULL," +
-                        "name TEXT NOT NULL," +
+                        "stop_name TEXT NOT NULL," +
                         "address TEXT," +
-                        "latitude REAL," +
-                        "longitude REAL," +
-                        "sequence INTEGER NOT NULL DEFAULT 0," +
+                        "time_offset INTEGER NOT NULL DEFAULT 0," +
+                        "stop_duration INTEGER NOT NULL DEFAULT 0," +
+                        "is_active INTEGER NOT NULL DEFAULT 1," +
+                        "arrival_time TEXT," +
+                        "departure_time TEXT," +
                         "FOREIGN KEY(route_id) REFERENCES " + TABLE_ROUTE + "(id) ON DELETE CASCADE" +
                         ")"
         );
@@ -93,9 +96,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "route_id INTEGER NOT NULL," +
                         "bus_id INTEGER NOT NULL," +
-                        "driver_name TEXT," +
-                        "start_time TEXT NOT NULL," +
-                        "end_time TEXT," +
+                        "departure_time TEXT NOT NULL," +
+                        "arrival_time TEXT," +
+                        "base_price REAL NOT NULL DEFAULT 0," +
+                        "available_seats INTEGER NOT NULL DEFAULT 0," +
                         "status TEXT NOT NULL DEFAULT 'scheduled'," +
                         "FOREIGN KEY(route_id) REFERENCES " + TABLE_ROUTE + "(id) ON DELETE CASCADE," +
                         "FOREIGN KEY(bus_id) REFERENCES " + TABLE_BUS + "(id) ON DELETE CASCADE" +
@@ -105,12 +109,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "CREATE TABLE " + TABLE_USER + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "full_name TEXT NOT NULL," +
-                        "email TEXT NOT NULL UNIQUE," +
+                        "username TEXT NOT NULL," +
+                        "password TEXT NOT NULL," +
+                        "fullname TEXT NOT NULL," +
+                        "email TEXT," +
                         "phone TEXT," +
-                        "password_hash TEXT NOT NULL," +
-                        "role TEXT NOT NULL DEFAULT 'passenger'," +
-                        "created_at TEXT NOT NULL" +
+                        "created_at TEXT," +
+                        "is_active INTEGER NOT NULL DEFAULT 1" +
                         ")"
         );
     }
