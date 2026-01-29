@@ -1,8 +1,9 @@
-package com.example.busgo;
+package com.example.busgo.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.example.busgo.database.helpers.RouteDataHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
@@ -118,8 +119,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "is_active INTEGER NOT NULL DEFAULT 1" +
                         ")"
         );
+        RouteDataHelper.insertSampleRoutes(db);
     }
 
+
+//Xóa tất cả các bảng
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIP);
