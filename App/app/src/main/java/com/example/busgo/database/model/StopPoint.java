@@ -11,11 +11,11 @@ public class StopPoint {
     private String arrivalTime;
     private String departureTime;
 
-    private StopPoint() {
-
+    public StopPoint() {
     }
 
-    public StopPoint(int routeId, String stopName, String address, int timeOffset, int stopDuration) {
+    public StopPoint(int routeId, String stopName, String address,
+                     int timeOffset, int stopDuration) {
         this.routeId = routeId;
         this.stopName = stopName;
         this.address = address;
@@ -23,6 +23,8 @@ public class StopPoint {
         this.stopDuration = stopDuration;
         this.isActive = true;
     }
+
+    // ===== Getter & Setter =====
 
     public int getId() {
         return id;
@@ -32,11 +34,11 @@ public class StopPoint {
         this.id = id;
     }
 
-    public int setRouteId() {
+    public int getRouteId() {
         return routeId;
     }
 
-    public void getRouteId(int routeId) {
+    public void setRouteId(int routeId) {
         this.routeId = routeId;
     }
 
@@ -89,14 +91,14 @@ public class StopPoint {
     }
 
     public String getDepartureTime() {
-        return arrivalTime;
+        return departureTime;
     }
 
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
 
-    //Helper Hiển thị cho điểm dừng
+    // ===== Helper hiển thị =====
     public String getStopDurationDisplay() {
         if (stopDuration < 60) {
             return stopDuration + " phút";
@@ -104,7 +106,7 @@ public class StopPoint {
             int hours = stopDuration / 60;
             int minutes = stopDuration % 60;
             if (minutes == 0) {
-                return  hours + " giờ";
+                return hours + " giờ";
             }
             return hours + " giờ " + minutes + " phút";
         }
