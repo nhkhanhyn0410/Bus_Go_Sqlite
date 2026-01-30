@@ -13,11 +13,15 @@ import java.util.List;
 
 public class PickupPointDAO {
     private final DatabaseHelper dbHelper;
-
+    /**
+     * Khởi tạo DAO để thao tác bảng điểm đón.
+     */
     public PickupPointDAO(Context context) {
         this.dbHelper = new DatabaseHelper(context);
     }
-
+    /**
+     * Thêm một điểm đón mới vào cơ sở dữ liệu.
+     */
     public long insertPickupPoint(PickupPoint pickupPoint) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -29,15 +33,21 @@ public class PickupPointDAO {
         values.put("actual_pickup_time", pickupPoint.getActualPickupTime());
         return db.insert(DatabaseHelper.TABLE_PICKUP_POINT, null, values);
     }
-
+    /**
+     * Lấy danh sách điểm đón theo tuyến.
+     */
     public List<PickupPoint> getPickupPointsByRouteId(int routeId) {
         return getPickupPointsByRouteId(routeId, null);
     }
-
+    /**
+     * Lấy danh sách điểm đón đang hoạt động theo tuyến.
+     */
     public List<PickupPoint> getActivePickupPointsByRouteId(int routeId) {
         return getPickupPointsByRouteId(routeId, "is_active = 1");
     }
-
+    /**
+     * Truy vấn điểm đón theo tuyến với điều kiện lọc bổ sung.
+     */
     private List<PickupPoint> getPickupPointsByRouteId(int routeId, String extraWhere) {
         List<PickupPoint> pickupPoints = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -60,7 +70,9 @@ public class PickupPointDAO {
         }
         return pickupPoints;
     }
-
+    /**
+     * Cập nhật thông tin điểm đón theo ID.
+     */
     public int updatePickupPoint(PickupPoint pickupPoint) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -77,7 +89,9 @@ public class PickupPointDAO {
                 new String[]{String.valueOf(pickupPoint.getId())}
         );
     }
-
+    /**
+     * Xóa điểm đón theo ID.
+     */
     public int deletePickupPoint(int id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete(
@@ -86,7 +100,9 @@ public class PickupPointDAO {
                 new String[]{String.valueOf(id)}
         );
     }
-
+    /**
+     * Chuyển dữ liệu cursor thành đối tượng PickupPoint.
+     */
     private PickupPoint fromCursor(Cursor cursor) {
         PickupPoint pickupPoint = new PickupPoint();
         pickupPoint.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
