@@ -13,11 +13,15 @@ import java.util.List;
 
 public class StopPointDAO {
     private final DatabaseHelper dbHelper;
-
+    /**
+     * Khởi tạo DAO để thao tác bảng điểm dừng.
+     */
     public StopPointDAO(Context context) {
         this.dbHelper = new DatabaseHelper(context);
     }
-
+    /**
+     * Thêm một điểm dừng mới vào cơ sở dữ liệu.
+     */
     public long insertStopPoint(StopPoint stopPoint) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -31,15 +35,21 @@ public class StopPointDAO {
         values.put("departure_time", stopPoint.getDepartureTime());
         return db.insert(DatabaseHelper.TABLE_STOP_POINT, null, values);
     }
-
+    /**
+     * Lấy danh sách điểm dừng theo tuyến.
+     */
     public List<StopPoint> getStopPointsByRouteId(int routeId) {
         return getStopPointsByRouteId(routeId, null);
     }
-
+    /**
+     * Lấy danh sách điểm dừng đang hoạt động theo tuyến.
+     */
     public List<StopPoint> getActiveStopPointsByRouteId(int routeId) {
         return getStopPointsByRouteId(routeId, "is_active = 1");
     }
-
+    /**
+     * Truy vấn điểm dừng theo tuyến với điều kiện lọc bổ sung.
+     */
     private List<StopPoint> getStopPointsByRouteId(int routeId, String extraWhere) {
         List<StopPoint> stopPoints = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -62,7 +72,9 @@ public class StopPointDAO {
         }
         return stopPoints;
     }
-
+    /**
+     * Cập nhật thông tin điểm dừng theo ID.
+     */
     public int updateStopPoint(StopPoint stopPoint) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -81,7 +93,9 @@ public class StopPointDAO {
                 new String[]{String.valueOf(stopPoint.getId())}
         );
     }
-
+    /**
+     * Xóa điểm dừng theo ID.
+     */
     public int deleteStopPoint(int id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete(
@@ -90,7 +104,9 @@ public class StopPointDAO {
                 new String[]{String.valueOf(id)}
         );
     }
-
+    /**
+     * Chuyển dữ liệu cursor thành đối tượng StopPoint.
+     */
     private StopPoint fromCursor(Cursor cursor) {
         StopPoint stopPoint = new StopPoint();
         stopPoint.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
