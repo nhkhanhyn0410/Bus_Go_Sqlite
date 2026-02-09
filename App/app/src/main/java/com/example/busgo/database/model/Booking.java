@@ -29,14 +29,13 @@ public class Booking {
     private String paidAt;
 
     private Trip trip;
-    private PickupPoint pickupPoint;
-    private DropoffPoint dropoffPoint;
+    private StopPoint pickupPoint;
+    private StopPoint dropoffPoint;
 
     // Constructors
     public Booking() {
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -213,19 +212,19 @@ public class Booking {
         this.trip = trip;
     }
 
-    public PickupPoint getPickupPoint() {
+    public StopPoint getPickupPoint() {
         return pickupPoint;
     }
 
-    public void setPickupPoint(PickupPoint pickupPoint) {
+    public void setPickupPoint(StopPoint pickupPoint) {
         this.pickupPoint = pickupPoint;
     }
 
-    public DropoffPoint getDropoffPoint() {
+    public StopPoint getDropoffPoint() {
         return dropoffPoint;
     }
 
-    public void setDropoffPoint(DropoffPoint dropoffPoint) {
+    public void setDropoffPoint(StopPoint dropoffPoint) {
         this.dropoffPoint = dropoffPoint;
     }
 }
