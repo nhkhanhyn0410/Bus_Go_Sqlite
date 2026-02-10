@@ -1,5 +1,4 @@
 package com.example.busgo.database.model;
-
 public class Trip {
     private int id;
     private int routeId;
@@ -9,7 +8,7 @@ public class Trip {
     private double basePrice;
     private int availableSeats;
     private String status;
-
+    private int stopsCount;
     private Route route;
     private Bus bus;
 
@@ -76,15 +75,15 @@ public class Trip {
         return status;
     }
 
-    public void setStatus() {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Route route () {
+    public Route getRoute() {
         return route;
     }
 
-    public void setRoute (Route route) {
+    public void setRoute(Route route) {
         this.route = route;
     }
 
@@ -94,5 +93,13 @@ public class Trip {
 
     public void setBus(Bus bus) {
         this.bus = bus;
+    }
+
+    public int getStopsCount() {
+        return stopsCount;
+    }
+
+    public void setStopsCount(int stopsCount) {
+        this.stopsCount = stopsCount;
     }
 }

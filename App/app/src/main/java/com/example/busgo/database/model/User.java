@@ -1,20 +1,17 @@
 package com.example.busgo.database.model;
-
 public class User {
     private int id;
-    private String username;
     private String password;
     private String fullname;
-    private String email;
     private String phone;
-    private String createAt;
+    private String email;
+    private String createdAt;
     private boolean isActive;
 
-    public User () {
+    public User() {
     }
 
-    public User (String username, String password, String fullname, String phone, String email) {
-        this.username = username;
+    public User(String password, String fullname, String phone, String email) {
         this.password = password;
         this.fullname = fullname;
         this.phone = phone;
@@ -28,14 +25,6 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -54,7 +43,7 @@ public class User {
         this.fullname = fullname;
     }
 
-    public String getPhone () {
+    public String getPhone() {
         return phone;
     }
 
@@ -70,12 +59,12 @@ public class User {
         this.email = email;
     }
 
-    public String getCreateAt() {
-        return createAt;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public boolean isActive() {
@@ -86,4 +75,3 @@ public class User {
         isActive = active;
     }
 }
-
