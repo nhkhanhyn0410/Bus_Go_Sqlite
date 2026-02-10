@@ -1,31 +1,42 @@
 package com.example.busgo.database.model;
-
 public class StopPoint {
+    public static final String TYPE_PICKUP = "pickup";
+    public static final String TYPE_DROPOFF = "dropoff";
+    public static final String TYPE_REST_STOP = "rest_stop";
+
     private int id;
     private int routeId;
+    private String pointType;
     private String stopName;
     private String address;
     private int timeOffset;
     private int stopDuration;
     private boolean isActive;
+
     private String arrivalTime;
     private String departureTime;
 
+
     public StopPoint() {
     }
-
-    public StopPoint(int routeId, String stopName, String address,
-                     int timeOffset, int stopDuration) {
+    public StopPoint(int routeId, String pointType, String stopName, String address, int timeOffset) {
         this.routeId = routeId;
+        this.pointType = pointType;
+        this.stopName = stopName;
+        this.address = address;
+        this.timeOffset = timeOffset;
+        this.stopDuration = 0;
+        this.isActive = true;
+    }
+    public StopPoint(int routeId, String stopName, String address, int timeOffset, int stopDuration) {
+        this.routeId = routeId;
+        this.pointType = TYPE_REST_STOP;
         this.stopName = stopName;
         this.address = address;
         this.timeOffset = timeOffset;
         this.stopDuration = stopDuration;
         this.isActive = true;
     }
-
-    // ===== Getter & Setter =====
-
     public int getId() {
         return id;
     }
@@ -42,12 +53,31 @@ public class StopPoint {
         this.routeId = routeId;
     }
 
+    public String getPointType() {
+        return pointType;
+    }
+
+    public void setPointType(String pointType) {
+        this.pointType = pointType;
+    }
+
     public String getStopName() {
         return stopName;
     }
 
     public void setStopName(String stopName) {
         this.stopName = stopName;
+    }
+
+    /**
+     * Alias cho getStopName() - dùng cho điểm đón/trả
+     */
+    public String getPointName() {
+        return stopName;
+    }
+
+    public void setPointName(String pointName) {
+        this.stopName = pointName;
     }
 
     public String getAddress() {
@@ -79,7 +109,7 @@ public class StopPoint {
     }
 
     public void setActive(boolean active) {
-        this.isActive = active;
+        isActive = active;
     }
 
     public String getArrivalTime() {
@@ -98,7 +128,35 @@ public class StopPoint {
         this.departureTime = departureTime;
     }
 
-    // ===== Helper hiển thị =====
+
+    public String getActualPickupTime() {
+        return arrivalTime;
+    }
+
+    public void setActualPickupTime(String time) {
+        this.arrivalTime = time;
+    }
+
+    public String getActualDropoffTime() {
+        return arrivalTime;
+    }
+
+    public void setActualDropoffTime(String time) {
+        this.arrivalTime = time;
+    }
+
+    public boolean isPickup() {
+        return TYPE_PICKUP.equals(pointType);
+    }
+
+    public boolean isDropoff() {
+        return TYPE_DROPOFF.equals(pointType);
+    }
+
+    public boolean isRestStop() {
+        return TYPE_REST_STOP.equals(pointType);
+    }
+
     public String getStopDurationDisplay() {
         if (stopDuration < 60) {
             return stopDuration + " phút";
