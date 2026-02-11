@@ -7,7 +7,7 @@ import com.example.busgo.database.helpers.RouteDataHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
-    public static final int DATABASE_VERSION = 3;//quang trọng
+    public static final int DATABASE_VERSION = 4;//quang trọng
 
     private static DatabaseHelper instance;
     private Context context;
@@ -57,7 +57,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "password TEXT NOT NULL," +
                 "fullname TEXT NOT NULL," +
                 "phone TEXT UNIQUE NOT NULL," +
-                "email TEXT," +
+                "email TEXT NOT NULL," +
+                "birthday TEXT," +
+                "gender TEXT," +
                 "created_at DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 "is_active INTEGER DEFAULT 1" +
                 ")";
