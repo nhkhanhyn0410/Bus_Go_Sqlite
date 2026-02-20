@@ -22,17 +22,20 @@
             android:exported="false" />
         <activity
             android:name=".activities.auth.AuthActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.BusGo" />
+            android:theme="@style/Theme.BusGo">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".activities.user.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
