@@ -20,7 +20,7 @@ public class SessionManager {
 
     public static synchronized SessionManager getInstance(Context context) {
         if (instance == null) {
-            instance = new SessionManager(Context);
+            instance = new SessionManager(context);
         }
         return instance;
     }
@@ -50,14 +50,15 @@ public class SessionManager {
 
     public User getLoggedInUser() {
         if (!isLoggedIn()) {
-            User user = new User();
-            user.setId(pref.getInt(KEY_USER_ID, -1));
-            user.setFullname(pref.getString(KEY_FULLNAME, ""));
-            user.setPhone(pref.getString(KEY_PHONE, ""));
-            user.setEmail(pref.getString(KEY_EMAIL,""));
-
-            return user;
+            return null;
         }
+        User user = new User();
+        user.setId(pref.getInt(KEY_USER_ID, -1));
+        user.setFullname(pref.getString(KEY_FULLNAME, ""));
+        user.setPhone(pref.getString(KEY_PHONE, ""));
+        user.setEmail(pref.getString(KEY_EMAIL, ""));
+
+        return user;
     }
 
     public void updateProfile(String fullname, String phone, String email) {
