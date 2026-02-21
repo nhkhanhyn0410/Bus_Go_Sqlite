@@ -1,10 +1,13 @@
 package com.example.busgo.activities.auth;
 
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import android.text.InputType;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,17 +34,20 @@ public class AuthActivity extends AppCompatActivity {
     private ScrollView scrollView;
 
     //Login form views
-    private TextInputLayout tilPhoneOrEmail, tilLoginPassword;
-    private TextInputEditText etPhoneOrEmail, etLoginPassword;
+    private EditText tilPhoneOrEmail, tilLoginPassword;
+    private EditText etPhoneOrEmail, etLoginPassword;
     private MaterialButton btnLogin;
     private TextView tvForgotPassword;
 //    private View btnGoogleLogin, btnFacebookLogin;
 
     // Register form views
-    private TextInputLayout tilEmail, tilPhone, tilRegPassword, tilConfirmPassword;
-    private TextInputEditText etEmail, etPhone, etRegPassword, etConfirmPassword;
+    private EditText tilEmail, tilPhone, tilRegPassword, tilConfirmPassword;
+    private EditText etEmail, etPhone, etRegPassword, etConfirmPassword;
     private MaterialButton btnRegister;
 //    private View btnGoogleRegister, btnFacebookRegister;
+
+    private ImageView ivToggleLoginPassword;
+    private boolean isLoginPasswordVisible = false;
 
     // Database
     private UserDAO userDAO;
@@ -60,6 +66,10 @@ public class AuthActivity extends AppCompatActivity {
         }
 
     private void initViews() {
+        ivToggleLoginPassword = findViewById(R.id.ivToggleLoginPassword);
+
+        etPhoneOrEmail = findViewById(R.id.etPhoneOrEmail);
+        etLoginPassword = findViewById(R.id.etLoginPassword);
     }
 
     private void initDatabase() {
@@ -72,6 +82,18 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void setupLoginListeners() {
+        ivToggleLoginPassword.setOnClickListener(v -> {
+            isLoginPasswordVisible = !isLoginPasswordVisible;
+            if (isLoginPasswordVisible) {
+                etLoginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                ivToggleLoginPassword.setImageResource(R.drawable.ic_eye_off);
+            } else {
+                etLoginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                ivToggleLoginPassword.setImageResource(R.drawable.ic_eye_on);
+            }
+            etLoginPassword.setSelection(etLoginPassword.length());
+        });
+
     }
 
     private void setupRegisterListeners() {
