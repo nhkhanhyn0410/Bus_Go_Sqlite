@@ -23,8 +23,9 @@
         <activity
             android:name=".activities.auth.AuthActivity"
             android:exported="true"
-            android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.BusGo">
+
+            android:theme="@style/Theme.BusGo"
+            android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
