@@ -13,7 +13,13 @@
         android:theme="@style/Theme.BusGo">
         <activity
             android:name=".activities.auth.VerificationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.auth.ConfirmInfoActivity"
             android:exported="false" />
@@ -23,14 +29,8 @@
         <activity
             android:name=".activities.auth.AuthActivity"
             android:exported="true"
-
             android:theme="@style/Theme.BusGo"
             android:windowSoftInputMode="adjustPan">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
