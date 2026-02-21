@@ -5,6 +5,8 @@ public class User {
     private String fullname;
     private String phone;
     private String email;
+    private String birthday;
+    private String gender;
     private String createdAt;
     private boolean isActive;
 
@@ -59,12 +61,27 @@ public class User {
         this.email = email;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getCreatedAt(String createdAt) {
+        return this.createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public boolean isActive() {
