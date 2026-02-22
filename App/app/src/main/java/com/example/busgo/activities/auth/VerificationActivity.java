@@ -1,5 +1,6 @@
 package com.example.busgo.activities.auth;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,12 +22,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.busgo.R;
+import com.example.busgo.until.EmailOtpSender;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.FirebaseApp;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +50,7 @@ public class VerificationActivity extends AppCompatActivity {
     private boolean isUsingEmail = true;
 
     private static final int MAX_OTP_SENDS = 5;
-    private static final long COOLDOWN_MS = 60000;
+    private static final long COOLDOWN_MS = 10000;
     private int otpSendCount = 1;
 
     private FirebaseAuth firebaseAuth;
@@ -68,6 +71,7 @@ public class VerificationActivity extends AppCompatActivity {
         phone = getIntent().getStringExtra("phone");
         password = getIntent().getStringExtra("password");
         initViews();
+        initFirebase();
         tvEmail.setText(email);
         setupOtpInputs();
         sendEmailOtp();
@@ -102,10 +106,15 @@ public class VerificationActivity extends AppCompatActivity {
 
     private void initFirebase() {
         try {
+            // Khởi tạo FirebaseApp thủ công (phòng trường hợp auto-init không hoạt động)
+            if (FirebaseApp.getApps(this).isEmpty()) {
+                FirebaseApp.initializeApp(this);
+                Log.d(TAG, "FirebaseApp khởi tạo thủ công thành công");
+            }
             firebaseAuth = FirebaseAuth.getInstance();
             Log.d(TAG, "Firebase Auth khởi tạo thành công");
         } catch (Exception e) {
-            Log.w(TAG, "Firebase lỗi");
+            Log.e(TAG, "Firebase khởi tạo thất bại: " + e.getMessage(), e);
             firebaseAuth = null;
         }
     }
@@ -233,24 +242,9 @@ public class VerificationActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-
-                }
-
-                @Override
-                public void onVerificationFailed(@NonNull FirebaseException e) {
-
-                }
-
-                @Override
                 public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                    // Auto-verify: Android tự đọc SMS và lấy OTP (Samsung, Xiaomi...)
-                    String code = credential.getSmsCode();
-                    if (code != null) {
-                        Log.d(TAG, "Auto-detect SMS OTP: " + code);
-                        // Tự động điền OTP vào các ô
-                        autoFillOtp(code);
-                    }
+                    // Bắt buộc override nhưng không tự động điền/verify
+                    Log.d(TAG, "onVerificationCompleted - user tự nhập OTP");
                 }
 
                 @Override
@@ -264,18 +258,8 @@ public class VerificationActivity extends AppCompatActivity {
                 }
             };
 
-    /**
-     * Tự động điền OTP vào 6 ô khi Android auto-detect SMS
-     */
-    private void autoFillOtp(String code) {
-        if (code.length() == 6) {
-            for (int i = 0; i < 6; i++) {
-                otpInputs[i].setText(String.valueOf(code.charAt(i)));
-            }
-            // Tự động verify sau khi điền xong
-            handleVerify();
-        }
-    }
+
+
 
     private void startCountdownTimer() {
         // Hủy timer cũ trước khi tạo mới (tránh nhiều timer chạy đồng thời)

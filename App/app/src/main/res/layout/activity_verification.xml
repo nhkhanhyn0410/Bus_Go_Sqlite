@@ -180,8 +180,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                android:paddingLeft="17dp"
-                android:paddingRight="17dp">
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp">
 
                 <TextView
                     android:id="@+id/tvUsePhone"
