@@ -294,7 +294,6 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     private void handleVerify() {
-        // Thu thập OTP từ 6 ô
         StringBuilder otpBuilder = new StringBuilder();
         for (EditText input : otpInputs) {
             otpBuilder.append(input.getText().toString());
@@ -329,7 +328,7 @@ public class VerificationActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     btnVerify.setEnabled(true);
-                    btnVerify.setText(R.string.register);
+                    btnVerify.setText(R.string.confirm);
 
                     if (task.isSuccessful()) {
                         Log.d(TAG, "Firebase Phone verify thành công");
