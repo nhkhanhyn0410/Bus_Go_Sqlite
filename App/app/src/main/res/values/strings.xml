@@ -1,4 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BusGo</string>
-    <string name="title_activity_auth">AuthActivity</string>
+    <string name="app_name">Bus Go</string>
+
+    <!-- Authentication -->
+    <string name="login">Đăng nhập</string>
+    <string name="register">Đăng ký</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="password">Mật khẩu</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="fullname">Họ và tên</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="email">Email (tùy chọn)</string>
+    <string name="no_account">Chưa có tài khoản? Đăng ký</string>
+    <string name="have_account">Đã có tài khoản? Đăng nhập</string>
+    <string name="login_success">Đăng nhập thành công!</string>
+    <string name="register_success">Đăng ký thành công!</string>
+    <string name="login_failed">Sai số điện thoại/email hoặc mật khẩu</string>
+    <string name="register_failed">Đăng ký thất bại. Vui lòng thử lại</string>
+    <string name="phone_exists">Số điện thoại đã được sử dụng</string>
+    <string name="email_exists">Email đã được sử dụng</string>
+
+    <!-- Main Screen -->
+    <string name="home">Trang chủ</string>
+    <string name="search_trip">Tìm chuyến</string>
+    <string name="my_bookings">Vé của tôi</string>
+    <string name="profile">Tài khoản</string>
+    <string name="about">Giới thiệu</string>
+
+    <!-- Search -->
+    <string name="departure">Điểm đi</string>
+    <string name="destination">Điểm đến</string>
+    <string name="departure_date">Ngày đi</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="select_departure">Chọn điểm đi</string>
+    <string name="select_destination">Chọn điểm đến</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="no_trips_found">Không tìm thấy chuyến nào</string>
+
+    <!-- Trip -->
+    <string name="trip_details">Chi tiết chuyến</string>
+    <string name="bus_type">Loại xe</string>
+    <string name="bus_number">Biển số xe</string>
+    <string name="available_seats">Còn %d ghế trống</string>
+    <string name="price">Giá vé</string>
+    <string name="departure_time">Giờ đi</string>
+    <string name="arrival_time">Giờ đến</string>
+    <string name="duration">Thời gian</string>
+    <string name="distance">Khoảng cách</string>
+
+    <!-- Pickup/Dropoff Points -->
+    <string name="select_pickup_point">Chọn điểm đón</string>
+    <string name="select_dropoff_point">Chọn điểm trả</string>
+    <string name="pickup_point">Điểm đón</string>
+    <string name="dropoff_point">Điểm trả</string>
+    <string name="pickup_time">Giờ đón</string>
+    <string name="dropoff_time">Giờ trả</string>
+    <string name="address">Địa chỉ</string>
+    <string name="pickup_point_icon">Biểu tượng điểm đón</string>
+    <string name="dropoff_point_icon">Biểu tượng điểm trả</string>
+    <string name="time_icon">Biểu tượng thời gian</string>
+
+    <!-- Seat Selection -->
+    <string name="select_seats">Chọn ghế</string>
+    <string name="seat_selected">Đã chọn %d ghế</string>
+    <string name="total_price">Tổng tiền: %s</string>
+    <string name="seat_legend_available">Ghế trống</string>
+    <string name="seat_legend_booked">Đã đặt</string>
+    <string name="seat_legend_selected">Đang chọn</string>
+    <string name="seat_already_booked">Ghế đã được đặt</string>
+
+    <!-- Passenger Info -->
+    <string name="passenger_info">Thông tin hành khách</string>
+    <string name="passenger_name">Họ tên hành khách</string>
+    <string name="passenger_phone">Số điện thoại hành khách</string>
+    <string name="passenger_email">Email hành khách</string>
+    <string name="note">Ghi chú</string>
+    <string name="note_hint">VD: Cần hỗ trợ hành lý…</string>
+    <string name="enter_correct_info">Vui lòng nhập đúng thông tin để nhận vé</string>
+
+    <!-- Booking Confirmation -->
+    <string name="booking_confirmation">Xác nhận đặt vé</string>
+    <string name="trip_info">Thông tin chuyến đi</string>
+    <string name="pickup_dropoff_info">Thông tin đón/trả</string>
+    <string name="seat_info">Thông tin ghế</string>
+    <string name="num_seats">Số lượng: %d ghế</string>
+    <string name="confirm_booking">Xác nhận đặt vé</string>
+    <string name="continue_payment">Tiếp tục thanh toán</string>
+
+    <!-- Payment -->
+    <string name="select_payment_method">Chọn phương thức thanh toán</string>
+    <string name="payment_method">Phương thức thanh toán</string>
+    <string name="momo_wallet">Ví MoMo</string>
+    <string name="zalopay">ZaloPay</string>
+    <string name="vnpay">VNPay</string>
+    <string name="cash">Tiền mặt</string>
+    <string name="pay_via_momo">Thanh toán qua ví MoMo</string>
+    <string name="pay_via_zalopay">Thanh toán qua ZaloPay</string>
+    <string name="pay_via_vnpay">Thanh toán qua VNPay</string>
+    <string name="pay_on_bus">Thanh toán khi lên xe</string>
+    <string name="payment_processing">Đang xử lý thanh toán…</string>
+    <string name="payment_success">Thanh toán thành công!</string>
+    <string name="payment_failed">Thanh toán thất bại</string>
+    <string name="payment_cancelled">Giao dịch bị hủy</string>
+
+    <!-- Booking Success -->
+    <string name="booking_success_title">Đặt vé thành công!</string>
+    <string name="booking_code">Mã vé</string>
+    <string name="view_booking_detail">Xem chi tiết vé</string>
+    <string name="back_to_home">Về trang chủ</string>
+    <string name="share_booking">Chia sẻ vé</string>
+
+    <!-- Booking Management -->
+    <string name="booking_history">Lịch sử đặt vé</string>
+    <string name="booking_detail">Chi tiết vé</string>
+    <string name="cancel_booking">Hủy vé</string>
+    <string name="confirm_cancel_booking">Bạn có chắc muốn hủy vé này?</string>
+    <string name="cancel_success">Hủy vé thành công</string>
+    <string name="cancel_failed">Hủy vé thất bại</string>
+    <string name="status_pending">Chờ xác nhận</string>
+    <string name="status_confirmed">Đã xác nhận</string>
+    <string name="status_cancelled">Đã hủy</string>
+    <string name="status_paid">Đã thanh toán</string>
+    <string name="status_unpaid">Chưa thanh toán</string>
+
+    <!-- Common -->
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Hủy</string>
+    <string name="close">Đóng</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="save">Lưu</string>
+    <string name="delete">Xóa</string>
+    <string name="edit">Sửa</string>
+    <string name="loading">Đang tải…</string>
+    <string name="error">Lỗi</string>
+    <string name="success">Thành công</string>
+    <string name="warning">Cảnh báo</string>
+    <string name="info">Thông tin</string>
+
+    <!-- Error Messages -->
+    <string name="error_empty_field">Không được để trống</string>
+    <string name="error_invalid_password">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="error_password_not_match">Mật khẩu không khớp</string>
+    <string name="error_invalid_phone">Số điện thoại không hợp lệ</string>
+    <string name="error_invalid_email">Email không hợp lệ</string>
+    <string name="error_network">Lỗi kết nối. Vui lòng thử lại</string>
+    <string name="error_unknown">Đã xảy ra lỗi. Vui lòng thử lại</string>
+    <string name="busgo">BusGo</string>
 </resources>

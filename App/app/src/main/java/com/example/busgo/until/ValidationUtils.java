@@ -94,10 +94,13 @@ public class ValidationUtils {
 
 
     public static String getEmailError(String email) {
-        if (email != null && !email.trim().isEmpty()) {
-            if (!EMAIL_PATTERN.matcher(email).matches()) {
-                return "Email không hợp lệ";
-            }
+
+        if (email == null || email.trim().isEmpty()) {
+            return "Email không được để trống";
+        }
+
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            return "Email không hợp lệ";
         }
 
         return null;
