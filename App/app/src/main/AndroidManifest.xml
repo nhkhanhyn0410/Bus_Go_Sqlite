@@ -12,28 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
-            android:name=".activities.auth.VerificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.auth.ConfirmInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.common.SplashActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.auth.AuthActivity"
-            android:exported="false"
-            android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.BusGo" />
-        <activity
-            android:name=".activities.user.MainActivity"
+            android:name=".activities.user.PassengerInfoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.user.MainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
