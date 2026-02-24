@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EEF0F3"
     android:orientation="vertical"
-    tools:context=".activities.user.PayWithActivity">
+    tools:context=".activities.user.PaymentMenthodActivity">
 
     <!-- HEADER (cố định) -->
     <RelativeLayout

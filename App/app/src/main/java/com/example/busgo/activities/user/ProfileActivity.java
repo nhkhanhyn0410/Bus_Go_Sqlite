@@ -1,4 +1,4 @@
 package com.example.busgo.activities.user;
 
-public class ProifileActivity {
+public class ProfileActivity {
 }
