@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        Intent intent = new Intent(MainActivity.this, TripListActivity.class);
+        Intent intent = new Intent(MainActivity.this, SearchTripActivity.class);
         intent.putExtra("departure", selectedDeparture);
         intent.putExtra("destination", selectedDestination);
         intent.putExtra("date", selectedDate);
