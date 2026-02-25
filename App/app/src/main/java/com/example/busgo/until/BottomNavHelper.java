@@ -2,8 +2,8 @@ package com.example.busgo.until;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,18 +14,10 @@ import com.example.busgo.R;
 import com.example.busgo.activities.user.BookingHistoryActivity;
 import com.example.busgo.activities.user.MainActivity;
 import com.example.busgo.activities.user.ProfileActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 
-/**
- * BottomNavHelper - Quản lý Bottom Navigation Bar pill dùng chung
- *
- * Chức năng:
- * - Hiển thị trạng thái selected: nền trắng, icon đen, hiện label
- * - Hiển thị trạng thái unselected: không nền, icon trắng, ẩn label
- * - Animation fade khi chuyển tab
- * - Chuyển màn hình giữa Main, BookingHistory, Profile
- *
- * Sử dụng: gọi BottomNavHelper.setup(activity, "home") trong onCreate()
- */
 public class BottomNavHelper {
 
     // Tên các tab
@@ -40,12 +32,9 @@ public class BottomNavHelper {
     private final TextView navHomeLabel, navBookingsLabel, navProfileLabel;
     private LinearLayout currentSelected;
     private String currentTab;
+    private View bottomNavBar;
 
-    /**
-     * Setup Bottom Navigation cho Activity
-     * @param activity Activity chứa bottom nav
-     * @param selectedTab Tab đang chọn: "home", "bookings", "profile"
-     */
+
     public static void setup(Activity activity, String selectedTab) {
         new BottomNavHelper(activity, selectedTab);
     }
@@ -64,6 +53,7 @@ public class BottomNavHelper {
         navHomeLabel = activity.findViewById(R.id.navHomeLabel);
         navBookingsLabel = activity.findViewById(R.id.navBookingsLabel);
         navProfileLabel = activity.findViewById(R.id.navProfileLabel);
+        bottomNavBar = activity.findViewById(R.id.bottomNavBar);
 
         // Set trạng thái ban đầu (không animation)
         initSelectedState(selectedTab);
@@ -73,14 +63,21 @@ public class BottomNavHelper {
         navBookings.setOnClickListener(v -> onTabClicked(TAB_BOOKINGS));
         navProfile.setOnClickListener(v -> onTabClicked(TAB_PROFILE));
 
-        Log.d("CHECK_NAV", "navHome = " + navHome);
-        Log.d("CHECK_NAV", "navBookings = " + navBookings);
-        Log.d("CHECK_NAV", "navProfile = " + navProfile);
+        // Lấy margin gốc từ XML (24dp) để cộng thêm insets
+        final int originalBottomMargin = ((ViewGroup.MarginLayoutParams) bottomNavBar.getLayoutParams()).bottomMargin;
+
+        // Đẩy toàn bộ thanh nav (cả background) lên trên thanh điều hướng hệ thống
+        ViewCompat.setOnApplyWindowInsetsListener(bottomNavBar, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.bottomMargin = originalBottomMargin + insets.bottom;
+            view.setLayoutParams(params);
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(bottomNavBar);
     }
 
-    /**
-     * Set trạng thái selected ban đầu (không animation)
-     */
+
     private void initSelectedState(String tab) {
         // Reset tất cả về unselected
         setUnselected(navHome, navHomeIcon, navHomeLabel);
@@ -104,9 +101,6 @@ public class BottomNavHelper {
         }
     }
 
-    /**
-     * Khi user nhấn tab
-     */
     private void onTabClicked(String tab) {
         if (tab.equals(currentTab)) return; // Đang ở tab này rồi
 
@@ -161,9 +155,7 @@ public class BottomNavHelper {
         }
     }
 
-    /**
-     * Chuyển sang Activity tương ứng
-     */
+
     private void navigateTo(String tab) {
         Class<?> targetClass;
         switch (tab) {
@@ -188,11 +180,6 @@ public class BottomNavHelper {
         activity.finish();
     }
 
-    // ==================== Helper: set trạng thái ====================
-
-    /**
-     * Set item thành selected: nền trắng, icon đen, hiện label
-     */
     private void setSelected(LinearLayout nav, ImageView icon, TextView label) {
         nav.setBackgroundResource(R.drawable.bg_nav_item_selected);
         icon.setColorFilter(ContextCompat.getColor(activity, R.color.text_primary));
@@ -200,16 +187,12 @@ public class BottomNavHelper {
         label.setAlpha(1f);
     }
 
-    /**
-     * Set item thành unselected: không nền, icon trắng, ẩn label
-     */
+
     private void setUnselected(LinearLayout nav, ImageView icon, TextView label) {
         nav.setBackgroundResource(0);
         icon.setColorFilter(ContextCompat.getColor(activity, R.color.white));
         label.setVisibility(View.GONE);
     }
-
-    // ==================== Helper: lấy views theo tab ====================
 
     private LinearLayout getNavByTab(String tab) {
         switch (tab) {
@@ -238,4 +221,3 @@ public class BottomNavHelper {
         return null;
     }
 }
-
