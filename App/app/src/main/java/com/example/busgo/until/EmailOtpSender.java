@@ -13,10 +13,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import com.example.busgo.BuildConfig;
 
 public class EmailOtpSender {
-    private static final String SENDER_EMAIL = "";
-    private static final String APP_PASSWORD = "";
+    private static final String SENDER_EMAIL = BuildConfig.SENDER_EMAIL;
+    private static final String APP_PASSWORD = BuildConfig.APP_PASSWORD;
 
     private static final String SENDER_NAME = "BusGo";
 
