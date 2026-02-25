@@ -6,8 +6,3 @@ plugins {
     id 'com.google.gms.google-services' version '4.4.4' apply false
 }
 
-def localProps = new Properties()
-def localPropsFile = rootProject.file("local.properties")
-if (localPropsFile.exists()) {
-    localProps.load(new FileInputStream(localPropsFile))
-}
