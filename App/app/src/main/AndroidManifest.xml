@@ -12,24 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+            android:name=".activities.user.BookingHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".activities.auth.VerificationActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.auth.ConfirmInfoActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.common.SplashActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.auth.AuthActivity"
             android:exported="true"
             android:theme="@style/Theme.BusGo"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.user.MainActivity"
             android:exported="true">
