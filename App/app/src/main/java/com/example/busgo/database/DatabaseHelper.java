@@ -7,7 +7,7 @@ import com.example.busgo.database.helpers.RouteDataHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
-    public static final int DATABASE_VERSION = 4;//quang trọng
+    public static final int DATABASE_VERSION = 7;//quang trọng
 
     private static DatabaseHelper instance;
     private Context context;
@@ -47,7 +47,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXiSTS buses");
         db.execSQL("DROP TABLE IF EXISTS routes");
         db.execSQL("DROP TABLE IF EXISTS users");
-
         onCreate(db);
     }
     //
