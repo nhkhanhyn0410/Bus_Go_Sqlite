@@ -1,22 +1,26 @@
 package com.example.busgo.until;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.busgo.R;
 import com.example.busgo.activities.user.BookingHistoryActivity;
 import com.example.busgo.activities.user.MainActivity;
 import com.example.busgo.activities.user.ProfileActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.graphics.Insets;
+
 
 public class BottomNavHelper {
 
@@ -24,6 +28,9 @@ public class BottomNavHelper {
     public static final String TAB_HOME = "home";
     public static final String TAB_BOOKINGS = "bookings";
     public static final String TAB_PROFILE = "profile";
+
+    // Thời gian animation (ms)
+    private static final int ANIM_DURATION = 280;
 
     // Views
     private final Activity activity;
@@ -34,7 +41,16 @@ public class BottomNavHelper {
     private String currentTab;
     private View bottomNavBar;
 
+    // Tránh spam click khi đang animate
+    private boolean isAnimating = false;
 
+    private boolean navigateToRight = true;
+
+    /**
+     * Setup Bottom Navigation cho Activity
+     * @param activity Activity chứa bottom nav
+     * @param selectedTab Tab đang chọn: "home", "bookings", "profile"
+     */
     public static void setup(Activity activity, String selectedTab) {
         new BottomNavHelper(activity, selectedTab);
     }
@@ -77,7 +93,9 @@ public class BottomNavHelper {
         ViewCompat.requestApplyInsets(bottomNavBar);
     }
 
-
+    /**
+     * Set trạng thái selected ban đầu (không animation)
+     */
     private void initSelectedState(String tab) {
         // Reset tất cả về unselected
         setUnselected(navHome, navHomeIcon, navHomeLabel);
@@ -101,61 +119,113 @@ public class BottomNavHelper {
         }
     }
 
+    /**
+     * Khi user nhấn tab - animation mượt co giãn chiều rộng + fade alpha
+     */
     private void onTabClicked(String tab) {
         if (tab.equals(currentTab)) return; // Đang ở tab này rồi
+        if (isAnimating) return; // Đang animate, bỏ qua
 
-        // Animation chuyển tab
+        LinearLayout oldNav = currentSelected;
+        ImageView oldIcon = getIconByTab(currentTab);
+        TextView oldLabel = getLabelByTab(currentTab);
+
         LinearLayout newNav = getNavByTab(tab);
         ImageView newIcon = getIconByTab(tab);
         TextView newLabel = getLabelByTab(tab);
 
-        // Animate ra item cũ
-        ImageView oldIcon = getIconByTab(currentTab);
-        TextView oldLabel = getLabelByTab(currentTab);
+        isAnimating = true;
 
-        // Fade out label cũ + đổi icon cũ sang trắng
-        if (oldLabel != null) {
-            oldLabel.animate()
-                    .alpha(0f)
-                    .setDuration(150)
-                    .withEndAction(() -> {
-                        oldLabel.setVisibility(View.GONE);
-                        oldLabel.setAlpha(1f);
-                    })
-                    .start();
-        }
-        if (oldIcon != null) {
-            oldIcon.setColorFilter(ContextCompat.getColor(activity, R.color.white));
-        }
-        currentSelected.setBackgroundResource(0);
+        // Xác định hướng chuyển màn hình dựa theo vị trí tab
 
-        // Fade in label mới + đổi icon mới sang đen
-        if (newLabel != null) {
-            newLabel.setAlpha(0f);
-            newLabel.setVisibility(View.VISIBLE);
-            newLabel.animate()
-                    .alpha(1f)
-                    .setDuration(200)
-                    .setStartDelay(80)
-                    .start();
-        }
-        if (newIcon != null) {
-            newIcon.setColorFilter(ContextCompat.getColor(activity, R.color.text_primary));
-        }
-        if (newNav != null) {
-            newNav.setBackgroundResource(R.drawable.bg_nav_item_selected);
-        }
+        // === Đo chiều rộng trước khi animate ===
+        // Chiều rộng hiện tại của tab cũ (đang mở rộng có label)
+        int oldExpandedWidth = oldNav.getWidth();
+
+        // Đo chiều rộng thu gọn của tab cũ (chỉ icon, không label)
+        // = paddingLeft + iconWidth + paddingRight
+        int oldCollapsedWidth = oldNav.getPaddingLeft() + oldIcon.getWidth() + oldNav.getPaddingRight();
+
+        // Đo chiều rộng mở rộng của tab mới (icon + label)
+        // Hiện label tạm để đo, sau đó ẩn lại
+        newLabel.setVisibility(View.VISIBLE);
+        newLabel.setAlpha(0f);
+        newNav.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(newNav.getHeight(), View.MeasureSpec.EXACTLY)
+        );
+        int newExpandedWidth = newNav.getMeasuredWidth();
+        int newCollapsedWidth = newNav.getWidth(); // Chiều rộng hiện tại (chỉ icon)
+
+        // === 1. Animate tab cũ: thu nhỏ (expanded -> collapsed) ===
+        ValueAnimator collapseAnim = ValueAnimator.ofInt(oldExpandedWidth, oldCollapsedWidth);
+        collapseAnim.addUpdateListener(animation -> {
+            int value = (int) animation.getAnimatedValue();
+            ViewGroup.LayoutParams params = oldNav.getLayoutParams();
+            params.width = value;
+            oldNav.setLayoutParams(params);
+
+            // Fade out label theo tiến trình thu nhỏ
+            float fraction = animation.getAnimatedFraction();
+            oldLabel.setAlpha(1f - fraction);
+        });
+
+        // === 2. Animate tab mới: mở rộng (collapsed -> expanded) ===
+        ValueAnimator expandAnim = ValueAnimator.ofInt(newCollapsedWidth, newExpandedWidth);
+        expandAnim.addUpdateListener(animation -> {
+            int value = (int) animation.getAnimatedValue();
+            ViewGroup.LayoutParams params = newNav.getLayoutParams();
+            params.width = value;
+            newNav.setLayoutParams(params);
+
+            // Fade in label theo tiến trình mở rộng
+            float fraction = animation.getAnimatedFraction();
+            newLabel.setAlpha(fraction);
+        });
+
+        // === Đổi màu icon + nền ngay khi bắt đầu ===
+        oldIcon.setColorFilter(ContextCompat.getColor(activity, R.color.white));
+        oldNav.setBackgroundResource(0);
+        newIcon.setColorFilter(ContextCompat.getColor(activity, R.color.text_primary));
+        newNav.setBackgroundResource(R.drawable.bg_nav_item_selected);
+
+        // === Chạy 2 animation đồng thời ===
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(collapseAnim, expandAnim);
+        animatorSet.setDuration(ANIM_DURATION);
+        animatorSet.setInterpolator(new DecelerateInterpolator());
+        animatorSet.addListener(new android.animation.AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                // Dọn dẹp sau khi animation xong
+                oldLabel.setVisibility(View.GONE);
+                oldLabel.setAlpha(1f);
+
+                // Reset width về wrap_content để layout tự nhiên
+                ViewGroup.LayoutParams oldParams = oldNav.getLayoutParams();
+                oldParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                oldNav.setLayoutParams(oldParams);
+
+                ViewGroup.LayoutParams newParams = newNav.getLayoutParams();
+                newParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                newNav.setLayoutParams(newParams);
+
+                newLabel.setAlpha(1f);
+                isAnimating = false;
+
+                // Chuyển màn hình
+                navigateTo(tab);
+            }
+        });
+        animatorSet.start();
 
         currentSelected = newNav;
         currentTab = tab;
-
-        // Chuyển màn hình sau khi animation hoàn tất
-        if (newNav != null) {
-            newNav.postDelayed(() -> navigateTo(tab), 250);
-        }
     }
 
-
+    /**
+     * Chuyển sang Activity tương ứng
+     */
     private void navigateTo(String tab) {
         Class<?> targetClass;
         switch (tab) {
@@ -175,11 +245,17 @@ public class BottomNavHelper {
         Intent intent = new Intent(activity, targetClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         activity.startActivity(intent);
-        // Không dùng transition animation mặc định
-        activity.overridePendingTransition(0, 0);
+        // Hiệu ứng fade khi chuyển màn hình
+        activity.overridePendingTransition(R.anim.nav_fade_in, R.anim.nav_fade_out);
         activity.finish();
+
     }
 
+    // ==================== Helper: set trạng thái ====================
+
+    /**
+     * Set item thành selected: nền trắng, icon đen, hiện label
+     */
     private void setSelected(LinearLayout nav, ImageView icon, TextView label) {
         nav.setBackgroundResource(R.drawable.bg_nav_item_selected);
         icon.setColorFilter(ContextCompat.getColor(activity, R.color.text_primary));
@@ -187,12 +263,16 @@ public class BottomNavHelper {
         label.setAlpha(1f);
     }
 
-
+    /**
+     * Set item thành unselected: không nền, icon trắng, ẩn label
+     */
     private void setUnselected(LinearLayout nav, ImageView icon, TextView label) {
         nav.setBackgroundResource(0);
         icon.setColorFilter(ContextCompat.getColor(activity, R.color.white));
         label.setVisibility(View.GONE);
     }
+
+    // ==================== Helper: lấy views theo tab ====================
 
     private LinearLayout getNavByTab(String tab) {
         switch (tab) {
