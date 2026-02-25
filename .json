@@ -1,0 +1,32 @@
+[33mcommit 2749a5d3cec1fda1bb088fdd89ad2ddeb94b2f18[m
+Author: Nguyen_Hong_Khanh <nhkyn.0410@gmail.com>
+Date:   Sun Feb 22 17:34:01 2026 +0700
+
+    refactor: Update .gitignore and remove image
+    
+    Updates the .gitignore file to exclude `google-services.json` and `EmailOtpSender.java`.
+    Deletes the `ic_eye_on-playstore.png` image.
+
+[33mcommit 2e5eab83d7513a4a8cc1456f7119f75a5ff842d0[m
+Author: Nguyen_Hong_Khanh <nhkyn.0410@gmail.com>
+Date:   Sun Feb 22 14:17:26 2026 +0700
+
+    feat: Integrate Firebase and add sample route data
+    
+    This commit introduces several key features and updates:
+    
+    - **Integrate Firebase:**
+        - Adds the `google-services.json` configuration file to connect the app to a Firebase project.
+        - Updates the Google Services plugin version in `build.gradle`.
+        - Adds Firebase Analytics dependency.
+        - Implements Firebase initialization in `VerificationActivity`.
+    
+    - **Add Sample Route Data:**
+        - Creates a new `RouteDataHelper` class.
+        - Adds a method `insertSampleRoutes` to populate the local database with 15 sample bus routes.
+    
+    - **Other Changes:**
+        - Sets `SplashActivity` as the main launcher activity in `AndroidManifest.xml`.
+        - Deletes the unused `helo.java` file.
+        - Adjusts padding in `activity_verification.xml`.
+        - Excludes `NOTICE.md` and `LICENSE.md` from packaging in `app/build.gradle`.
