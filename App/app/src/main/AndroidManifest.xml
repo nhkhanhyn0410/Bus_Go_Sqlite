@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+            android:name=".activities.user.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.SearchTripActivity"
             android:exported="false" />
         <activity
@@ -30,11 +33,12 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.common.SplashActivity"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.auth.AuthActivity"
@@ -43,9 +47,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.user.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

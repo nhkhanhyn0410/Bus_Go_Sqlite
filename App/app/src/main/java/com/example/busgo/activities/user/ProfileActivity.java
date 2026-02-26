@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.busgo.database.model.User;
 import com.example.busgo.R;
 import com.example.busgo.until.BottomNavHelper;
-
+import android.widget.ImageView;
 public class ProfileActivity extends AppCompatActivity {
     private static final int LOGOUT_OPTION_POSITION = 7;
 
@@ -28,6 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         controller.setAppearanceLightStatusBars(false);
         bindLoggedInUserInfo();
+        setupEditProfileNavigation();
         // ✅ List card + icon giống mẫu
         ListView lv = findViewById(R.id.lvProfileOptions);
         String[] options = getResources().getStringArray(R.array.profile_options);
@@ -52,6 +53,13 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         BottomNavHelper.setup(this, BottomNavHelper.TAB_PROFILE);
+    }
+    private void setupEditProfileNavigation() {
+        ImageView ivEditProfile = findViewById(R.id.ivEditProfile);
+        ivEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
     }
     //Hiển thị thông tin đăng nhập
     private void bindLoggedInUserInfo() {
