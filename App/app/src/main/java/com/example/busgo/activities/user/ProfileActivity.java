@@ -9,7 +9,8 @@ import com.example.busgo.until.SessionManager;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowInsetsControllerCompat;
-
+import android.widget.TextView;
+import com.example.busgo.database.model.User;
 import com.example.busgo.R;
 import com.example.busgo.until.BottomNavHelper;
 
@@ -26,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
         WindowInsetsControllerCompat controller =
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         controller.setAppearanceLightStatusBars(false);
-
+        bindLoggedInUserInfo();
         // ✅ List card + icon giống mẫu
         ListView lv = findViewById(R.id.lvProfileOptions);
         String[] options = getResources().getStringArray(R.array.profile_options);
@@ -52,7 +53,22 @@ public class ProfileActivity extends AppCompatActivity {
         });
         BottomNavHelper.setup(this, BottomNavHelper.TAB_PROFILE);
     }
+    //Hiển thị thông tin đăng nhập
+    private void bindLoggedInUserInfo() {
+        TextView tvProfileName = findViewById(R.id.tvProfileName);
+        TextView tvProfilePhone = findViewById(R.id.tvProfilePhone);
 
+        User loggedInUser = SessionManager.getInstance(this).getLoggedInUser();
+        if (loggedInUser == null) {
+            tvProfileName.setText(R.string.fullname);
+            tvProfilePhone.setText(R.string.phone);
+            return;
+        }
+
+        tvProfileName.setText(loggedInUser.getFullname());
+        tvProfilePhone.setText(loggedInUser.getPhone());
+    }
+    //Đăng xuất
     private void showLogoutConfirmation() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout)

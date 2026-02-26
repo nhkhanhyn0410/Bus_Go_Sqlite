@@ -56,6 +56,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvProfileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nguyễn Hồng Khanh"
@@ -64,6 +65,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvProfilePhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+64 1235 567788"
