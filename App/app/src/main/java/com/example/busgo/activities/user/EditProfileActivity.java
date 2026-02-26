@@ -111,7 +111,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (freshUser != null) {
             sessionManager.saveSession(freshUser);
         } else {
-            sessionManager.updateProfile(fullname, phone, email);
+            sessionManager.updateProfile(fullname, phone, email, age, gender);
         }
 
         Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
