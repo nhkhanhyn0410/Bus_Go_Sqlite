@@ -148,4 +148,14 @@
     <string name="error_network">Lỗi kết nối. Vui lòng thử lại</string>
     <string name="error_unknown">Đã xảy ra lỗi. Vui lòng thử lại</string>
     <string name="busgo">BusGo</string>
+    <string-array name="profile_options">
+        <item>Đặt chỗ</item>
+        <item>Danh sách hành khách</item>
+        <item>Ví/Ví tiền</item>
+        <item>Giới thiệu bạn bè &amp; Nhận thưởng</item>
+        <item>Ưu đãi / Khuyến mãi</item>
+        <item>Câu hỏi thường gặp &amp; Hỗ trợ</item>
+        <item>Về chúng tôi</item>
+        <item>Đăng xuất</item>
+    </string-array>
 </resources>
