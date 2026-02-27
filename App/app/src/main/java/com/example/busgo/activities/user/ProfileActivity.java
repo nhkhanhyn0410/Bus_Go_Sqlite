@@ -14,8 +14,9 @@ import com.example.busgo.database.model.User;
 import com.example.busgo.R;
 import com.example.busgo.until.BottomNavHelper;
 import android.widget.ImageView;
+import android.view.View;
 public class ProfileActivity extends AppCompatActivity {
-    private static final int LOGOUT_OPTION_POSITION = 7;
+
 
 
     @Override
@@ -32,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         BottomNavHelper.setup(this, BottomNavHelper.TAB_PROFILE);
     }
+
     private void setupEditProfileNavigation() {
         ImageView ivEditProfile = findViewById(R.id.ivEditProfile);
         ivEditProfile.setOnClickListener(v -> {
@@ -54,19 +56,5 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileName.setText(loggedInUser.getFullname());
         tvProfilePhone.setText(loggedInUser.getPhone());
     }
-    //Đăng xuất
-    private void showLogoutConfirmation() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.logout)
-                .setMessage(R.string.logout_confirmation_message)
-                .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    SessionManager.getInstance(this).clearSession();
-                    Intent authIntent = new Intent(ProfileActivity.this, AuthActivity.class);
-                    authIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(authIntent);
-                    finish();
-                })
-                .setNegativeButton(R.string.no, null)
-                .show();
-    }
+
 }

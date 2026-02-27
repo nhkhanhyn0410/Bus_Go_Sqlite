@@ -54,14 +54,14 @@
             android:layout_height="84dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="-42dp"
-            android:background="@drawable/bg_avatar_circle"
+
             android:contentDescription="Avatar"
             android:padding="18dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/ic_avata_profile"
             android:elevation="6dp"
             android:translationZ="6dp"
             android:scaleType="centerInside"
-            app:tint="@color/white" />
+             />
 
         <LinearLayout
             android:layout_width="match_parent"
