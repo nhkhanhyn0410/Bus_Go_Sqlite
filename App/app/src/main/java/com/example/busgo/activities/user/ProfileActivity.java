@@ -1,7 +1,7 @@
 package com.example.busgo.activities.user;
 
 import android.os.Bundle;
-import android.widget.ListView;
+
 import android.content.Intent;
 import androidx.appcompat.app.AlertDialog;
 import com.example.busgo.activities.auth.AuthActivity;
@@ -14,10 +14,8 @@ import com.example.busgo.database.model.User;
 import com.example.busgo.R;
 import com.example.busgo.until.BottomNavHelper;
 import android.widget.ImageView;
-import android.view.View;
+import com.google.android.material.card.MaterialCardView;
 public class ProfileActivity extends AppCompatActivity {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
         controller.setAppearanceLightStatusBars(false);
         bindLoggedInUserInfo();
         setupEditProfileNavigation();
-
+        setupLogout();
         BottomNavHelper.setup(this, BottomNavHelper.TAB_PROFILE);
     }
 
@@ -56,5 +54,25 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileName.setText(loggedInUser.getFullname());
         tvProfilePhone.setText(loggedInUser.getPhone());
     }
+    private void setupLogout() {
+        findViewById(R.id.layoutLogout).setOnClickListener(v -> showLogoutConfirmationDialog());
+    }
 
+    private void showLogoutConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.logout)
+                .setMessage(R.string.logout_confirmation_message)
+                .setPositiveButton(R.string.yes, (dialog, which) -> handleLogout())
+                .setNegativeButton(R.string.no, null)
+                .show();
+    }
+
+    private void handleLogout() {
+        SessionManager.getInstance(this).clearSession();
+
+        Intent intent = new Intent(ProfileActivity.this, AuthActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }
