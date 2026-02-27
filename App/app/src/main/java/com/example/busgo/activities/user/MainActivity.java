@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busgo.R;
+import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.until.BottomNavHelper;
 import com.example.busgo.until.SessionManager;
 
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup bottom navigation bar (dùng chung BottomNavHelper)
         BottomNavHelper.setup(this, BottomNavHelper.TAB_HOME);
+
+
 
     }
 
@@ -149,10 +152,12 @@ public class MainActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+                    SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    selectedDate = sqlFormat.format(selectedCalendar.getTime());
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    selectedDate = sdf.format(selectedCalendar.getTime());
-                    tvDate.setText(selectedDate);
+
+                    SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    tvDate.setText(displayFormat.format(selectedCalendar.getTime()));
                     tvDate.setTextColor(getResources().getColor(R.color.text_primary));
                 }, year, month, day);
 

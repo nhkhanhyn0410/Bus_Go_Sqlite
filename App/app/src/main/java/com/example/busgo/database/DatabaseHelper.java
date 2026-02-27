@@ -3,11 +3,16 @@ package com.example.busgo.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.busgo.database.helpers.BusDataHelper;
 import com.example.busgo.database.helpers.RouteDataHelper;
+import com.example.busgo.database.helpers.StopPointDataHelper;
+import com.example.busgo.database.helpers.TripDataHelper;
+import com.example.busgo.database.model.Bus;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
-    public static final int DATABASE_VERSION = 7;//quang trọng
+    public static final int DATABASE_VERSION = 3;//quang trọng
 
     private static DatabaseHelper instance;
     private Context context;
@@ -26,6 +31,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        db.execSQL("DROP TABLE IF EXISTS seats");
+        db.execSQL("DROP TABLE IF EXISTS bookings");
+        db.execSQL("DROP TABLE IF EXISTS trips");
+        db.execSQL("DROP TABLE IF EXISTS stop_points");
+        db.execSQL("DROP TABLE IF EXISTS buses");
+        db.execSQL("DROP TABLE IF EXISTS routes");
+        db.execSQL("DROP TABLE IF EXISTS users");
+
         db.execSQL("PRAGMA foreign_keys = ON;");
         createUsersTable(db);
         createRoutesTable(db);
@@ -84,6 +98,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "bus_type TEXT NOT NULL," +
                 "total_seats INTEGER NOT NULL," +
                 "seat_layout TEXT," +
+                "company_name TEXT," +
+                "bus_model TEXT," +
+                "rating REAL DEFAULT 4.5," +
+                "amenities TEXT DEFAULT ''," +
                 "is_active INTEGER DEFAULT 1" +
                 ")";
         db.execSQL(CREATE_BUSES_TABLE);
@@ -178,5 +196,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void insertSampleData(SQLiteDatabase db) {
         RouteDataHelper.insertSampleRoutes(db);
+
+        BusDataHelper.insertSampleBuses(db);
+        TripDataHelper.insertSampleTrips(db);
+        StopPointDataHelper.insertSampleStopPoints(db);
     }
 }

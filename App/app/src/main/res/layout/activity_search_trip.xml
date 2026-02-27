@@ -290,6 +290,59 @@
             android:paddingBottom="100dp"
             tools:listitem="@layout/item_trip_search" />
 
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/layoutEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:alpha="0.5"
+                android:contentDescription="@string/no_trips_found"
+                android:src="@drawable/ic_bus_filled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/no_trips_found"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Không tìm thấy chuyến nào.\nVui lòng thử lại với ngày khác."
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Loading -->
+        <FrameLayout
+            android:id="@+id/layoutLoading"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout
