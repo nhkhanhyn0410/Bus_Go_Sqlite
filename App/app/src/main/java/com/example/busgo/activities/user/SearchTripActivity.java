@@ -1,5 +1,6 @@
 package com.example.busgo.activities.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busgo.R;
@@ -79,7 +81,11 @@ public class SearchTripActivity extends AppCompatActivity {
 
         setupDateTabs();
 
+        setupRecyclerView();
+
         setupFilterBar();
+
+        loadTrips();
 
         setupClickListeners();
 
@@ -170,11 +176,26 @@ public class SearchTripActivity extends AppCompatActivity {
             }
         }
 
-//         Reload trips for selected date
-//        if (!dateList.isEmpty() && index < dateList.size()) {
-//            date = dateList.get(index);
-//       loadTrips();
-//        }
+        if (!dateList.isEmpty() && index < dateList.size()) {
+            date = dateList.get(index);
+        loadTrips();
+        }
+    }
+
+    private void setupRecyclerView() {
+        tripList = new ArrayList<>();
+        allTrips = new ArrayList<>();
+//        tripAdapter = new TripAdapter(tripList);
+
+        recyclerViewTrips.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerViewTrips.setAdapter(tripAdapter);
+
+        tripAdapter.setOnTripClickListener(trip -> {
+            // Navigate to TripDetailActivity
+            Intent intent = new Intent(SearchTripActivity.this, TripDetailActivity.class);
+            intent.putExtra("trip_id", trip.get);
+            startActivity(intent);
+        });
     }
 
     private void setupFilterBar() {
@@ -239,7 +260,7 @@ public class SearchTripActivity extends AppCompatActivity {
             updateFilterUI(filterWC, false);
             updateFilterUI(filterBed, false);
             updateFilterUI(filterCharging, false);
-//            loadTrips();
+            loadTrips();
         });
 
         btnSwapRoute.setOnClickListener(v -> {
@@ -247,9 +268,52 @@ public class SearchTripActivity extends AppCompatActivity {
             departure = destination;
             destination = temp;
             displayRouteInfo();
-            //loadTrips();
+            loadTrips();
         });
     }
 
+    private void loadTrips() {
 
+        new Thread(() -> {
+            List<Trip> trips = tripDAO.searchTrips(departure, destination, date);
+
+            runOnUiThread(() -> {
+
+
+                if (trips != null && !trips.isEmpty()) {
+                    allTrips.clear();
+                    allTrips.addAll(trips);
+
+                    tripList.clear();
+                    tripList.addAll(trips);
+                    //tripAdapter
+
+                    recyclerViewTrips.setVisibility(View.VISIBLE);
+                    layoutEmpty.setVisibility(View.GONE);
+
+                    if (isWifiSelected || isWCSelected || isBedSelected || isChargingSelected) {
+                        applyFilters();
+                    }
+                } else {
+                    allTrips.clear();
+                    tripList.clear();
+
+//                    tripAdapter.notifyDataSetChanged();
+
+                    recyclerViewTrips.setVisibility(View.GONE);
+                    layoutEmpty.setVisibility(View.VISIBLE);
+                }
+             });
+        }).start();
+    }
+
+    private void showLoading(boolean show) {
+        if (show) {
+            layoutLoading.setVisibility(View.VISIBLE);
+            recyclerViewTrips.setVisibility(View.GONE);
+            layoutEmpty.setVisibility(View.GONE);
+        } else {
+            layoutLoading.setVisibility(View.GONE);
+        }
+    }
 }
