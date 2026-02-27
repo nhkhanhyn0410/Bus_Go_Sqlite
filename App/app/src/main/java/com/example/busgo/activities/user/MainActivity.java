@@ -125,9 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    /**
-     * Hiển thị dialog chọn điểm đến
-     */
+
     private void showDestinationDialog() {
         String[] cities = {"TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Huế"};
 
