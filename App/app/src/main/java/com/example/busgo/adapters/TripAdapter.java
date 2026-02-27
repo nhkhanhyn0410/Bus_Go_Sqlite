@@ -62,7 +62,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
         TextView tvCompanyName, tvBusType, tvBusNumber, tvRating;
         TextView tvDepartureTime, tvArrivalTime, tvDuration;
         TextView tvPickupPoint, tvDropoffPoint;
-
         TextView tvStopsCount, tvAvailableSeats, tvPrice;
 
         public TripViewHolder(@NonNull View itemView) {
@@ -86,9 +85,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
         public void bind(Trip trip) {
             String companyName = trip.getBus().getCompanyName();
-            if (companyName == null || companyName.isEmpty()) {
-                companyName = "Lỗi Tên";
-            }
+//            if (companyName == null || companyName.isEmpty()) {
+//                companyName = "Lỗi Tên";
+//            }
             tvCompanyName.setText(companyName);
 
             String busType = trip.getBus().getBusType();

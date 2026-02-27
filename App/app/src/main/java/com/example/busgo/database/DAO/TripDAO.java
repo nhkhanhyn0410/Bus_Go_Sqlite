@@ -3,14 +3,18 @@ package com.example.busgo.database.DAO;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.busgo.database.model.Trip;
+import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.database.model.Bus;
 import com.example.busgo.database.model.Route;
-import com.example.busgo.database.DatabaseHelper;
+import com.example.busgo.database.model.Trip;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TripDAO - Data Access Object cho Trip
+ * Chức năng: Tìm kiếm chuyến, lấy chi tiết, cập nhật ghế trống
+ */
 public class TripDAO {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -20,12 +24,17 @@ public class TripDAO {
         this.db = dbHelper.getWritableDatabase();
     }
 
+    /**
+     * Tìm kiếm chuyến xe
+     */
     public List<Trip> searchTrips(String departure, String destination, String date) {
         List<Trip> trips = new ArrayList<>();
 
         String query = "SELECT trips.*, " +
-                "routes.departure, routes.destination, routes. distance, routes.duration" +
-                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout " +
+                "routes.departure, routes.destination, routes.distance, routes.duration, " +
+                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
+                "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id) AS stops_count " +
                 "FROM trips " +
                 "JOIN routes ON trips.route_id = routes.id " +
                 "JOIN buses ON trips.bus_id = buses.id " +
@@ -35,25 +44,34 @@ public class TripDAO {
                 "AND trips.status = 'scheduled' " +
                 "AND trips.available_seats > 0 " +
                 "ORDER BY trips.departure_time ASC";
+
         Cursor cursor = db.rawQuery(query, new String[]{departure, destination, date});
+
         while (cursor.moveToNext()) {
             Trip trip = cursorToTrip(cursor);
             trips.add(trip);
         }
+
         cursor.close();
         return trips;
     }
 
+    /**
+     * Lấy Trip theo ID với đầy đủ thông tin
+     */
     public Trip getTripById(int tripId) {
         String query = "SELECT trips.*, " +
                 "routes.departure, routes.destination, routes.distance, routes.duration, " +
-                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout " +
+                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
+                "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id) AS stops_count " +
                 "FROM trips " +
                 "JOIN routes ON trips.route_id = routes.id " +
                 "JOIN buses ON trips.bus_id = buses.id " +
                 "WHERE trips.id = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(tripId)});
+
         Trip trip = null;
         if (cursor.moveToFirst()) {
             trip = cursorToTrip(cursor);
@@ -63,18 +81,27 @@ public class TripDAO {
         return trip;
     }
 
+    /**
+     * Giảm số ghế trống
+     */
     public boolean decreaseAvailableSeats(int tripId, int numSeats) {
         String sql = "UPDATE trips SET available_seats = available_seats - ? WHERE id = ?";
         db.execSQL(sql, new Object[]{numSeats, tripId});
         return true;
     }
 
+    /**
+     * Tăng số ghế trống (khi hủy vé)
+     */
     public boolean increaseAvailableSeats(int tripId, int numSeats) {
         String sql = "UPDATE trips SET available_seats = available_seats + ? WHERE id = ?";
         db.execSQL(sql, new Object[]{numSeats, tripId});
         return true;
     }
 
+    /**
+     * Lấy danh sách tất cả địa điểm đi (distinct)
+     */
     public List<String> getAllDepartures() {
         List<String> departures = new ArrayList<>();
 
@@ -90,6 +117,9 @@ public class TripDAO {
         return departures;
     }
 
+    /**
+     * Lấy danh sách địa điểm đến theo điểm đi
+     */
     public List<String> getDestinationsByDeparture(String departure) {
         List<String> destinations = new ArrayList<>();
 
@@ -105,7 +135,9 @@ public class TripDAO {
         return destinations;
     }
 
-    //Ánh xạ dữ liệu
+    /**
+     * Convert Cursor to Trip object (với Route và Bus)
+     */
     private Trip cursorToTrip(Cursor cursor) {
         Trip trip = new Trip();
         trip.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
@@ -117,6 +149,13 @@ public class TripDAO {
         trip.setAvailableSeats(cursor.getInt(cursor.getColumnIndexOrThrow("available_seats")));
         trip.setStatus(cursor.getString(cursor.getColumnIndexOrThrow("status")));
 
+        // Số điểm dừng (từ subquery stops_count)
+        int stopsIndex = cursor.getColumnIndex("stops_count");
+        if (stopsIndex != -1) {
+            trip.setStopsCount(cursor.getInt(stopsIndex));
+        }
+
+        // Parse Route
         Route route = new Route();
         route.setId(trip.getRouteId());
         route.setDeparture(cursor.getString(cursor.getColumnIndexOrThrow("departure")));
@@ -125,12 +164,17 @@ public class TripDAO {
         route.setDuration(cursor.getInt(cursor.getColumnIndexOrThrow("duration")));
         trip.setRoute(route);
 
+        // Parse Bus (bao gồm thông tin nhà xe và tiện ích)
         Bus bus = new Bus();
         bus.setId(trip.getBusId());
         bus.setBusNumber(cursor.getString(cursor.getColumnIndexOrThrow("bus_number")));
         bus.setBusType(cursor.getString(cursor.getColumnIndexOrThrow("bus_type")));
         bus.setTotalSeats(cursor.getInt(cursor.getColumnIndexOrThrow("total_seats")));
         bus.setSeatLayout(cursor.getString(cursor.getColumnIndexOrThrow("seat_layout")));
+        bus.setCompanyName(cursor.getString(cursor.getColumnIndexOrThrow("company_name")));
+        bus.setBusModel(cursor.getString(cursor.getColumnIndexOrThrow("bus_model")));
+        bus.setRating(cursor.getDouble(cursor.getColumnIndexOrThrow("rating")));
+        bus.setAmenities(cursor.getString(cursor.getColumnIndexOrThrow("amenities")));
         trip.setBus(bus);
 
         return trip;
