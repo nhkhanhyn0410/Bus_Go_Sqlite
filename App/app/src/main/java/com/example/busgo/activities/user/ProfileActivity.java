@@ -29,29 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
         controller.setAppearanceLightStatusBars(false);
         bindLoggedInUserInfo();
         setupEditProfileNavigation();
-        // ✅ List card + icon giống mẫu
-        ListView lv = findViewById(R.id.lvProfileOptions);
-        String[] options = getResources().getStringArray(R.array.profile_options);
 
-        int[] icons = new int[]{
-                R.drawable.ic_booking,
-                R.drawable.ic_passenger,
-                R.drawable.ic_wallet,
-                R.drawable.ic_gift,
-                R.drawable.ic_tag,
-                R.drawable.ic_help,
-                R.drawable.ic_info,
-                R.drawable.ic_logout
-        };
-
-
-        ProfileOptionAdapter adapter = new ProfileOptionAdapter(this, options, icons);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener((parent, view, position, id) -> {
-            if (position == LOGOUT_OPTION_POSITION) {
-                showLogoutConfirmation();
-            }
-        });
         BottomNavHelper.setup(this, BottomNavHelper.TAB_PROFILE);
     }
     private void setupEditProfileNavigation() {
