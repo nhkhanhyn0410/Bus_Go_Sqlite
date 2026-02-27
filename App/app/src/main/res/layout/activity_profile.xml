@@ -42,7 +42,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-
+                    android:background="@drawable/bg_avatar_circle"
                     android:padding="10dp"
                     android:src="@drawable/ic_person"
                     app:tint="@color/white"
