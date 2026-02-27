@@ -31,35 +31,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * TripListActivity - Hiển thị danh sách chuyến xe theo thiết kế Figma
- *
- * Chức năng:
- * 1. Nhận parameters từ SearchTripActivity/MainActivity
- * 2. Hiển thị header với thông tin tuyến đường
- * 3. Date tabs cho 5 ngày liên tiếp
- * 4. Filter bar với các bộ lọc tiện ích
- * 5. Query trips từ TripDAO
- * 6. Hiển thị kết quả trong RecyclerView
- */
 public class SearchTripActivity extends AppCompatActivity {
 
-    // Header views
     private ImageView btnBack, btnRefresh, btnSwapRoute;
     private TextView tvDepartureCity, tvDestinationCity;
 
-    // Date tabs
     private LinearLayout layoutDateTabs;
     private TextView[] tvDates = new TextView[7];
     private View[] indicatorDates = new View[7];
     private int selectedDateIndex = 0;
 
-    // Content views
     private RecyclerView recyclerViewTrips;
     private LinearLayout layoutEmpty;
     private FrameLayout layoutLoading;
 
-    // Filter bar
     private LinearLayout filterWifi, filterWC, filterBed, filterCharging, layoutFilterBar;
     private ImageView btnFilter;
     private boolean isWifiSelected = false;
@@ -67,7 +52,6 @@ public class SearchTripActivity extends AppCompatActivity {
     private boolean isBedSelected = false;
     private boolean isChargingSelected = false;
 
-    // Data
     private TripDAO tripDAO;
     private TripAdapter tripAdapter;
     private List<Trip> tripList;
@@ -81,47 +65,34 @@ public class SearchTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_trip);
 
-        // Initialize views
         initViews();
 
-        // Get search parameters
         getSearchParameters();
 
-        // Initialize DAO
         DatabaseHelper dbHelper = DatabaseHelper.getInstance(this);
         tripDAO = new TripDAO(dbHelper);
 
-        // Setup date tabs
         setupDateTabs();
 
-        // Setup RecyclerView
         setupRecyclerView();
 
-        // Setup filter bar
         setupFilterBar();
 
-        // Display route info
         displayRouteInfo();
 
-        // Load trips
         loadTrips();
 
-        // Set click listeners
         setupClickListeners();
     }
 
-    /**
-     * Khởi tạo views
-     */
+
     private void initViews() {
-        // Header
         btnBack = findViewById(R.id.btnBack);
         btnRefresh = findViewById(R.id.btnRefresh);
         btnSwapRoute = findViewById(R.id.btnSwapRoute);
         tvDepartureCity = findViewById(R.id.tvDepartureCity);
         tvDestinationCity = findViewById(R.id.tvDestinationCity);
 
-        // Date tabs
         tvDates[0] = findViewById(R.id.tvDate1);
         tvDates[1] = findViewById(R.id.tvDate2);
         tvDates[2] = findViewById(R.id.tvDate3);
@@ -137,12 +108,10 @@ public class SearchTripActivity extends AppCompatActivity {
         indicatorDates[5] = findViewById(R.id.indicatorDate6);
         indicatorDates[6] = findViewById(R.id.indicatorDate7);
 
-        // Content
         recyclerViewTrips = findViewById(R.id.recyclerViewTrips);
         layoutEmpty = findViewById(R.id.layoutEmpty);
         layoutLoading = findViewById(R.id.layoutLoading);
 
-        // Filter bar
         filterWifi = findViewById(R.id.filterWifi);
         filterWC = findViewById(R.id.filterWC);
         filterBed = findViewById(R.id.filterBed);
@@ -151,9 +120,6 @@ public class SearchTripActivity extends AppCompatActivity {
         layoutFilterBar = findViewById(R.id.layoutFilterBar);
     }
 
-    /**
-     * Lấy search parameters từ Intent
-     */
     private void getSearchParameters() {
         departure = getIntent().getStringExtra("departure");
         destination = getIntent().getStringExtra("destination");
@@ -167,14 +133,11 @@ public class SearchTripActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Setup date tabs cho 5 ngày liên tiếp từ ngày được chọn
-     */
     private void setupDateTabs() {
         try {
             dateList.clear();
 
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
 
             Date startDate = inputFormat.parse(date);
@@ -198,9 +161,6 @@ public class SearchTripActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Chọn ngày và cập nhật UI
-     */
     private void selectDate(int index) {
         selectedDateIndex = index;
 
@@ -220,9 +180,6 @@ public class SearchTripActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Setup RecyclerView
-     */
     private void setupRecyclerView() {
         tripList = new ArrayList<>();
         allTrips = new ArrayList<>();
@@ -231,18 +188,13 @@ public class SearchTripActivity extends AppCompatActivity {
         recyclerViewTrips.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewTrips.setAdapter(tripAdapter);
 
-        // Set click listener
         tripAdapter.setOnTripClickListener(trip -> {
-            // Navigate to TripDetailActivity
             Intent intent = new Intent(SearchTripActivity.this, TripDetailActivity.class);
             intent.putExtra("trip_id", trip.getId());
             startActivity(intent);
         });
     }
 
-    /**
-     * Setup filter bar click listeners
-     */
     private void setupFilterBar() {
         final int originalBottomMargin = ((ViewGroup.MarginLayoutParams) layoutFilterBar.getLayoutParams()).bottomMargin;
 
@@ -297,13 +249,11 @@ public class SearchTripActivity extends AppCompatActivity {
         List<Trip> filteredTrips = new ArrayList<>();
 
         for (Trip trip : allTrips) {
-            // Null safety: bỏ qua trip không có thông tin xe
             Bus bus = trip.getBus();
             if (bus == null) continue;
 
             boolean matches = true;
 
-            // Kiểm tra tiện ích từ chuỗi amenities (VD: "wifi,wc,charging,air_con")
             if (isWifiSelected && !bus.hasAmenity(Bus.AMENITY_WIFI)) {
                 matches = false;
             }
@@ -314,7 +264,6 @@ public class SearchTripActivity extends AppCompatActivity {
                 matches = false;
             }
 
-            // Giường nằm là loại xe (busType), không phải tiện ích trong amenities
             if (isBedSelected) {
                 String busType = bus.getBusType();
                 if (busType == null || !busType.toLowerCase().contains("giường")) {
@@ -327,12 +276,10 @@ public class SearchTripActivity extends AppCompatActivity {
             }
         }
 
-        // Cập nhật RecyclerView
         tripList.clear();
         tripList.addAll(filteredTrips);
         tripAdapter.notifyDataSetChanged();
 
-        // Hiển thị empty state nếu cần
         if (filteredTrips.isEmpty()) {
             recyclerViewTrips.setVisibility(View.GONE);
             layoutEmpty.setVisibility(View.VISIBLE);
@@ -342,22 +289,17 @@ public class SearchTripActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Hiển thị thông tin tuyến đường
-     */
+
     private void displayRouteInfo() {
         tvDepartureCity.setText(departure);
         tvDestinationCity.setText(destination);
     }
 
-    /**
-     * Setup click listeners
-     */
+
     private void setupClickListeners() {
         btnBack.setOnClickListener(v -> finish());
 
         btnRefresh.setOnClickListener(v -> {
-            // Reset tất cả bộ lọc về trạng thái chưa chọn
             isWifiSelected = false;
             isWCSelected = false;
             isBedSelected = false;
@@ -368,12 +310,10 @@ public class SearchTripActivity extends AppCompatActivity {
             updateFilterUI(filterBed, false);
             updateFilterUI(filterCharging, false);
 
-            // Reload trips (không filter)
             loadTrips();
         });
 
         btnSwapRoute.setOnClickListener(v -> {
-            // Swap departure and destination
             String temp = departure;
             departure = destination;
             destination = temp;
@@ -383,14 +323,9 @@ public class SearchTripActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Load trips từ database
-     */
-    private void loadTrips() {
-        // Show loading
-        showLoading(true);
 
-        // Query in background thread
+    private void loadTrips() {
+        showLoading(true);
         new Thread(() -> {
             List<Trip> trips = tripDAO.searchTrips(departure, destination, date);
 
@@ -398,24 +333,19 @@ public class SearchTripActivity extends AppCompatActivity {
                 showLoading(false);
 
                 if (trips != null && !trips.isEmpty()) {
-                    // Lưu tất cả kết quả
                     allTrips.clear();
                     allTrips.addAll(trips);
-
-                    // Hiển thị kết quả
                     tripList.clear();
                     tripList.addAll(trips);
                     tripAdapter.notifyDataSetChanged();
-
                     recyclerViewTrips.setVisibility(View.VISIBLE);
                     layoutEmpty.setVisibility(View.GONE);
 
-                    // Áp dụng filter nếu có
                     if (isWifiSelected || isWCSelected || isBedSelected || isChargingSelected) {
                         applyFilters();
                     }
                 } else {
-                    // Show empty state
+
                     allTrips.clear();
                     tripList.clear();
                     tripAdapter.notifyDataSetChanged();
@@ -427,9 +357,7 @@ public class SearchTripActivity extends AppCompatActivity {
         }).start();
     }
 
-    /**
-     * Show/hide loading
-     */
+
     private void showLoading(boolean show) {
         if (show) {
             layoutLoading.setVisibility(View.VISIBLE);

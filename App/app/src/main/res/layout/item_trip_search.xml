@@ -3,27 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="24dp"
     android:layout_marginBottom="20dp"
     android:background="@drawable/bg_trip_card_search"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:padding="10dp">
 
-    <!-- Header: Company Info + Rating -->
+    <!--Header-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <!-- Company Logo -->
-        <View
+        <!--logo-->
+        <ImageView
             android:id="@+id/viewCompanyLogo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/bg_company_logo" />
+            android:src="@drawable/bg_company_logo" />
 
-        <!-- Company Info -->
+        <!--tên nhà xe, mẫu xe, loại, biển số-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="Phương Trang" />
 
             <LinearLayout
@@ -52,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@color/text_primary"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     tools:text="Kim Long 99 (Giường nằm)" />
 
                 <View
@@ -67,14 +68,94 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@color/text_primary"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     tools:text="60A-12345" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Rating Badge -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvDepartureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            tools:text="12.00" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_line_left" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp">
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/text_primary"
+                android:textSize="10sp"
+                tools:text="3h 00m" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/ic_bus_filled"
+                android:contentDescription="@string/bus_type" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_line_right" />
+
+        <TextView
+            android:id="@+id/tvArrivalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            tools:text="15.00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvPickupPoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            tools:text="Bến xe Miền Đông" />
         <LinearLayout
             android:layout_width="64dp"
             android:layout_height="19dp"
@@ -100,95 +181,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <!-- Time Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <!-- Departure Time -->
-        <TextView
-            android:id="@+id/tvDepartureTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            tools:text="12.00" />
-
-        <!-- Timeline Left -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_line_left" />
-
-        <!-- Duration with Bus Icon -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="8dp">
-
-            <TextView
-                android:id="@+id/tvDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/text_primary"
-                android:textSize="8sp"
-                tools:text="3h 00m" />
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/ic_bus_filled"
-                android:contentDescription="@string/bus_type" />
-
-        </LinearLayout>
-
-        <!-- Timeline Right -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_line_right" />
-
-        <!-- Arrival Time -->
-        <TextView
-            android:id="@+id/tvArrivalTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            tools:text="15.00" />
-
-    </LinearLayout>
-
-    <!-- Pickup/Dropoff Points -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvPickupPoint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/text_primary"
-            android:textSize="10sp"
-            tools:text="Bến xe Miền Đông" />
-
         <TextView
             android:id="@+id/tvDropoffPoint"
             android:layout_width="0dp"
@@ -197,28 +189,28 @@
             android:fontFamily="sans-serif-light"
             android:gravity="end"
             android:textColor="@color/text_primary"
-            android:textSize="10sp"
+            android:textSize="14sp"
             tools:text="Bến xe Vũng Tàu" />
 
     </LinearLayout>
 
-    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"
         android:background="@color/divider" />
 
-    <!-- Footer: Stops, Seats, Price -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        >
 
-        <!-- Stops -->
         <LinearLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -241,21 +233,26 @@
                 android:fontFamily="sans-serif-light"
                 android:text="Điểm dừng"
                 android:textColor="@color/text_primary"
-                android:textSize="10sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- Seats -->
         <LinearLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintHorizontal_bias="0.46"
+            >
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:src="@drawable/ic_person_outline"
                 android:contentDescription="@string/available_seats" />
 
@@ -266,17 +263,15 @@
                 android:layout_marginStart="4dp"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp"
-                tools:text="28" />
+                android:text="28" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
-        <!-- Price -->
         <TextView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -284,6 +279,6 @@
             android:textSize="14sp"
             tools:text="150.000 VND" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

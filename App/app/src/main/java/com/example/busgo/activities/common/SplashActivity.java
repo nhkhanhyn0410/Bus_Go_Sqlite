@@ -26,7 +26,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
-
         new Thread(() -> {
             DatabaseHelper dbHelper = DatabaseHelper.getInstance(this);
             dbHelper.getReadableDatabase();

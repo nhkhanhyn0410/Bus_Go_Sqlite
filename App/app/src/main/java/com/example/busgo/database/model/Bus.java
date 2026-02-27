@@ -12,7 +12,6 @@ public class Bus {
 
     private double rating;
 
-    // Tiện ích gộp: "wifi,wc,charging,air_con,tv,blanket"
     private String amenities;
 
     // Hằng số tiện ích

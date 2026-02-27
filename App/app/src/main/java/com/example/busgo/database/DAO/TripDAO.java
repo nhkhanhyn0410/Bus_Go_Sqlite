@@ -11,10 +11,7 @@ import com.example.busgo.database.model.Trip;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TripDAO - Data Access Object cho Trip
- * Chức năng: Tìm kiếm chuyến, lấy chi tiết, cập nhật ghế trống
- */
+
 public class TripDAO {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -24,9 +21,6 @@ public class TripDAO {
         this.db = dbHelper.getWritableDatabase();
     }
 
-    /**
-     * Tìm kiếm chuyến xe
-     */
     public List<Trip> searchTrips(String departure, String destination, String date) {
         List<Trip> trips = new ArrayList<>();
 
@@ -56,9 +50,6 @@ public class TripDAO {
         return trips;
     }
 
-    /**
-     * Lấy Trip theo ID với đầy đủ thông tin
-     */
     public Trip getTripById(int tripId) {
         String query = "SELECT trips.*, " +
                 "routes.departure, routes.destination, routes.distance, routes.duration, " +
@@ -81,27 +72,18 @@ public class TripDAO {
         return trip;
     }
 
-    /**
-     * Giảm số ghế trống
-     */
     public boolean decreaseAvailableSeats(int tripId, int numSeats) {
         String sql = "UPDATE trips SET available_seats = available_seats - ? WHERE id = ?";
         db.execSQL(sql, new Object[]{numSeats, tripId});
         return true;
     }
 
-    /**
-     * Tăng số ghế trống (khi hủy vé)
-     */
     public boolean increaseAvailableSeats(int tripId, int numSeats) {
         String sql = "UPDATE trips SET available_seats = available_seats + ? WHERE id = ?";
         db.execSQL(sql, new Object[]{numSeats, tripId});
         return true;
     }
 
-    /**
-     * Lấy danh sách tất cả địa điểm đi (distinct)
-     */
     public List<String> getAllDepartures() {
         List<String> departures = new ArrayList<>();
 
@@ -117,9 +99,6 @@ public class TripDAO {
         return departures;
     }
 
-    /**
-     * Lấy danh sách địa điểm đến theo điểm đi
-     */
     public List<String> getDestinationsByDeparture(String departure) {
         List<String> destinations = new ArrayList<>();
 
@@ -135,9 +114,6 @@ public class TripDAO {
         return destinations;
     }
 
-    /**
-     * Convert Cursor to Trip object (với Route và Bus)
-     */
     private Trip cursorToTrip(Cursor cursor) {
         Trip trip = new Trip();
         trip.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
@@ -149,13 +125,11 @@ public class TripDAO {
         trip.setAvailableSeats(cursor.getInt(cursor.getColumnIndexOrThrow("available_seats")));
         trip.setStatus(cursor.getString(cursor.getColumnIndexOrThrow("status")));
 
-        // Số điểm dừng (từ subquery stops_count)
         int stopsIndex = cursor.getColumnIndex("stops_count");
         if (stopsIndex != -1) {
             trip.setStopsCount(cursor.getInt(stopsIndex));
         }
 
-        // Parse Route
         Route route = new Route();
         route.setId(trip.getRouteId());
         route.setDeparture(cursor.getString(cursor.getColumnIndexOrThrow("departure")));
@@ -164,7 +138,6 @@ public class TripDAO {
         route.setDuration(cursor.getInt(cursor.getColumnIndexOrThrow("duration")));
         trip.setRoute(route);
 
-        // Parse Bus (bao gồm thông tin nhà xe và tiện ích)
         Bus bus = new Bus();
         bus.setId(trip.getBusId());
         bus.setBusNumber(cursor.getString(cursor.getColumnIndexOrThrow("bus_number")));

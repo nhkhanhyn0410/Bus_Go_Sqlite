@@ -85,9 +85,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
 
         public void bind(Trip trip) {
             String companyName = trip.getBus().getCompanyName();
-//            if (companyName == null || companyName.isEmpty()) {
-//                companyName = "Lỗi Tên";
-//            }
+
             tvCompanyName.setText(companyName);
 
             String busType = trip.getBus().getBusType();
