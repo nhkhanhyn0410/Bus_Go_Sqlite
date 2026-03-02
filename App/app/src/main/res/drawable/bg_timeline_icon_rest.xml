@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon tròn cho điểm dừng chân - nền xanh nhạt -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/seat_selected" />
+    <size
+        android:width="24dp"
+        android:height="24dp" />
+</shape>
