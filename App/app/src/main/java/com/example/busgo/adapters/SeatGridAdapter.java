@@ -102,22 +102,6 @@ public class SeatGridAdapter extends BaseAdapter {
 
         SeatItem item = items.get(position);
 
-        // Điều chỉnh chiều cao theo loại xe
-        holder.tvSeatNumber.post(() -> {
-            int width = holder.tvSeatNumber.getWidth();
-            if (width > 0) {
-                ViewGroup.LayoutParams params = holder.tvSeatNumber.getLayoutParams();
-                if (isBedBus) {
-                    // Ghế giường nằm: hình chữ nhật
-                    params.height = (int) (width * 1.5);
-                } else {
-                    // Ghế ngồi: hình vuông
-                    params.height = width;
-                }
-                holder.tvSeatNumber.setLayoutParams(params);
-            }
-        });
-
         int white = ContextCompat.getColor(context, R.color.white);
         int textPrimary = ContextCompat.getColor(context, R.color.text_primary);
 

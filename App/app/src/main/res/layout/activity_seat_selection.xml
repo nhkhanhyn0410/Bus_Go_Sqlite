@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="24dp"
         android:paddingTop="40dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <!-- Row 1: Back + Tên nhà xe -->
         <LinearLayout
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="12.00"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:text="3h 00'"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:text="15.00"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -139,7 +139,7 @@
                 android:layout_weight="1"
                 android:text="Bến xe Miền Đông"
                 android:textColor="#B0BEC5"
-                android:textSize="11sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvArrivalStation"
@@ -149,7 +149,7 @@
                 android:gravity="end"
                 android:text="Bến xe Vũng Tàu"
                 android:textColor="#B0BEC5"
-                android:textSize="11sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -168,11 +168,11 @@
                 android:layout_weight="1"
                 android:text="13/01/2026"
                 android:textColor="@color/white"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:src="@drawable/ic_star"
                 android:contentDescription="Rating" />
 
@@ -190,124 +190,119 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:gravity="center">
-
-            <!-- Trống -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/bg_seat_available" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trống"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginStart="4dp" />
-            </LinearLayout>
-
-            <!-- Đã đặt -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/bg_seat_booked" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đã đặt"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginStart="4dp" />
-            </LinearLayout>
-
-            <!-- Đang giữ -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/bg_seat_held" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đang giữ"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginStart="4dp" />
-            </LinearLayout>
-
-            <!-- Đang chọn -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/bg_seat_selected" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đang chọn"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginStart="4dp" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </LinearLayout>
-
-
-
     <!-- ===== CONTENT (bo góc trên, cuộn được) ===== -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/bg_trip_detail_content"
+        android:fillViewport="true"
         android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:paddingBottom="16dp">
 
+            <!-- Legend: 4 trạng thái ghế -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp"
+                android:gravity="center">
+
+                <!-- Trống -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="20dp"
+                    android:layout_height="20dp"
+                        android:background="@drawable/bg_seat_available" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trống"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+
+                <!-- Đã đặt -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="20dp"
+                    android:layout_height="20dp"
+                        android:background="@drawable/bg_seat_booked" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đã đặt"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+
+                <!-- Đang giữ -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="20dp"
+                    android:layout_height="20dp"
+                        android:background="@drawable/bg_seat_held" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đang giữ"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+
+                <!-- Đang chọn -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="20dp"
+                    android:layout_height="20dp"
+                        android:background="@drawable/bg_seat_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đang chọn"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <!-- ===== Hai tầng cạnh nhau (xe giường) hoặc 1 grid (xe ngồi) ===== -->
 
@@ -359,7 +354,7 @@
                 android:visibility="gone">
 
                 <!-- Grid tầng 1 -->
-                <GridView
+                <com.example.busgo.until.ExpandableGridView
                     android:id="@+id/gridFloor1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -376,7 +371,7 @@
                     android:layout_height="match_parent" />
 
                 <!-- Grid tầng 2 -->
-                <GridView
+                <com.example.busgo.until.ExpandableGridView
                     android:id="@+id/gridFloor2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -390,7 +385,7 @@
             </LinearLayout>
 
             <!-- Grid đơn cho xe ghế ngồi -->
-            <GridView
+            <com.example.busgo.until.ExpandableGridView
                 android:id="@+id/gridSeats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -405,10 +400,11 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
     <!-- ===== BOTTOM BAR ===== -->
     <LinearLayout
+        android:id="@+id/lnBottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -430,7 +426,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ghế đã chọn:"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="@color/text_secondary" />
 
             <TextView
@@ -438,7 +434,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chưa chọn"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:layout_marginTop="2dp" />
@@ -456,8 +452,7 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:background="@drawable/bg_btn_select_seats"
-            app:backgroundTint="@color/green_bg"
+            android:background="@drawable/bg_btn_outlined_accent"
             android:enabled="false" />
 
     </LinearLayout>

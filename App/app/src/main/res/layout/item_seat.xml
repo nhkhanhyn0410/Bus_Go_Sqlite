@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/tvSeatNumber"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="52dp"
         android:gravity="center"
         android:text="A1"
         android:textSize="12sp"

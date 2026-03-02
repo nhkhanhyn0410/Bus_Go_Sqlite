@@ -1,8 +1,10 @@
 package com.example.busgo.activities.user;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -27,6 +30,7 @@ import com.example.busgo.database.model.Seat;
 import com.example.busgo.database.model.Trip;
 import com.example.busgo.until.DateUtils;
 import com.example.busgo.adapters.SeatGridAdapter.SeatItem;
+import com.example.busgo.until.ExpandableGridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +44,12 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private ImageView btnBack;
     private TextView tvCompanyName, tvDepartureTime, tvArrivalTime, tvDuration;
     private TextView tvDepartureStation, tvArrivalStation, tvDate, tvRating;
+    private LinearLayout lnBottomNav;
 
     // Seat grids
     private LinearLayout layoutFloorLabels, layoutDualGrid;
-    private GridView gridFloor1, gridFloor2; // Xe giường: 2 grid cạnh nhau
-    private GridView gridSeats;              // Xe ngồi: 1 grid duy nhất
+    private ExpandableGridView gridFloor1, gridFloor2; // Xe giường: 2 grid cạnh nhau
+    private ExpandableGridView gridSeats;              // Xe ngồi: 1 grid duy nhất
 
     // Bottom bar
     private TextView tvSelectedSeatsLabel, tvSelectedSeatsValue;
@@ -78,7 +83,10 @@ public class SeatSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_seat_selection);
+
+
 
         initViews();
         getDataFromIntent();
@@ -110,9 +118,19 @@ public class SeatSelectionActivity extends AppCompatActivity {
         gridSeats = findViewById(R.id.gridSeats);
 
         // Bottom bar
+        lnBottomNav = findViewById(R.id.lnBottomNav);
         tvSelectedSeatsLabel = findViewById(R.id.tvSelectedSeatsLabel);
         tvSelectedSeatsValue = findViewById(R.id.tvSelectedSeatsValue);
         btnConfirm = findViewById(R.id.btnConfirm);
+
+        final int originalbtnlnBottomNav = ((ViewGroup.MarginLayoutParams) lnBottomNav.getLayoutParams()).bottomMargin;
+        ViewCompat.setOnApplyWindowInsetsListener(lnBottomNav, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.bottomMargin = originalbtnlnBottomNav + insets.bottom;
+            view.setLayoutParams(params);
+            return windowInsets;
+        });
 
         selectedSeats = new ArrayList<>();
     }
@@ -388,6 +406,11 @@ public class SeatSelectionActivity extends AppCompatActivity {
             tvSelectedSeatsLabel.setText("Ghế đã chọn:");
             tvSelectedSeatsValue.setText(String.join(", ", selectedSeats));
             btnConfirm.setEnabled(true);
+            btnConfirm.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                            ContextCompat.getColor(this, R.color.accent)
+                    )
+            );
         }
     }
 
