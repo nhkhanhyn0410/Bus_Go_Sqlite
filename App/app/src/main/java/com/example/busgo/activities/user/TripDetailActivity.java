@@ -64,7 +64,8 @@ public class TripDetailActivity extends AppCompatActivity {
     private StopPoint selectedPickup;
     private StopPoint selectedDropoff;
     private List<StopPoint> restStops;
-
+    private int selectedPickupIndex = 0;
+    private int selectedDropoffIndex = 0;
     private float density;
 
     @Override
@@ -131,14 +132,6 @@ public class TripDetailActivity extends AppCompatActivity {
     private void loadTripDetails() {
         new Thread(() -> {
             trip = tripDAO.getTripById(tripId);
-
-            if (trip == null) {
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Không tìm thấy thông tin chuyến", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
-                return;
-            }
 
             List<StopPoint> pickupPoints = stopPointDAO.getPickupPointsByRouteId(trip.getRouteId());
             List<StopPoint> dropoffPoints = stopPointDAO.getDropoffPointsByRouteId(trip.getRouteId());
@@ -403,6 +396,8 @@ public class TripDetailActivity extends AppCompatActivity {
         intent.putExtra("departure", trip.getRoute().getDeparture());
         intent.putExtra("destination", trip.getRoute().getDestination());
         intent.putExtra("mode", "change_stops");
+        intent.putExtra("selected_pickup_index", selectedPickupIndex);
+        intent.putExtra("selected_dropoff_index", selectedDropoffIndex);
         startActivityForResult(intent, REQUEST_CHANGE_STOPS);
     }
 
@@ -509,21 +504,32 @@ public class TripDetailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CHANGE_STOPS && resultCode == RESULT_OK && data != null) {
-
             int pickupId = data.getIntExtra("pickup_point_id", -1);
             int dropoffId = data.getIntExtra("dropoff_point_id", -1);
 
             if (pickupId == -1 || dropoffId == -1) return;
 
-            new Thread(() -> {
-                StopPoint newPickup = stopPointDAO.getStopPointById(pickupId);
-                StopPoint newDropoff = stopPointDAO.getStopPointById(dropoffId);
+            StopPoint newPickup = new StopPoint();
+            newPickup.setId(pickupId);
+            newPickup.setPointType(StopPoint.TYPE_PICKUP);
+            newPickup.setPointName(data.getStringExtra("pickup_point_name"));
+            newPickup.setAddress(data.getStringExtra("pickup_address"));
+            newPickup.setTimeOffset(data.getIntExtra("pickup_time_offset", 0));
 
-                if (newPickup != null) selectedPickup = newPickup;
-                if (newDropoff != null) selectedDropoff = newDropoff;
+            StopPoint newDropoff = new StopPoint();
+            newDropoff.setId(dropoffId);
+            newDropoff.setPointType(StopPoint.TYPE_DROPOFF);
+            newDropoff.setPointName(data.getStringExtra("dropoff_point_name"));
+            newDropoff.setAddress(data.getStringExtra("dropoff_address"));
+            newDropoff.setTimeOffset(data.getIntExtra("dropoff_time_offset", 0));
 
-                runOnUiThread(this::displayTimeline);
-            }).start();
+            selectedPickup = newPickup;
+            selectedDropoff = newDropoff;
+
+            selectedPickupIndex = data.getIntExtra("pickup_index", 0);
+            selectedDropoffIndex = data.getIntExtra("dropoff_index", 0);
+
+            displayTimeline();
         }
     }
 }
