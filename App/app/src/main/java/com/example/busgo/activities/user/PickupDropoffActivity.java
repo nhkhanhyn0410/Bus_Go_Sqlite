@@ -2,12 +2,15 @@ package com.example.busgo.activities.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +38,7 @@ public class PickupDropoffActivity extends AppCompatActivity {
     private TextView tvHeaderTitle;
     private RadioGroup containerPickup, containerDropoff;
     private Button btnConfirm;
+    private LinearLayout lnBottomLayout;
 
     // Data
     private StopPointDAO stopPointDAO;
@@ -43,10 +47,10 @@ public class PickupDropoffActivity extends AppCompatActivity {
     private String departureTime, arrivalTime;
     private double basePrice;
     private String departure, destination;
-    private String busLayout; // Sẽ load từ Trip → Bus
-    private boolean isChangeMode; // true khi mở từ nút "Thay đổi" trong TripDetail
-
-    // Lưu danh sách điểm để lấy item theo index (RadioButton id = index)
+    private String busLayout;
+    private boolean isChangeMode;
+    private int selectedPickupIndex = 0;
+    private int selectedDropoffIndex = 0;
     private List<StopPoint> pickupPoints;
     private List<StopPoint> dropoffPoints;
 
@@ -60,18 +64,24 @@ public class PickupDropoffActivity extends AppCompatActivity {
         controller.setAppearanceLightStatusBars(false);
 
         initViews();
+
+        final int originalLnBottomLayout = ((ViewGroup.MarginLayoutParams) lnBottomLayout.getLayoutParams()).bottomMargin;
+        ViewCompat.setOnApplyWindowInsetsListener(lnBottomLayout, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.bottomMargin = originalLnBottomLayout + insets.bottom;
+            view.setLayoutParams(params);
+            return windowInsets;
+        });
         getIntentData();
 
-        // Khởi tạo DAO
         DatabaseHelper dbHelper = DatabaseHelper.getInstance(this);
         stopPointDAO = new StopPointDAO(dbHelper);
         tripDAO = new TripDAO(dbHelper);
 
-        // Listeners
         btnBack.setOnClickListener(v -> finish());
         btnConfirm.setOnClickListener(v -> handleConfirm());
 
-        // Load dữ liệu trên background thread
         loadData();
     }
 
@@ -81,11 +91,9 @@ public class PickupDropoffActivity extends AppCompatActivity {
         containerPickup = findViewById(R.id.containerPickup);
         containerDropoff = findViewById(R.id.containerDropoff);
         btnConfirm = findViewById(R.id.btnConfirm);
+        lnBottomLayout = findViewById(R.id.lnBottomLayout);
     }
 
-    /**
-     * Lấy dữ liệu từ Intent (truyền từ TripDetailActivity)
-     */
     private void getIntentData() {
         tripId = getIntent().getIntExtra("trip_id", -1);
         routeId = getIntent().getIntExtra("route_id", -1);
@@ -98,33 +106,26 @@ public class PickupDropoffActivity extends AppCompatActivity {
         String mode = getIntent().getStringExtra("mode");
         isChangeMode = "change_stops".equals(mode);
 
-        if (tripId == -1 || routeId == -1 || departureTime == null) {
-            Toast.makeText(this, "Lỗi: Thiếu thông tin chuyến đi", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+        selectedPickupIndex = getIntent().getIntExtra("selected_pickup_index", 0);
+        selectedDropoffIndex = getIntent().getIntExtra("selected_dropoff_index", 0);
     }
 
-    /**
-     * Load trip (để lấy arrival_time + bus_layout) và stop points trên background thread
-     */
+
     private void loadData() {
         new Thread(() -> {
             // Load trip để lấy arrival_time và bus_layout
             Trip trip = tripDAO.getTripById(tripId);
             if (trip != null) {
                 arrivalTime = trip.getArrivalTime();
-                // Lấy bus_layout từ Bus object (fix bug: trước đây không truyền qua intent)
+
                 if (trip.getBus() != null) {
                     busLayout = trip.getBus().getSeatLayout();
                 }
             }
 
-            // Load điểm lên xe
             pickupPoints = stopPointDAO.getPickupPointsByRouteId(routeId);
-            // Load điểm xuống xe
             dropoffPoints = stopPointDAO.getDropoffPointsByRouteId(routeId);
 
-            // Tính giờ thực tế
             if (pickupPoints != null) {
                 calculatePickupTimes(pickupPoints);
             }
@@ -132,40 +133,26 @@ public class PickupDropoffActivity extends AppCompatActivity {
                 calculateDropoffTimes(dropoffPoints);
             }
 
-            // Cập nhật UI trên main thread
             runOnUiThread(() -> {
-                // Hiển thị điểm lên xe
-                if (pickupPoints != null && !pickupPoints.isEmpty()) {
-                    populateRadioGroup(containerPickup, pickupPoints, true);
-                } else {
-                    Toast.makeText(this, "Không có điểm lên xe cho tuyến này",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                // Hiển thị điểm xuống xe
-                if (dropoffPoints != null && !dropoffPoints.isEmpty()) {
-                    populateRadioGroup(containerDropoff, dropoffPoints, false);
-                } else {
-                    Toast.makeText(this, "Không có điểm xuống xe cho tuyến này",
-                            Toast.LENGTH_SHORT).show();
-                }
+                populateRadioGroup(containerPickup, pickupPoints, true);
+                populateRadioGroup(containerDropoff, dropoffPoints, false);
             });
         }).start();
     }
 
-    /**
-     * Tạo RadioButton cho mỗi StopPoint và thêm vào RadioGroup
-     * Text hiển thị 2 dòng: "Tên điểm — Giờ\nĐịa chỉ"
-     * Mặc định check item đầu tiên
-     */
+
     private void populateRadioGroup(RadioGroup group, List<StopPoint> points, boolean isPickup) {
         group.removeAllViews();
+
+        int checkedIndex = isPickup ? selectedPickupIndex : selectedDropoffIndex;
+        if (checkedIndex < 0 || checkedIndex >= points.size()) {
+            checkedIndex = 0;
+        }
 
         for (int i = 0; i < points.size(); i++) {
             StopPoint point = points.get(i);
 
             RadioButton rb = new RadioButton(this);
-            rb.setId(i); // Map index → StopPoint
             rb.setSingleLine(false);
 
             // Format text: "Tên điểm — Giờ\nĐịa chỉ"
@@ -181,16 +168,12 @@ public class PickupDropoffActivity extends AppCompatActivity {
 
             group.addView(rb);
 
-            // Mặc định chọn item đầu tiên
-            if (i == 0) {
+            if (i == checkedIndex) {
                 rb.setChecked(true);
             }
         }
     }
 
-    /**
-     * Format thời gian hiển thị (HH:mm)
-     */
     private String formatTime(StopPoint point, boolean isPickup) {
         String actualTime = isPickup ? point.getActualPickupTime() : point.getActualDropoffTime();
 
@@ -209,9 +192,6 @@ public class PickupDropoffActivity extends AppCompatActivity {
         return "--:--";
     }
 
-    /**
-     * Tính giờ đón thực tế: departure_time + time_offset (phút)
-     */
     private void calculatePickupTimes(List<StopPoint> points) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -229,9 +209,6 @@ public class PickupDropoffActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Tính giờ trả thực tế: arrival_time + time_offset (phút)
-     */
     private void calculateDropoffTimes(List<StopPoint> points) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -249,30 +226,13 @@ public class PickupDropoffActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Xử lý nút "Đồng ý" → validate và chuyển sang SeatSelectionActivity hoặc trả kết quả
-     */
+
     private void handleConfirm() {
-        // Lấy StopPoint từ checkedRadioButtonId (id = index trong list)
-        int pickupIndex = containerPickup.getCheckedRadioButtonId();
-        int dropoffIndex = containerDropoff.getCheckedRadioButtonId();
-
-        // Kiểm tra đã chọn điểm lên xe
-        if (pickupPoints == null || pickupIndex < 0 || pickupIndex >= pickupPoints.size()) {
-            Toast.makeText(this, "Vui lòng chọn điểm lên xe", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Kiểm tra đã chọn điểm xuống xe
-        if (dropoffPoints == null || dropoffIndex < 0 || dropoffIndex >= dropoffPoints.size()) {
-            Toast.makeText(this, "Vui lòng chọn điểm xuống xe", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        int pickupIndex = getCheckedIndex(containerPickup);
+        int dropoffIndex = getCheckedIndex(containerDropoff);
         StopPoint pickup = pickupPoints.get(pickupIndex);
         StopPoint dropoff = dropoffPoints.get(dropoffIndex);
 
-        // Mode "change_stops": trả kết quả về TripDetailActivity
         if (isChangeMode) {
             Intent data = new Intent();
             data.putExtra("pickup_point_id", pickup.getId());
@@ -283,27 +243,23 @@ public class PickupDropoffActivity extends AppCompatActivity {
             data.putExtra("dropoff_time", dropoff.getActualDropoffTime());
             data.putExtra("pickup_address", pickup.getAddress());
             data.putExtra("dropoff_address", dropoff.getAddress());
+            data.putExtra("pickup_time_offset", pickup.getTimeOffset());
+            data.putExtra("dropoff_time_offset", dropoff.getTimeOffset());
+            data.putExtra("pickup_index", pickupIndex);
+            data.putExtra("dropoff_index", dropoffIndex);
             setResult(RESULT_OK, data);
             finish();
             return;
         }
+    }
 
-        // Mode bình thường: chuyển sang SeatSelectionActivity
-        Intent intent = new Intent(this, SeatSelectionActivity.class);
-        intent.putExtra("trip_id", tripId);
-        intent.putExtra("route_id", routeId);
-        intent.putExtra("pickup_point_id", pickup.getId());
-        intent.putExtra("pickup_point_name", pickup.getPointName());
-        intent.putExtra("pickup_address", pickup.getAddress());
-        intent.putExtra("pickup_time", pickup.getActualPickupTime());
-        intent.putExtra("dropoff_point_id", dropoff.getId());
-        intent.putExtra("dropoff_point_name", dropoff.getPointName());
-        intent.putExtra("dropoff_address", dropoff.getAddress());
-        intent.putExtra("dropoff_time", dropoff.getActualDropoffTime());
-        intent.putExtra("base_price", basePrice);
-        intent.putExtra("departure", departure);
-        intent.putExtra("destination", destination);
-        intent.putExtra("bus_layout", busLayout);
-        startActivity(intent);
+    private int getCheckedIndex(RadioGroup group) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View child = group.getChildAt(i);
+            if (child instanceof RadioButton && ((RadioButton) child).isChecked()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

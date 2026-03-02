@@ -111,6 +111,7 @@
 
     <!-- Nút Đồng ý ở dưới cùng -->
     <LinearLayout
+        android:id="@+id/lnBottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -123,7 +124,6 @@
             android:id="@+id/tvNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Lưu ý: giá vé sẽ có sự thay đổi nhỏ nếu thay đổi điểm lên và xuống xe"
             android:textSize="16sp"
             android:textColor="@color/accent"
