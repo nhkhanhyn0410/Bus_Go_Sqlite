@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+            android:name=".activities.user.PassengerInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.SeatSelectionActivity"
             android:exported="false" />
         <activity
