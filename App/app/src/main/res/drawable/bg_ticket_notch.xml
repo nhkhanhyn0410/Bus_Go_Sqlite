@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/background_grey" />
+
+    <!-- bo tròn tối đa để ra hình tròn/pill -->
+    <corners android:radius="999dp" />
+
+    <!-- viền rất nhẹ giúp nhìn giống notch "khoét" -->
+    <stroke
+        android:width="1dp"
+        android:color="#0F000000" />
+</shape>
