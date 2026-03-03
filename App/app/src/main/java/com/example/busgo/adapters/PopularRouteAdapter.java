@@ -1,4 +1,4 @@
 package com.example.busgo.adapters;
 
-public class TripAdapter {
+public class PopularRouteAdapter {
 }
