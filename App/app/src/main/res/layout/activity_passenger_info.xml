@@ -94,7 +94,7 @@
                             android:layout_marginStart="10dp"
                             android:text="Bến xe Miền Đông"
                             android:textColor="#607D8B"
-                            android:textSize="14sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <!-- Dropoff -->
@@ -118,21 +118,11 @@
                             android:layout_marginStart="10dp"
                             android:text="Bến xe Vũng Tàu"
                             android:textColor="#607D8B"
-                            android:textSize="14sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <!-- Change button -->
-                <TextView
-                    android:layout_width="96dp"
-                    android:layout_height="34dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/bg_pill_change"
-                    android:gravity="center"
-                    android:text="Thay đổi"
-                    android:textColor="#163949"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <!-- Section: passenger details header -->
@@ -152,12 +142,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+ Thêm hành khách"
-                    android:textColor="#163949"
-                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Passenger 1 -->
@@ -167,7 +151,7 @@
                 android:layout_marginTop="12dp"
                 android:text="Họ và tên"
                 android:textColor="#163949"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -178,7 +162,7 @@
                 android:paddingHorizontal="12dp"
                 android:text="Nguyễn Văn A"
                 android:textColor="#222222"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -197,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ngày tháng năm sinh"
                         android:textColor="#163949"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
@@ -209,7 +193,7 @@
                         android:inputType="date"
                         android:text="01/10/1990"
                         android:textColor="#222222"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <Space
@@ -227,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:text="Giới tính"
                         android:textColor="#163949"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
@@ -238,29 +222,11 @@
                         android:gravity="center"
                         android:text="Nam"
                         android:textColor="#222222"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
             <!-- Passenger 2 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="Họ và tên"
-                android:textColor="#163949"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/bg_input"
-                android:paddingHorizontal="12dp"
-                android:text="Nguyễn Thị B"
-                android:textColor="#222222"
-                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -272,27 +238,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ngày tháng năm sinh"
-                        android:textColor="#163949"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@drawable/bg_input"
-                        android:gravity="center"
-                        android:inputType="date"
-                        android:text="01/10/1990"
-                        android:textColor="#222222"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:orientation="vertical"/>
 
                 <Space
                     android:layout_width="12dp"
@@ -302,26 +248,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giới tính"
-                        android:textColor="#163949"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@drawable/bg_input"
-                        android:gravity="center"
-                        android:text="Nữ"
-                        android:textColor="#222222"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:orientation="vertical"/>
             </LinearLayout>
 
             <!-- Contact info -->
@@ -340,7 +267,7 @@
                 android:layout_marginTop="12dp"
                 android:text="E-mail"
                 android:textColor="#163949"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -351,7 +278,7 @@
                 android:paddingHorizontal="12dp"
                 android:text="Abc@gmail.com"
                 android:textColor="#222222"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -359,7 +286,7 @@
                 android:layout_marginTop="12dp"
                 android:text="Số điện thoại"
                 android:textColor="#163949"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -370,7 +297,7 @@
                 android:paddingHorizontal="12dp"
                 android:text="0123456789"
                 android:textColor="#222222"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>
