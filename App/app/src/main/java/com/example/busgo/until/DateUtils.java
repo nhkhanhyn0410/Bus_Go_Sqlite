@@ -20,10 +20,9 @@ public class DateUtils {
     private static final SimpleDateFormat DATETIME_DISPLAY_FORMAT =
             new SimpleDateFormat(Constants.DATETIME_FORMAT_DISPLAY, Locale.getDefault());
 
-    /**
-     * Format ngày giờ database thành chuỗi hiển thị
-     * VD: "2026-01-12 06:00:00" -> "12/01/2026 06:00"
-     */
+
+//"2026-01-12 06:00:00" -> "12/01/2026 06:00"
+
     public static String formatDateTime(String databaseDateTime) {
         try {
             Date date = DATABASE_FORMAT.parse(databaseDateTime);
@@ -33,10 +32,8 @@ public class DateUtils {
         }
     }
 
-    /**
-     * Format ngày database thành chuỗi hiển thị
-     * VD: "2026-01-12 06:00:00" -> "12/01/2026"
-     */
+
+//"2026-01-12 06:00:00" -> "12/01/2026"
     public static String formatDate(String databaseDateTime) {
         try {
             Date date = DATABASE_FORMAT.parse(databaseDateTime);
@@ -46,10 +43,9 @@ public class DateUtils {
         }
     }
 
-    /**
-     * Format giờ database thành chuỗi hiển thị
-     * VD: "2026-01-12 06:00:00" -> "06:00"
-     */
+
+//"2026-01-12 06:00:00" -> "06:00"
+
     public static String formatTime(String databaseDateTime) {
         try {
             Date date = DATABASE_FORMAT.parse(databaseDateTime);
