@@ -94,14 +94,15 @@
                             android:layout_height="18dp"
                             android:contentDescription="Pickup"
                             android:src="@drawable/ic_pickup"
-                            app:tint="#163949" />
+                             />
 
                         <TextView
+                            android:id="@+id/tvPickupName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:text="Bến xe Miền Đông"
-                            android:textColor="#607D8B"
+                            android:textColor="@color/text_secondary"
                             android:textSize="16sp" />
                     </LinearLayout>
 
@@ -118,14 +119,15 @@
                             android:layout_height="18dp"
                             android:contentDescription="Dropoff"
                             android:src="@drawable/ic_dropoff"
-                            app:tint="#163949" />
+                             />
 
                         <TextView
+                            android:id="@+id/tvDropoffName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:text="Bến xe Vũng Tàu"
-                            android:textColor="#607D8B"
+                            android:textColor="@color/text_secondary"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
