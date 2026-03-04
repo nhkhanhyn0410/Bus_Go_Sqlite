@@ -1,12 +1,16 @@
 package com.example.busgo.activities.user;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.busgo.R;
 import com.example.busgo.database.model.User;
@@ -21,13 +26,16 @@ import com.example.busgo.until.SessionManager;
 import com.example.busgo.until.ValidationUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PassengerInfoActivity extends AppCompatActivity {
 
     // UI
     private ImageView btnBack;
     private EditText etPassengerName, etPassengerPhone, etPassengerEmail;
+    private EditText etBirthDate, etGender;
     private Button btnContinue;
+    private LinearLayout lnBottomLayout;
 
     // Data từ màn hình trước
     private int tripId, routeId, pickupPointId, dropoffPointId;
@@ -40,10 +48,14 @@ public class PassengerInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_passenger_info);
 
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false);
+
         initViews();
+
+
         getDataFromIntent();
         preFillUserInfo();
         setupListeners();
@@ -54,7 +66,19 @@ public class PassengerInfoActivity extends AppCompatActivity {
         etPassengerName = findViewById(R.id.etPassengerName);
         etPassengerPhone = findViewById(R.id.etPassengerPhone);
         etPassengerEmail = findViewById(R.id.etPassengerEmail);
+        etBirthDate = findViewById(R.id.etBirthDate);
+        etGender = findViewById(R.id.etGender);
         btnContinue = findViewById(R.id.btnContinue);
+        lnBottomLayout = findViewById(R.id.lnBottomLayout);
+
+        final int originalbtnlnBottomLayout = ((ViewGroup.MarginLayoutParams) lnBottomLayout.getLayoutParams()).bottomMargin;
+        ViewCompat.setOnApplyWindowInsetsListener(lnBottomLayout, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.bottomMargin = originalbtnlnBottomLayout + insets.bottom;
+            view.setLayoutParams(params);
+            return windowInsets;
+        });
 
         sessionManager = SessionManager.getInstance(this);
     }
@@ -70,20 +94,9 @@ public class PassengerInfoActivity extends AppCompatActivity {
         basePrice = intent.getDoubleExtra("base_price", 0);
         totalPrice = intent.getDoubleExtra("total_price", 0);
         seatNumbers = intent.getStringArrayListExtra("seat_numbers");
-
-        // Validate dữ liệu bắt buộc từ màn hình trước
-        if (tripId == -1 || routeId == -1
-                || pickupPointId == -1 || dropoffPointId == -1
-                || pickupTime == null || dropoffTime == null
-                || seatNumbers == null || seatNumbers.isEmpty()) {
-            Toast.makeText(this, "Lỗi: Thông tin không đầy đủ", Toast.LENGTH_SHORT).show();
-            finish();
-        }
     }
 
-    /**
-     * Pre-fill từ thông tin user đang đăng nhập
-     */
+
     private void preFillUserInfo() {
         if (sessionManager.isLoggedIn()) {
             User user = sessionManager.getLoggedInUser();
@@ -97,13 +110,20 @@ public class PassengerInfoActivity extends AppCompatActivity {
                 if (user.getEmail() != null) {
                     etPassengerEmail.setText(user.getEmail());
                 }
+                if (user.getBirthday() != null) {
+                    etBirthDate.setText(user.getBirthday());
+                }
+                if (user.getGender() != null) {
+                    etGender.setText(user.getGender());
+                }
             }
         }
     }
 
     private void setupListeners() {
         btnBack.setOnClickListener(v -> finish());
-
+        etBirthDate.setOnClickListener(v -> showDatePicker());
+        etGender.setOnClickListener(v -> showGenderPicker());
         btnContinue.setOnClickListener(v -> {
             if (validateForm()) {
                 proceedToConfirmation();
@@ -111,9 +131,39 @@ public class PassengerInfoActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Validate form: họ tên bắt buộc, SĐT bắt buộc, email tùy chọn
-     */
+    private void showDatePicker() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR) - 30;
+        int month = 0;
+        int day = 1;
+        String current = etBirthDate.getText().toString().trim();
+        if (!current.isEmpty()) {
+            try {
+                String[] parts = current.split("/");
+                day = Integer.parseInt(parts[0]);
+                month = Integer.parseInt(parts[1]) - 1;
+                year = Integer.parseInt(parts[2]);
+            } catch (Exception ignored) {}
+        }
+
+        DatePickerDialog dialog = new DatePickerDialog(this,
+                (view, y, m, d) -> {
+                    String date = String.format("%02d/%02d/%04d", d, m + 1, y);
+                    etBirthDate.setText(date);
+                }, year, month, day);
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.show();
+    }
+
+    private void showGenderPicker() {
+        String[] genders = {"Nam", "Nữ", "Khác"};
+        new AlertDialog.Builder(this)
+                .setTitle("Chọn giới tính")
+                .setItems(genders, (dialog, which) -> etGender.setText(genders[which]))
+                .show();
+    }
+
+
     private boolean validateForm() {
         String name = etPassengerName.getText().toString().trim();
         String phone = etPassengerPhone.getText().toString().trim();
@@ -150,9 +200,6 @@ public class PassengerInfoActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * Chuyển thẳng sang PaymentMethodActivity (bỏ bước BookingConfirm)
-     */
     private void proceedToConfirmation() {
         String passengerName = etPassengerName.getText().toString().trim();
         String passengerPhone = etPassengerPhone.getText().toString().trim();

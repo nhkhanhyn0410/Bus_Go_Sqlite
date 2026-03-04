@@ -192,11 +192,15 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/etBirthDate"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="6dp"
                         android:background="@drawable/bg_input"
+                        android:focusable="false"
+                        android:clickable="true"
                         android:gravity="center"
+                        android:hint="dd/MM/yyyy"
                         android:inputType="date"
                         android:text="01/10/1990"
                         android:textColor="#222222"
@@ -222,10 +226,14 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/etGender"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="6dp"
                         android:background="@drawable/bg_input"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:hint="Chọn giới tính"
                         android:gravity="center"
                         android:text="Nam"
                         android:textColor="#222222"
@@ -311,7 +319,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- FOOTER (cố định) -->
+
     <LinearLayout
         android:id="@+id/lnBottomLayout"
         android:layout_width="match_parent"
@@ -361,7 +369,6 @@
             android:singleLine="true"
             android:ellipsize="end" />
     </LinearLayout>
-
 
 </LinearLayout>
 
