@@ -3,13 +3,14 @@ package com.example.busgo.database.DAO;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.busgo.database.model.Trip;
+import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.database.model.Bus;
 import com.example.busgo.database.model.Route;
-import com.example.busgo.database.DatabaseHelper;
+import com.example.busgo.database.model.Trip;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class TripDAO {
     private DatabaseHelper dbHelper;
@@ -24,8 +25,10 @@ public class TripDAO {
         List<Trip> trips = new ArrayList<>();
 
         String query = "SELECT trips.*, " +
-                "routes.departure, routes.destination, routes. distance, routes.duration" +
-                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout " +
+                "routes.departure, routes.destination, routes.distance, routes.duration, " +
+                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
+                "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id) AS stops_count " +
                 "FROM trips " +
                 "JOIN routes ON trips.route_id = routes.id " +
                 "JOIN buses ON trips.bus_id = buses.id " +
@@ -35,11 +38,14 @@ public class TripDAO {
                 "AND trips.status = 'scheduled' " +
                 "AND trips.available_seats > 0 " +
                 "ORDER BY trips.departure_time ASC";
+
         Cursor cursor = db.rawQuery(query, new String[]{departure, destination, date});
+
         while (cursor.moveToNext()) {
             Trip trip = cursorToTrip(cursor);
             trips.add(trip);
         }
+
         cursor.close();
         return trips;
     }
@@ -47,13 +53,16 @@ public class TripDAO {
     public Trip getTripById(int tripId) {
         String query = "SELECT trips.*, " +
                 "routes.departure, routes.destination, routes.distance, routes.duration, " +
-                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout " +
+                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
+                "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id) AS stops_count " +
                 "FROM trips " +
                 "JOIN routes ON trips.route_id = routes.id " +
                 "JOIN buses ON trips.bus_id = buses.id " +
                 "WHERE trips.id = ?";
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(tripId)});
+
         Trip trip = null;
         if (cursor.moveToFirst()) {
             trip = cursorToTrip(cursor);
@@ -105,7 +114,6 @@ public class TripDAO {
         return destinations;
     }
 
-    //Ánh xạ dữ liệu
     private Trip cursorToTrip(Cursor cursor) {
         Trip trip = new Trip();
         trip.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
@@ -116,6 +124,11 @@ public class TripDAO {
         trip.setBasePrice(cursor.getDouble(cursor.getColumnIndexOrThrow("base_price")));
         trip.setAvailableSeats(cursor.getInt(cursor.getColumnIndexOrThrow("available_seats")));
         trip.setStatus(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+
+        int stopsIndex = cursor.getColumnIndex("stops_count");
+        if (stopsIndex != -1) {
+            trip.setStopsCount(cursor.getInt(stopsIndex));
+        }
 
         Route route = new Route();
         route.setId(trip.getRouteId());
@@ -131,6 +144,10 @@ public class TripDAO {
         bus.setBusType(cursor.getString(cursor.getColumnIndexOrThrow("bus_type")));
         bus.setTotalSeats(cursor.getInt(cursor.getColumnIndexOrThrow("total_seats")));
         bus.setSeatLayout(cursor.getString(cursor.getColumnIndexOrThrow("seat_layout")));
+        bus.setCompanyName(cursor.getString(cursor.getColumnIndexOrThrow("company_name")));
+        bus.setBusModel(cursor.getString(cursor.getColumnIndexOrThrow("bus_model")));
+        bus.setRating(cursor.getDouble(cursor.getColumnIndexOrThrow("rating")));
+        bus.setAmenities(cursor.getString(cursor.getColumnIndexOrThrow("amenities")));
         trip.setBus(bus);
 
         return trip;

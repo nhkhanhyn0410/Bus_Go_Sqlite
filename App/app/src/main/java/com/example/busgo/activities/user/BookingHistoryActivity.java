@@ -3,6 +3,7 @@ package com.example.busgo.activities.user;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,6 +19,9 @@ public class BookingHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_booking_history);
+
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false);
 
         BottomNavHelper.setup(this, BottomNavHelper.TAB_BOOKINGS);
 

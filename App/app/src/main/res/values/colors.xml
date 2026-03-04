@@ -7,6 +7,7 @@
     <color name="primary_light">#0A4A5E</color>
     <color name="accent">#1FBF83</color>
     <color name="accent_pressed">#18A871</color>
+    <color name="green_bg">#36A690</color>
 
     <!-- Background Colors -->
     <color name="background">#F0F1F3</color>
@@ -35,9 +36,12 @@
     <color name="info">#2196F3</color>
 
     <!-- Seat Colors -->
-    <color name="seat_available">#4CAF50</color>
-    <color name="seat_booked">#9E9E9E</color>
-    <color name="seat_selected">#FFC107</color>
+    <color name="seat_available">#FFFFFF</color>
+    <color name="seat_booked">#E74C3C</color>
+    <color name="seat_selected">#1FBF83</color>
+    <color name="seat_held">#FFC107</color>
+    <color name="seat_border">#D0D0D0</color>
+    <color name="seat_special">#2C3E50</color>
 
     <!-- Payment Colors -->
     <color name="momo_pink">#D82D8B</color>
@@ -63,4 +67,7 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="divider">#E0E0E0</color>
+
+    <color name="date_selected">#36A690</color>
 </resources>
+

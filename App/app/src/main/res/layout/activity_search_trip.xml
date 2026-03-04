@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".activities.user.SearchTripActivity">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:background="@color/primary"
+            android:paddingTop="40dp"
+            android:paddingHorizontal="24dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/cancel" />
+
+            <ImageView
+                android:id="@+id/btnRefresh"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_refresh"
+                android:contentDescription="@string/loading" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="35dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDepartureCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_on_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="TP.Hồ Chí Minh" />
+
+                <!-- Swap Icon -->
+                <ImageView
+                    android:id="@+id/btnSwapRoute"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginVertical="8dp"
+                    android:src="@drawable/ic_swap_vert_light"
+                    android:contentDescription="@string/departure" />
+
+                <!-- Destination City -->
+                <TextView
+                    android:id="@+id/tvDestinationCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_on_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="Bà Rịa Vũng Tàu" />
+                
+            </LinearLayout>
+            
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clipToPadding="false"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/layoutDateTabs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Date Tab 1 (Selected) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 13" />
+
+                        <View
+                            android:id="@+id/indicatorDate1"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected" />
+
+                    </LinearLayout>
+
+                    <!-- Date Tab 2 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 14" />
+
+                        <View
+                            android:id="@+id/indicatorDate2"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected"
+                            android:visibility="invisible"/>
+
+                    </LinearLayout>
+
+                    <!-- Date Tab 3 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 15" />
+
+                        <View
+                            android:id="@+id/indicatorDate3"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <!-- Date Tab 4 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 16" />
+
+                        <View
+                            android:id="@+id/indicatorDate4"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <!-- Date Tab 5 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 17" />
+
+                        <View
+                            android:id="@+id/indicatorDate5"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <!-- Date Tab 6 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 18" />
+
+                        <View
+                            android:id="@+id/indicatorDate6"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+
+                    <!-- Date Tab 7 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingHorizontal="4dp"
+                        android:layout_marginEnd="6dp">
+
+                        <TextView
+                            android:id="@+id/tvDate7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_on_dark"
+                            android:textSize="16sp"
+                            android:text="Ngày 19" />
+
+                        <View
+                            android:id="@+id/indicatorDate7"
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/date_selected"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTrips"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingTop="20dp"
+            android:paddingBottom="100dp"
+            tools:listitem="@layout/item_trip_search" />
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/layoutEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:alpha="0.5"
+                android:contentDescription="@string/no_trips_found"
+                android:src="@drawable/ic_bus_filled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/no_trips_found"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Không tìm thấy chuyến nào.\nVui lòng thử lại với ngày khác."
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Loading -->
+        <FrameLayout
+            android:id="@+id/layoutLoading"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutFilterBar"
+        android:layout_width="356dp"
+        android:layout_height="61dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_filter_bar"
+        android:elevation="18dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        >
+
+        <!-- Wifi Filter -->
+        <LinearLayout
+            android:id="@+id/filterWifi"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="4dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wifi"
+                android:contentDescription="Wifi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wifi"
+                android:textColor="@color/text_on_dark"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- WC Filter -->
+        <LinearLayout
+            android:id="@+id/filterWC"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="4dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wc"
+                android:contentDescription="WC" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WC"
+                android:textColor="@color/text_on_dark"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Bed Filter -->
+        <LinearLayout
+            android:id="@+id/filterBed"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="4dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_bed"
+                android:contentDescription="Giường" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giường"
+                android:textColor="@color/text_on_dark"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Charging Filter -->
+        <LinearLayout
+            android:id="@+id/filterCharging"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="4dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_charging"
+                android:contentDescription="Sạc" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sạc"
+                android:textColor="@color/text_on_dark"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Filter Icon -->
+        <ImageView
+            android:id="@+id/btnFilter"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_filter"
+            android:contentDescription="Filter" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
