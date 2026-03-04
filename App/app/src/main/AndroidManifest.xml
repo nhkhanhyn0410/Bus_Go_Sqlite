@@ -12,13 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+
             android:name=".activities.user.BookingDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activities.user.BookingSuccessActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.user.PaymentMenthodActivity"
+            android:name=".activities.user.PaymentMethodActivity"
             android:exported="false" />
         <activity
             android:name=".activities.user.PaymentMethodActivity"
