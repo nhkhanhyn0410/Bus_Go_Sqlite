@@ -85,7 +85,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:contentDescription="Pickup"
-                            android:src="@android:drawable/ic_menu_mylocation"
+                            android:src="@drawable/ic_pickup"
                             app:tint="#163949" />
 
                         <TextView
@@ -109,7 +109,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:contentDescription="Dropoff"
-                            android:src="@android:drawable/ic_menu_directions"
+                            android:src="@drawable/ic_dropoff"
                             app:tint="#163949" />
 
                         <TextView
