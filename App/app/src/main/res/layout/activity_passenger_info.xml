@@ -15,12 +15,14 @@
         android:paddingTop="40dp"
         android:paddingBottom="12dp"
         android:background="@color/primary"
-        android:paddingHorizontal="24dp">
+        android:paddingHorizontal="24dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:padding="4dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_back"/>
 

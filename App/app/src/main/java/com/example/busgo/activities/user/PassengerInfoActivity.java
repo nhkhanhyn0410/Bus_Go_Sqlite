@@ -54,8 +54,6 @@ public class PassengerInfoActivity extends AppCompatActivity {
         controller.setAppearanceLightStatusBars(false);
 
         initViews();
-
-
         getDataFromIntent();
         preFillUserInfo();
         setupListeners();
