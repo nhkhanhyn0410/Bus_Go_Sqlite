@@ -9,31 +9,36 @@
     tools:context=".activities.user.PassengerInfoActivity">
 
     <!-- HEADER (cố định) -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="40dp"
+        android:paddingBottom="10dp"
         android:background="@color/primary"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="24dp">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_centerVertical="true"
-            android:padding="12dp"
-            android:src="@drawable/ic_back_thin"
-            android:contentDescription="@string/back"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_arrow_back"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Thông tin hành khách"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Thông tin khách hàng"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
-    </RelativeLayout>
+
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+    </LinearLayout>
 
     <!-- CONTENT (kéo lên/xuống) -->
     <ScrollView
@@ -47,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingTop="10dp"
+            android:paddingHorizontal="24dp"
             android:paddingBottom="96dp">
 
 
@@ -304,13 +310,14 @@
 
     <!-- FOOTER (cố định) -->
     <LinearLayout
+        android:id="@+id/lnBottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="15dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -323,7 +330,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tổng cộng"
                 android:textColor="#707070"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -331,7 +338,7 @@
                 android:layout_marginTop="2dp"
                 android:text="300.000 VND"
                 android:textColor="#111111"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
