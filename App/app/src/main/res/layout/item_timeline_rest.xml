@@ -15,21 +15,13 @@
         android:gravity="center_vertical"
         android:padding="10dp">
 
-        <!-- Icon tròn xanh 28dp -->
-        <FrameLayout
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/bg_timeline_icon_rest">
-
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_bolt"
-                app:tint="@color/white"
                 android:contentDescription="Điểm dừng chân" />
 
-        </FrameLayout>
 
         <!-- Text: label + thông tin -->
         <LinearLayout
