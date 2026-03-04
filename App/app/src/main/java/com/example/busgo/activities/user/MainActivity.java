@@ -3,6 +3,8 @@ package com.example.busgo.activities.user;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,18 +19,25 @@ import com.example.busgo.R;
 import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.until.BottomNavHelper;
 import com.example.busgo.until.SessionManager;
+import com.example.busgo.database.DAO.TripDAO;
+import com.example.busgo.activities.user.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     // Search form views
-    private LinearLayout layoutDeparture, layoutDestination, layoutDate;
-    private TextView tvDeparture, tvDestination, tvDate;
+    private LinearLayout layoutDate;
+    private AutoCompleteTextView tvDeparture, tvDestination;
+    private TextView tvDate;
     private ImageView btnSwapLocations;
     private TextView btnSearchTrip;
+
+    // Database
+    private TripDAO tripDAO;
 
     // RecyclerViews
     private RecyclerView rvPopularTrips, rvRecentSearches, rvOtherTrips;
@@ -75,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         // Search form
-        layoutDeparture = findViewById(R.id.layoutDeparture);
-        layoutDestination = findViewById(R.id.layoutDestination);
         layoutDate = findViewById(R.id.layoutDate);
         tvDeparture = findViewById(R.id.tvDeparture);
         tvDestination = findViewById(R.id.tvDestination);
@@ -84,22 +91,35 @@ public class MainActivity extends AppCompatActivity {
         btnSwapLocations = findViewById(R.id.btnSwapLocations);
         btnSearchTrip = findViewById(R.id.btnSearchTrip);
 
+        // Database
+        DatabaseHelper dbHelper = DatabaseHelper.getInstance(this);
+        tripDAO = new TripDAO(dbHelper);
+
         // RecyclerViews
         rvPopularTrips = findViewById(R.id.rvPopularTrips);
         rvRecentSearches = findViewById(R.id.rvRecentSearches);
         rvOtherTrips = findViewById(R.id.rvOtherTrips);
     }
 
-
-
-
-    /**
-     * Setup click listeners
-     */
     private void setupClickListeners() {
-        // Search form clicks
-        layoutDeparture.setOnClickListener(v -> showDepartureDialog());
-        layoutDestination.setOnClickListener(v -> showDestinationDialog());
+        // Autocomplete cho điểm đi: load từ DB
+        setupDepartureAutocomplete();
+
+        // Khi chọn điểm đi xong → cập nhật gợi ý điểm đến
+        tvDeparture.setOnItemClickListener((parent, view, position, id) -> {
+            selectedDeparture = (String) parent.getItemAtPosition(position);
+            setupDestinationAutocomplete(selectedDeparture);
+            tvDestination.setText("");
+            selectedDestination = "";
+            tvDestination.requestFocus();
+        });
+
+        // Khi chọn điểm đến
+        tvDestination.setOnItemClickListener((parent, view, position, id) -> {
+            selectedDestination = (String) parent.getItemAtPosition(position);
+        });
+
+        // Date picker
         layoutDate.setOnClickListener(v -> showDatePicker());
 
         // Swap locations
@@ -110,36 +130,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void showDepartureDialog() {
-        String[] cities = {"TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Huế"};
-
-        new android.app.AlertDialog.Builder(this)
-                .setTitle("Chọn điểm bắt đầu")
-                .setItems(cities, (dialog, which) -> {
-                    selectedDeparture = cities[which];
-                    tvDeparture.setText(selectedDeparture);
-                    tvDeparture.setTextColor(getResources().getColor(R.color.text_primary));
-                })
-                .show();
+    private void setupDepartureAutocomplete() {
+        List<String> departures = tripDAO.getAllDepartures();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, departures);
+        tvDeparture.setAdapter(adapter);
     }
 
-
-    private void showDestinationDialog() {
-        String[] cities = {"TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Huế"};
-
-        new android.app.AlertDialog.Builder(this)
-                .setTitle("Chọn điểm kết thúc")
-                .setItems(cities, (dialog, which) -> {
-                    selectedDestination = cities[which];
-                    tvDestination.setText(selectedDestination);
-                    tvDestination.setTextColor(getResources().getColor(R.color.text_primary));
-                })
-                .show();
+    private void setupDestinationAutocomplete(String departure) {
+        List<String> destinations = tripDAO.getDestinationsByDeparture(departure);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, destinations);
+        tvDestination.setAdapter(adapter);
     }
 
-    /**
-     * Hiển thị DatePicker chọn ngày
-     */
     private void showDatePicker() {
         int year = selectedCalendar.get(Calendar.YEAR);
         int month = selectedCalendar.get(Calendar.MONTH);
@@ -157,48 +161,40 @@ public class MainActivity extends AppCompatActivity {
                     tvDate.setTextColor(getResources().getColor(R.color.text_primary));
                 }, year, month, day);
 
-        // Không cho chọn ngày trong quá khứ
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 
-    /**
-     * Hoán đổi điểm đi và điểm đến
-     */
+
     private void swapLocations() {
         String temp = selectedDeparture;
         selectedDeparture = selectedDestination;
         selectedDestination = temp;
 
-        if (!selectedDeparture.isEmpty()) {
-            tvDeparture.setText(selectedDeparture);
-            tvDeparture.setTextColor(getResources().getColor(R.color.text_primary));
-        } else {
-            tvDeparture.setText("");
-            tvDeparture.setHint("Điểm bắt đầu");
-        }
+        tvDeparture.setText(selectedDeparture);
+        tvDestination.setText(selectedDestination);
 
-        if (!selectedDestination.isEmpty()) {
-            tvDestination.setText(selectedDestination);
-            tvDestination.setTextColor(getResources().getColor(R.color.text_primary));
-        } else {
-            tvDestination.setText("");
-            tvDestination.setHint("Điểm kết thúc");
+        if (!selectedDeparture.isEmpty()) {
+            setupDestinationAutocomplete(selectedDeparture);
         }
     }
 
-    /**
-     * Thực hiện tìm kiếm chuyến xe
-     */
+
     private void performSearch() {
+        // Lấy text từ ô nhập (có thể user gõ tay không chọn từ gợi ý)
+        selectedDeparture = tvDeparture.getText().toString().trim();
+        selectedDestination = tvDestination.getText().toString().trim();
+
         // Validate
         if (selectedDeparture.isEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn điểm bắt đầu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng nhập điểm bắt đầu", Toast.LENGTH_SHORT).show();
+            tvDeparture.requestFocus();
             return;
         }
 
         if (selectedDestination.isEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn điểm kết thúc", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng nhập điểm kết thúc", Toast.LENGTH_SHORT).show();
+            tvDestination.requestFocus();
             return;
         }
 
@@ -212,23 +208,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-
+        // Navigate to TripListActivity
         Intent intent = new Intent(MainActivity.this, SearchTripActivity.class);
         intent.putExtra("departure", selectedDeparture);
         intent.putExtra("destination", selectedDestination);
         intent.putExtra("date", selectedDate);
         startActivity(intent);
     }
-
-    /**
-     * Xử lý khi click vào popular route
-     */
-
-
-    /**
-     * Xử lý khi click vào recent search
-     */
-
-
 
 }

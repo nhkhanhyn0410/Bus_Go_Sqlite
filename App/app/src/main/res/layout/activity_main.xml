@@ -94,13 +94,17 @@
                                 android:layout_marginHorizontal="12dp"
                                 android:background="@color/text_secondary" />
 
-                            <TextView
+                            <AutoCompleteTextView
                                 android:id="@+id/tvDeparture"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="@null"
                                 android:fontFamily="sans-serif-light"
-                                android:hint="Điểm bắt đầu"
+                                android:hint="Nhập điểm bắt đầu"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:completionThreshold="1"
                                 android:textColor="@color/text_primary"
                                 android:textColorHint="@color/text_hint"
                                 android:textSize="15sp" />
@@ -130,17 +134,20 @@
                                 android:layout_marginHorizontal="12dp"
                                 android:background="@color/text_secondary" />
 
-                            <TextView
+                            <AutoCompleteTextView
                                 android:id="@+id/tvDestination"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="@null"
                                 android:fontFamily="sans-serif-light"
-                                android:hint="Điểm kết thúc"
+                                android:hint="Nhập điểm kết thúc"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:completionThreshold="1"
                                 android:textColor="@color/text_primary"
                                 android:textColorHint="@color/text_hint"
                                 android:textSize="15sp" />
-
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="36dp"

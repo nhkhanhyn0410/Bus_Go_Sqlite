@@ -5,7 +5,6 @@ import com.example.busgo.database.DatabaseHelper;
 public class RouteDataHelper {
     public static void insertSampleRoutes(SQLiteDatabase db) {
 
-        // Mảng dữ liệu: [Điểm đi, Điểm đến, Khoảng cách (km), Thời gian (phút)]
         String[][] routes = {
                 // Từ TP.HCM
                 {"TP.HCM", "Đà Lạt", "300", "360"},
