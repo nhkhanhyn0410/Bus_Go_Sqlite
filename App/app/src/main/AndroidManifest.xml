@@ -12,11 +12,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+
+            android:name=".activities.user.BookingDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.BookingSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PaymentMethodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PaymentMethodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PassengerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.SeatSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PickupDropoffActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.TripDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activities.user.SearchTripActivity"
+<<<<<<< HEAD
             android:exported="true"></activity>
+=======
+            android:exported="true" />
+>>>>>>> BG-11-Phase_11
         <activity
             android:name=".activities.user.BookingHistoryActivity"
             android:exported="false" />
@@ -47,7 +73,11 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.user.MainActivity"
+<<<<<<< HEAD
             android:exported="true"></activity>
+=======
+            android:exported="false" />
+>>>>>>> BG-11-Phase_11
     </application>
 
 </manifest>

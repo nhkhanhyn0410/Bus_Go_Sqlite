@@ -109,9 +109,7 @@ public class MainActivity extends AppCompatActivity {
         btnSearchTrip.setOnClickListener(v -> performSearch());
     }
 
-    /**
-     * Hiển thị dialog chọn điểm đi
-     */
+
     private void showDepartureDialog() {
         String[] cities = {"TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Huế"};
 
