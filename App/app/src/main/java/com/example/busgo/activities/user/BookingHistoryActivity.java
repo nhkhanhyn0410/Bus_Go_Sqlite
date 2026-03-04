@@ -1,8 +1,11 @@
 package com.example.busgo.activities.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -26,17 +29,19 @@ import java.util.List;
 
 public class BookingHistoryActivity extends AppCompatActivity {
 
-    private static final String TAB_ACTIVE = "active";
-    private static final String TAB_COMPLETED = "completed";
-    private static final String TAB_CANCELLED = "cancelled";
+    private TextView tabActive, tabCompleted, tabCancelled;
+    private TextView currentSelectedTab;
 
-    private TextView tabActive;
-    private TextView tabCompleted;
-    private TextView tabCancelled;
-    private TextView tvEmpty;
+    // Content
+    private RecyclerView recyclerView;
+    private LinearLayout layoutEmpty;
+    private BookingAdapter adapter;
 
-    private final List<Booking> allBookings = new ArrayList<>();
-    private BookingAdapter bookingAdapter;
+    // Data
+    private DatabaseHelper dbHelper;
+    private BookingDAO bookingDAO;
+    private SessionManager sessionManager;
+    private List<Booking> allBookings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,187 +52,119 @@ public class BookingHistoryActivity extends AppCompatActivity {
         WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         controller.setAppearanceLightStatusBars(false);
 
-        setupViews();
-        loadBookingData();
-        selectTab(TAB_COMPLETED);
+        initViews();
+        initDatabase();
+        loadBookings();
+        setupTabs();
 
         BottomNavHelper.setup(this, BottomNavHelper.TAB_BOOKINGS);
     }
 
-    private void setupViews() {
+    private void initViews() {
+        // Tabs
         tabActive = findViewById(R.id.tabActive);
         tabCompleted = findViewById(R.id.tabCompleted);
         tabCancelled = findViewById(R.id.tabCancelled);
-        tvEmpty = findViewById(R.id.tvEmpty);
+        currentSelectedTab = tabActive;
 
-        RecyclerView rvBookings = findViewById(R.id.rvBookings);
-        rvBookings.setLayoutManager(new LinearLayoutManager(this));
-        bookingAdapter = new BookingAdapter();
-        rvBookings.setAdapter(bookingAdapter);
+        // Content
+        recyclerView = findViewById(R.id.recyclerView);
+        layoutEmpty = findViewById(R.id.layoutEmpty);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        tabActive.setOnClickListener(v -> selectTab(TAB_ACTIVE));
-        tabCompleted.setOnClickListener(v -> selectTab(TAB_COMPLETED));
-        tabCancelled.setOnClickListener(v -> selectTab(TAB_CANCELLED));
+        sessionManager = SessionManager.getInstance(this);
     }
 
-    private void loadBookingData() {
-        int userId = SessionManager.getInstance(this).getLoggedInUserId();
-        if (userId <= 0) {
-            allBookings.clear();
-            allBookings.addAll(createSampleBookings());
+    private void initDatabase() {
+        dbHelper = DatabaseHelper.getInstance(this);
+        bookingDAO = new BookingDAO(dbHelper);
+    }
+
+    private void loadBookings() {
+        int userId = sessionManager.getLoggedInUserId();
+        if (userId == -1) {
+            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
 
-        BookingDAO bookingDAO = new BookingDAO(new DatabaseHelper(this));
-        allBookings.clear();
-        allBookings.addAll(bookingDAO.getBookingsByUserId(userId));
-        if (allBookings.isEmpty()) {
-            allBookings.addAll(createSampleBookings());
-        }
+        allBookings = bookingDAO.getBookingsByUserId(userId);
+        if (allBookings == null) allBookings = new ArrayList<>();
+
+        adapter = new BookingAdapter(this, allBookings);
+        recyclerView.setAdapter(adapter);
     }
 
-    private List<Booking> createSampleBookings() {
-        List<Booking> samples = new ArrayList<>();
-        samples.add(createSampleBooking(
-                "pending",
-                "TP.HCM",
-                "Vũng Tàu",
-                150,
-                "Bến xe Miền Đông",
-                "Bến xe Vũng Tàu",
-                "2026-01-18 09:00:00",
-                2,
-                160000
-        ));
-        samples.add(createSampleBooking(
-                "completed",
-                "TP.HCM",
-                "Đà Lạt",
-                360,
-                "Bến xe Miền Đông",
-                "Bến xe Liên Tỉnh Đà Lạt",
-                "2026-01-10 20:30:00",
-                1,
-                280000
-        ));
-        samples.add(createSampleBooking(
-                "completed",
-                "Đà Lạt",
-                "Vũng Tàu",
-                360,
-                "Bến xe Đà Lạt",
-                "Bến xe Vũng Tàu",
-                "2026-12-10 20:40:00",
-                2,
-                300000
-        ));
-        samples.add(createSampleBooking(
-                "completed",
-                "TP HCM",
-                "Gia Lai",
-                360,
-                "Bến xe Miền Đông",
-                "Bến xe Đức Long",
-                "2026-11-04 07:40:00",
-                3,
-                400000
-        ));
-        samples.add(createSampleBooking(
-                "cancelled",
-                "TP.HCM",
-                "Nghệ An",
-                900,
-                "Bến xe Miền Đông",
-                "Bến xe Vinh",
-                "2026-01-05 07:00:00",
-                3,
-                610000
-        ));
-        samples.add(createSampleBooking(
-                "cancelled",
-                "TP.HCM",
-                "Thanh Hóa",
-                900,
-                "Bến xe Miền Đông",
-                "Bến xe Thanh Hóa",
-                "2026-01-05 07:00:00",
-                3,
-                500000
-        ));
-        return samples;
+    // ==================== FILTER TABS ====================
+
+    private void setupTabs() {
+        tabActive.setOnClickListener(v -> {
+            selectTab(tabActive);
+            filterBookings("confirmed");
+        });
+
+        tabCompleted.setOnClickListener(v -> {
+            selectTab(tabCompleted);
+            filterBookings("completed");
+        });
+
+        tabCancelled.setOnClickListener(v -> {
+            selectTab(tabCancelled);
+            filterBookings("cancelled");
+        });
     }
 
-    private Booking createSampleBooking(
-            String status,
-            String fromCity,
-            String toCity,
-            int duration,
-            String pickupPoint,
-            String dropoffPoint,
-            String createdAt,
-            int seats,
-            double price
-    ) {
-        Route route = new Route();
-        route.setDeparture(fromCity);
-        route.setDestination(toCity);
-        route.setDuration(duration);
+    /**
+     * Đổi trạng thái tab: selected/unselected
+     */
+    private void selectTab(TextView tab) {
+        // Bỏ chọn tab cũ
+        currentSelectedTab.setBackgroundResource(R.drawable.bg_chip_unselected);
+        currentSelectedTab.setTextColor(getResources().getColor(R.color.text_primary));
 
-        Trip trip = new Trip();
-        trip.setRoute(route);
+        // Chọn tab mới
+        tab.setBackgroundResource(R.drawable.bg_chip_selected);
+        tab.setTextColor(getResources().getColor(R.color.white));
 
-        StopPoint pickup = new StopPoint();
-        pickup.setPointName(pickupPoint);
-
-        StopPoint dropoff = new StopPoint();
-        dropoff.setPointName(dropoffPoint);
-
-        Booking booking = new Booking();
-        booking.setBookingStatus(status);
-        booking.setTrip(trip);
-        booking.setPickupPoint(pickup);
-        booking.setDropoffPoint(dropoff);
-        booking.setCreatedAt(createdAt);
-        booking.setNumSeats(seats);
-        booking.setTotalPrice(price);
-        return booking;
+        currentSelectedTab = tab;
     }
 
-    private void selectTab(@NonNull String tab) {
-        setTabState(tabActive, TAB_ACTIVE.equals(tab));
-        setTabState(tabCompleted, TAB_COMPLETED.equals(tab));
-        setTabState(tabCancelled, TAB_CANCELLED.equals(tab));
-
-        List<Booking> filtered = filterByTab(tab);
-        bookingAdapter.submitList(filtered);
-        tvEmpty.setVisibility(filtered.isEmpty() ? View.VISIBLE : View.GONE);
-    }
-
-    private void setTabState(TextView tab, boolean selected) {
-        tab.setBackgroundResource(selected ? R.drawable.bg_chip_booking_selected : R.drawable.bg_chip_booking_unselected);
-        tab.setTextColor(getColor(selected ? R.color.white : R.color.text_primary));
-    }
-
-    private List<Booking> filterByTab(String tab) {
-        List<Booking> result = new ArrayList<>();
-        for (Booking booking : allBookings) {
-            String status = booking.getBookingStatus();
-            if (TAB_ACTIVE.equals(tab) && isActiveStatus(status)) {
-                result.add(booking);
-            } else if (TAB_COMPLETED.equals(tab) && isCompletedStatus(status)) {
-                result.add(booking);
-            } else if (TAB_CANCELLED.equals(tab) && "cancelled".equalsIgnoreCase(status)) {
-                result.add(booking);
+    /**
+     * Lọc booking theo trạng thái
+     */
+    private void filterBookings(String status) {
+        List<Booking> filtered = new ArrayList<>();
+        for (Booking b : allBookings) {
+            if (status.equals(b.getBookingStatus())) {
+                filtered.add(b);
             }
         }
-        return result;
+
+        adapter.updateData(filtered);
+
+
     }
 
-    private boolean isActiveStatus(String status) {
-        return "pending".equalsIgnoreCase(status) || "processing".equalsIgnoreCase(status);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadBookings();
+        if (currentSelectedTab == tabCancelled) {
+            filterBookings("cancelled");
+        } else if (currentSelectedTab == tabCompleted) {
+            filterBookings("completed");
+        } else {
+            filterBookings("confirmed");
+        }
     }
 
-    private boolean isCompletedStatus(String status) {
-        return "confirmed".equalsIgnoreCase(status) || "completed".equalsIgnoreCase(status);
+    @Override
+    public void onBackPressed() {
+        // Quay về trang chủ
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+        finish();
     }
 }

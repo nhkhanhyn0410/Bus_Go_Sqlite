@@ -336,11 +336,4 @@ public class BookingDetailActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dbHelper != null) {
-            dbHelper.close();
-        }
-    }
 }
