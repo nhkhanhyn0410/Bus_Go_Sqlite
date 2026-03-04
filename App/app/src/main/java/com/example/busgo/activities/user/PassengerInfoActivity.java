@@ -48,6 +48,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_passenger_info);
 
         WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
@@ -67,8 +68,8 @@ public class PassengerInfoActivity extends AppCompatActivity {
         etBirthDate = findViewById(R.id.etBirthDate);
         etGender = findViewById(R.id.etGender);
         btnContinue = findViewById(R.id.btnContinue);
-        lnBottomLayout = findViewById(R.id.lnBottomLayout);
 
+        lnBottomLayout = findViewById(R.id.lnBottomLayout);
         final int originalbtnlnBottomLayout = ((ViewGroup.MarginLayoutParams) lnBottomLayout.getLayoutParams()).bottomMargin;
         ViewCompat.setOnApplyWindowInsetsListener(lnBottomLayout, (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());

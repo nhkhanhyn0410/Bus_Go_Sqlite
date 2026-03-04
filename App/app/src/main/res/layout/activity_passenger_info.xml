@@ -56,7 +56,7 @@
             android:orientation="vertical"
             android:paddingTop="10dp"
             android:paddingHorizontal="24dp"
-            android:paddingBottom="96dp">
+            >
 
 
         <!-- Section: pickup/dropoff -->
