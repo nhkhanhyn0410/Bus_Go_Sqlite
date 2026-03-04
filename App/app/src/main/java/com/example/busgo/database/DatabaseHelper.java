@@ -5,13 +5,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import com.example.busgo.database.helpers.BusDataHelper;
 import com.example.busgo.database.helpers.RouteDataHelper;
 
+import com.example.busgo.database.helpers.StopPointDataHelper;
+import com.example.busgo.database.helpers.TripDataHelper;
 import com.example.busgo.database.model.Bus;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
-    public static final int DATABASE_VERSION = 9;//quang trọng
+    public static final int DATABASE_VERSION = 11;//quang trọng
 
     private static DatabaseHelper instance;
     private Context context;
@@ -30,15 +33,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        db.execSQL("DROP TABLE IF EXISTS seats");
-        db.execSQL("DROP TABLE IF EXISTS bookings");
-        db.execSQL("DROP TABLE IF EXISTS trips");
-        db.execSQL("DROP TABLE IF EXISTS stop_points");
-        db.execSQL("DROP TABLE IF EXISTS buses");
-        db.execSQL("DROP TABLE IF EXISTS routes");
-        db.execSQL("DROP TABLE IF EXISTS users");
-
         db.execSQL("PRAGMA foreign_keys = ON;");
         createUsersTable(db);
         createRoutesTable(db);
@@ -195,7 +189,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void insertSampleData(SQLiteDatabase db) {
         RouteDataHelper.insertSampleRoutes(db);
-
-
+        BusDataHelper.insertSampleBuses(db);
+        TripDataHelper.insertSampleTrips(db);
+        StopPointDataHelper.insertSampleStopPoints(db);
     }
 }
