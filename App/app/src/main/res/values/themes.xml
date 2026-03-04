@@ -3,6 +3,8 @@
     <style name="Base.Theme.BusGo" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#2FA38E</item>
+        <item name="colorPrimaryContainer">#2FA38E</item>
     </style>
 
     <style name="Theme.BusGo" parent="Base.Theme.BusGo" />
