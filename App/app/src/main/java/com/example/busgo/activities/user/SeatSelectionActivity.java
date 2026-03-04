@@ -420,12 +420,7 @@ public class SeatSelectionActivity extends AppCompatActivity {
         // Nút Back
         btnBack.setOnClickListener(v -> finish());
 
-        // Nút Xác nhận → PassengerInfoActivity
         btnConfirm.setOnClickListener(v -> {
-            if (selectedSeats.isEmpty()) {
-                Toast.makeText(this, "Vui lòng chọn ít nhất 1 ghế", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             Intent intent = new Intent(SeatSelectionActivity.this, PassengerInfoActivity.class);
             intent.putExtra("trip_id", tripId);

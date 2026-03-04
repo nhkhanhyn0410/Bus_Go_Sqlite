@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+            android:name=".activities.user.PaymentMenthodActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.PaymentMethodActivity"
             android:exported="false" />
         <activity
@@ -59,7 +62,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.user.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
