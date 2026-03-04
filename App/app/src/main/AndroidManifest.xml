@@ -38,11 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.user.SearchTripActivity"
-<<<<<<< HEAD
-            android:exported="true"></activity>
-=======
-            android:exported="true" />
->>>>>>> BG-11-Phase_11
+            android:exported="false" />
         <activity
             android:name=".activities.user.BookingHistoryActivity"
             android:exported="false" />
@@ -62,7 +58,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,11 +68,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.user.MainActivity"
-<<<<<<< HEAD
-            android:exported="true"></activity>
-=======
             android:exported="false" />
->>>>>>> BG-11-Phase_11
     </application>
 
 </manifest>

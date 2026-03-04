@@ -199,7 +199,7 @@ public class BookingDAO {
 
     private Booking cursorToBooking(Cursor cursor) {
         Booking booking = new Booking();
-        booking.setId(cursor.getInt(cursor.getColumnIndexOrThrow("booking_id")));
+        booking.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
         booking.setBookingCode(cursor.getString(cursor.getColumnIndexOrThrow("booking_code")));
         booking.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow("user_id")));
         booking.setTripId(cursor.getInt(cursor.getColumnIndexOrThrow("trip_id")));
