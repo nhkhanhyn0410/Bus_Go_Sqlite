@@ -129,9 +129,7 @@ public class BookingHistoryActivity extends AppCompatActivity {
         currentSelectedTab = tab;
     }
 
-    /**
-     * Lọc booking theo trạng thái
-     */
+
     private void filterBookings(String status) {
         List<Booking> filtered = new ArrayList<>();
         for (Booking b : allBookings) {
@@ -160,7 +158,6 @@ public class BookingHistoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Quay về trang chủ
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
