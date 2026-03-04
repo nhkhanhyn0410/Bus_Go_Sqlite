@@ -31,39 +31,43 @@ public class BookingDAO {
     }
 
     public long createBooking(Booking booking, List<String> seatNumbers) {
-        if (booking == null || seatNumbers == null || seatNumbers.isEmpty()) {
-            return -1;
-        }
         db.beginTransaction();
         try {
+            // Step 1: Insert booking
             ContentValues values = new ContentValues();
             values.put("booking_code", booking.getBookingCode());
             values.put("user_id", booking.getUserId());
             values.put("trip_id", booking.getTripId());
 
+            // Lưu danh sách ghế dạng chuỗi (vd: "A1,A2,B3")
             values.put("seat_numbers", String.join(",", seatNumbers));
             values.put("num_seats", seatNumbers.size());
 
+            // Điểm đón/trả
             values.put("pickup_point_id", booking.getPickupPointId());
             values.put("dropoff_point_id", booking.getDropoffPointId());
             values.put("pickup_time", booking.getPickupTime());
             values.put("dropoff_time", booking.getDropoffTime());
 
+            // Thông tin hành khách
             values.put("passenger_name", booking.getPassengerName());
             values.put("passenger_phone", booking.getPassengerPhone());
             values.put("passenger_email", booking.getPassengerEmail());
             values.put("note", booking.getNote());
 
+            // Giá và trạng thái
             values.put("total_price", booking.getTotalPrice());
-            values.put("booking_status", "pending");
+            values.put("booking_status", booking.getBookingStatus());
             values.put("payment_status", booking.getPaymentStatus());
             values.put("payment_method", booking.getPaymentMethod());
 
             long bookingId = db.insert("bookings", null, values);
+
             if (bookingId == -1) {
                 return -1;
             }
 
+            // Step 2: Update seats status
             for (String seatNumber : seatNumbers) {
                 boolean updated = seatDAO.updateSeatStatus(
                         booking.getTripId(), seatNumber, true, (int) bookingId);
@@ -72,6 +76,8 @@ public class BookingDAO {
                     throw new Exception("Failed to update seat: " + seatNumber);
                 }
             }
+
+            // Step 3: Decrease available_seats in trip
             tripDAO.decreaseAvailableSeats(booking.getTripId(), seatNumbers.size());
 
             db.setTransactionSuccessful();
@@ -89,6 +95,7 @@ public class BookingDAO {
         db.beginTransaction();
         try {
             Booking booking = getBookingByCode(bookingCode);
+
             if (booking == null) {
                 return false;
             }
@@ -98,7 +105,7 @@ public class BookingDAO {
             String[] seatNumbers = booking.getSeatNumbers().split(",");
 
             for (String seatNumber : seatNumbers) {
-                seatDAO.updateSeatStatus(booking.getTripId(), seatNumber, false, null);
+                seatDAO.updateSeatStatus(booking.getTripId(), seatNumber.trim(), false, null);
             }
             tripDAO.increaseAvailableSeats(booking.getTripId(), seatNumbers.length);
 
@@ -144,10 +151,8 @@ public class BookingDAO {
         Booking booking = null;
         if (cursor.moveToFirst()) {
             booking = cursorToBooking(cursor);
-
             TripDAO tripDAO = new TripDAO(dbHelper);
             booking.setTrip(tripDAO.getTripById(booking.getTripId()));
-
             if (booking.getPickupPointId() > 0) {
                 StopPointDAO stopPointDAO = new StopPointDAO(dbHelper);
                 booking.setPickupPoint(stopPointDAO.getStopPointById(booking.getPickupPointId()));
