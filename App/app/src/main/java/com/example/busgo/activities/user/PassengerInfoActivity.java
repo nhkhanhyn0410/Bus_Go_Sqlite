@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +33,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
 
     // UI
     private ImageView btnBack;
+    private TextView tvPickupName, tvDropoffName;
     private EditText etPassengerName, etPassengerPhone, etPassengerEmail;
     private EditText etBirthDate, etGender;
     private Button btnContinue;
@@ -39,7 +41,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
 
     // Data từ màn hình trước
     private int tripId, routeId, pickupPointId, dropoffPointId;
-    private String pickupTime, dropoffTime;
+    private String pickupTime, dropoffTime, pickupPointName, dropoffPointName;;
     private double basePrice, totalPrice;
     private ArrayList<String> seatNumbers;
 
@@ -61,6 +63,8 @@ public class PassengerInfoActivity extends AppCompatActivity {
 
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
+        tvPickupName = findViewById(R.id.tvPickupName);
+        tvDropoffName = findViewById(R.id.tvDropoffName);
         etPassengerName = findViewById(R.id.etPassengerName);
         etPassengerPhone = findViewById(R.id.etPassengerPhone);
         etPassengerEmail = findViewById(R.id.etPassengerEmail);
@@ -86,12 +90,20 @@ public class PassengerInfoActivity extends AppCompatActivity {
         tripId = intent.getIntExtra("trip_id", -1);
         routeId = intent.getIntExtra("route_id", -1);
         pickupPointId = intent.getIntExtra("pickup_point_id", -1);
+        pickupPointName = intent.getStringExtra("pickup_point_name");
         dropoffPointId = intent.getIntExtra("dropoff_point_id", -1);
+        dropoffPointName = intent.getStringExtra("dropoff_point_name");
         pickupTime = intent.getStringExtra("pickup_time");
         dropoffTime = intent.getStringExtra("dropoff_time");
         basePrice = intent.getDoubleExtra("base_price", 0);
         totalPrice = intent.getDoubleExtra("total_price", 0);
         seatNumbers = intent.getStringArrayListExtra("seat_numbers");
+        if (pickupPointName != null) {
+            tvPickupName.setText(pickupPointName);
+        }
+        if (dropoffPointName != null){
+            tvDropoffName.setText(dropoffPointName);
+        }
     }
 
 

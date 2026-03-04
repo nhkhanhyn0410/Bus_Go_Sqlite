@@ -60,8 +60,8 @@ public class SeatSelectionActivity extends AppCompatActivity {
     private int routeId;
     private int pickupPointId;
     private int dropoffPointId;
-    private String pickupTime;
-    private String dropoffTime;
+    private String pickupTime, pickupPointName;
+    private String dropoffTime, dropoffPointName;
     private double basePrice;
     private String busLayout;
 
@@ -142,7 +142,9 @@ public class SeatSelectionActivity extends AppCompatActivity {
         pickupPointId = intent.getIntExtra("pickup_point_id", -1);
         dropoffPointId = intent.getIntExtra("dropoff_point_id", -1);
         pickupTime = intent.getStringExtra("pickup_time");
+        pickupPointName = intent.getStringExtra("pickup_point_name");
         dropoffTime = intent.getStringExtra("dropoff_time");
+        dropoffPointName = intent.getStringExtra("dropoff_point_name");
         basePrice = intent.getDoubleExtra("base_price", 0);
         busLayout = intent.getStringExtra("bus_layout");
 
@@ -428,7 +430,9 @@ public class SeatSelectionActivity extends AppCompatActivity {
             intent.putExtra("pickup_point_id", pickupPointId);
             intent.putExtra("dropoff_point_id", dropoffPointId);
             intent.putExtra("pickup_time", pickupTime);
+            intent.putExtra("pickup_point_name", pickupPointName);
             intent.putExtra("dropoff_time", dropoffTime);
+            intent.putExtra("dropoff_point_name", dropoffPointName);
             intent.putExtra("base_price", basePrice);
             intent.putStringArrayListExtra("seat_numbers", new ArrayList<>(selectedSeats));
             intent.putExtra("total_price", selectedSeats.size() * basePrice);
