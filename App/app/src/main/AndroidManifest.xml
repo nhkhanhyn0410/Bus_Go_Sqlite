@@ -13,6 +13,21 @@
         android:theme="@style/Theme.BusGo">
 
         <activity
+            android:name=".activities.user.PassengerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.SeatSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PickupDropoffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.TripDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.SearchTripActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.user.BookingHistoryActivity"
             android:exported="false" />
         <activity
@@ -37,13 +52,14 @@
         <activity
             android:name=".activities.user.PassengerInfoActivity"
             android:exported="true">
+        </activity>
+        <activity
+            android:name=".activities.user.MainActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.user.MainActivity"
-            android:exported="false" />
     </application>
 </manifest>

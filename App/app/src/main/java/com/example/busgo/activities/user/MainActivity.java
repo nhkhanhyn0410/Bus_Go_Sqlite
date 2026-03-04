@@ -2,7 +2,6 @@ package com.example.busgo.activities.user;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,22 +9,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.busgo.R;
-import com.example.busgo.adapters.PopularRouteAdapter;
-import com.example.busgo.adapters.RecentSearchAdapter;
 import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.until.BottomNavHelper;
 import com.example.busgo.until.SessionManager;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -41,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvPopularTrips, rvRecentSearches, rvOtherTrips;
 
     // Adapters
-    private PopularRouteAdapter popularRouteAdapter;
-    private RecentSearchAdapter recentSearchAdapter;
-    private PopularRouteAdapter otherTripsAdapter;
+//    private PopularRouteAdapter popularRouteAdapter;
+//    private RecentSearchAdapter recentSearchAdapter;
+//    private PopularRouteAdapter otherTripsAdapter;
 
     // Data
     private String selectedDeparture = "";
@@ -59,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false);
+
         sessionManager = SessionManager.getInstance(this);
 
         // Initialize views
@@ -72,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup bottom navigation bar (dùng chung BottomNavHelper)
         BottomNavHelper.setup(this, BottomNavHelper.TAB_HOME);
+
+
 
     }
 
@@ -111,9 +109,7 @@ public class MainActivity extends AppCompatActivity {
         btnSearchTrip.setOnClickListener(v -> performSearch());
     }
 
-    /**
-     * Hiển thị dialog chọn điểm đi
-     */
+
     private void showDepartureDialog() {
         String[] cities = {"TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Huế"};
 
@@ -127,9 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    /**
-     * Hiển thị dialog chọn điểm đến
-     */
+
     private void showDestinationDialog() {
         String[] cities = {"TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ", "Nha Trang", "Đà Lạt", "Vũng Tàu", "Huế"};
 
@@ -154,10 +148,12 @@ public class MainActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+                    SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    selectedDate = sqlFormat.format(selectedCalendar.getTime());
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    selectedDate = sdf.format(selectedCalendar.getTime());
-                    tvDate.setText(selectedDate);
+
+                    SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    tvDate.setText(displayFormat.format(selectedCalendar.getTime()));
                     tvDate.setTextColor(getResources().getColor(R.color.text_primary));
                 }, year, month, day);
 

@@ -32,7 +32,7 @@
             android:layout_height="22dp"
             android:src="@drawable/ic_home"
             app:tint="@color/white"
-            android:contentDescription="Trang chủ" />
+            android:contentDescription="Trang chủ"/>
 
         <TextView
             android:id="@+id/navHomeLabel"
@@ -43,7 +43,8 @@
             android:textColor="@color/text_primary"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:maxLines="1" />
 
     </LinearLayout>
 
@@ -75,7 +76,8 @@
             android:textColor="@color/text_primary"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:maxLines="1" />
 
     </LinearLayout>
 
@@ -107,7 +109,8 @@
             android:textColor="@color/text_primary"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:maxLines="1" />
 
     </LinearLayout>
 

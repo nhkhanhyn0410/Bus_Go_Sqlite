@@ -151,7 +151,7 @@
                                 android:id="@+id/btnSwapLocations"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_swap_vert"
+                                android:src="@drawable/ic_swap_vert_dark"
                                 android:contentDescription="@string/departure" />
 
                         </LinearLayout>
