@@ -234,11 +234,5 @@ public class PaymentMethodActivity extends AppCompatActivity {
         return "BK" + timestamp + random;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dbHelper != null) {
-            dbHelper.close();
-        }
-    }
+
 }
