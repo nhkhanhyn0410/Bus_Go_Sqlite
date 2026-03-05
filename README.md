@@ -2,10 +2,7 @@
 
 <div align="center">
 
-![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
-![Material Design](https://img.shields.io/badge/Material%20Design%203-757575?style=for-the-badge&logo=material-design&logoColor=white)
+
 
 **Ứng dụng Android đặt vé xe khách trực tuyến**
 
@@ -164,11 +161,9 @@ app/src/main/java/com/tdmu/vexenhanh/
 | SearchTripActivity | Tìm kiếm nâng cao |
 | TripListActivity | Danh sách chuyến + bộ lọc + tab ngày |
 | TripDetailActivity | Chi tiết chuyến đi |
-| PickupPointActivity | Chọn điểm đón |
-| DropoffPointActivity | Chọn điểm trả |
+| PickupDropoffActivity | Chọn điểm đón/Chọn điểm trả|
 | SeatSelectionActivity | Sơ đồ ghế tương tác |
 | PassengerInfoActivity | Nhập thông tin hành khách |
-| BookingConfirmActivity | Xác nhận đặt vé |
 | PaymentMethodActivity | Chọn phương thức thanh toán |
 | PaymentProcessActivity | Xử lý thanh toán MoMo |
 | BookingSuccessActivity | Kết quả + mã QR |
@@ -197,8 +192,6 @@ app/src/main/java/com/tdmu/vexenhanh/
 3. Đợi Gradle sync hoàn tất
 4. Chạy trên thiết bị hoặc máy ảo (Run → Run 'app')
 
-> Ứng dụng tự tạo cơ sở dữ liệu và điền dữ liệu mẫu khi cài đặt lần đầu (15 tuyến, 20 xe, chuyến đi 7 ngày tới).
-
 ### Tài Khoản Thử Nghiệm
 - Tạo tài khoản mới qua màn hình đăng ký
 - Mã OTP giả lập: `123456`
@@ -212,10 +205,6 @@ app/src/main/java/com/tdmu/vexenhanh/
 | Material Design | 1.9.0 | Giao diện Material Design 3 |
 | RecyclerView | 1.3.1 | Hiển thị danh sách |
 | CardView | 1.0.0 | Thẻ giao diện với bóng đổ |
-| Gson | 2.10.1 | Xử lý JSON (danh sách ghế) |
-| ZXing | 3.5.0 | Tạo mã QR |
-| Lottie | 6.0.0 | Hiệu ứng hoạt hình |
-
 
 <div align="center">
 
