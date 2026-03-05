@@ -4,14 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-/**
- * StopPointDataHelper - Tạo dữ liệu điểm dừng mẫu (gộp đón, trả, dừng chân)
- *
- * Bảng stop_points chứa 3 loại:
- *  - pickup: Điểm đón khách (time_offset so với departure_time)
- *  - dropoff: Điểm trả khách (time_offset so với arrival_time)
- *  - rest_stop: Điểm dừng chân giữa đường (time_offset so với departure_time)
- */
 public class StopPointDataHelper {
 
     public static void insertSampleStopPoints(SQLiteDatabase db) {
@@ -27,13 +19,10 @@ public class StopPointDataHelper {
             int distance = cursor.getInt(3);
             int duration = cursor.getInt(4);
 
-            // 1. Tạo điểm đón theo thành phố khởi hành
             insertPickupPointsByCity(db, routeId, departure);
 
-            // 2. Tạo điểm trả theo thành phố đích
             insertDropoffPointsByCity(db, routeId, destination);
 
-            // 3. Tạo điểm dừng chân (chỉ tuyến dài > 150km)
             if (distance > 150) {
                 insertRestStopsByRoute(db, routeId, departure, destination, distance, duration);
             }
@@ -41,8 +30,6 @@ public class StopPointDataHelper {
 
         cursor.close();
     }
-
-    // ======================= ĐIỂM ĐÓN (PICKUP) =======================
 
     private static void insertPickupPointsByCity(SQLiteDatabase db, int routeId, String cityName) {
         switch (cityName) {
@@ -86,8 +73,6 @@ public class StopPointDataHelper {
                 break;
         }
     }
-
-    // ======================= ĐIỂM TRẢ (DROPOFF) =======================
 
     private static void insertDropoffPointsByCity(SQLiteDatabase db, int routeId, String cityName) {
         switch (cityName) {
@@ -167,21 +152,16 @@ public class StopPointDataHelper {
         }
     }
 
-    // ======================= ĐIỂM DỪNG CHÂN (REST_STOP) =======================
-
     private static void insertRestStopsByRoute(SQLiteDatabase db, int routeId,
                                                String departure, String destination,
                                                int distance, int duration) {
 
-        // ==================== Tuyến từ TP.HCM ====================
 
-        // TP.HCM → Đà Lạt (300km): 1 điểm dừng
         if (departure.equals("TP.HCM") && destination.equals("Đà Lạt")) {
             insertRestStop(db, routeId, "Trạm dừng Định Quán",
                     "QL20, Định Quán, Đồng Nai", 120, 20);
         }
 
-        // TP.HCM → Nha Trang (450km): 2 điểm dừng
         if (departure.equals("TP.HCM") && destination.equals("Nha Trang")) {
             insertRestStop(db, routeId, "Trạm dừng Phan Thiết",
                     "QL1A, Phan Thiết, Bình Thuận", 150, 15);
@@ -189,27 +169,21 @@ public class StopPointDataHelper {
                     "QL1A, Phan Rang - Tháp Chàm", 330, 20);
         }
 
-        // TP.HCM → Phan Thiết (200km): 1 điểm dừng
         if (departure.equals("TP.HCM") && destination.equals("Phan Thiết")) {
             insertRestStop(db, routeId, "Trạm dừng Long Khánh",
                     "QL1A, Long Khánh, Đồng Nai", 90, 15);
         }
 
-        // TP.HCM → Cần Thơ (170km): 1 điểm dừng
         if (departure.equals("TP.HCM") && destination.equals("Cần Thơ")) {
             insertRestStop(db, routeId, "Trạm dừng Trung Lương",
                     "QL1A, Tân An, Long An", 60, 15);
         }
 
-        // ==================== Tuyến từ Hà Nội ====================
-
-        // Hà Nội → Hạ Long (165km): 1 điểm dừng
         if (departure.equals("Hà Nội") && destination.equals("Hạ Long")) {
             insertRestStop(db, routeId, "Trạm dừng Hải Dương",
                     "QL5, Hải Dương", 60, 15);
         }
 
-        // Hà Nội → Sapa (350km): 2 điểm dừng
         if (departure.equals("Hà Nội") && destination.equals("Sapa")) {
             insertRestStop(db, routeId, "Trạm dừng Yên Bái",
                     "QL32, Yên Bái", 180, 20);
@@ -217,14 +191,11 @@ public class StopPointDataHelper {
                     "QL4D, Lào Cai", 330, 15);
         }
 
-        // Hà Nội → Thanh Hóa (160km): 1 điểm dừng
         if (departure.equals("Hà Nội") && destination.equals("Thanh Hóa")) {
             insertRestStop(db, routeId, "Trạm dừng Ninh Bình",
                     "QL1A, Ninh Bình", 90, 15);
         }
     }
-
-    // ======================= HELPER METHODS =======================
 
     private static void insertPickup(SQLiteDatabase db, int routeId,
                                      String name, String address, int timeOffset) {
@@ -242,9 +213,6 @@ public class StopPointDataHelper {
         insertPoint(db, routeId, "rest_stop", name, address, timeOffset, stopDuration);
     }
 
-    /**
-     * Insert một điểm vào bảng stop_points (method chung)
-     */
     private static void insertPoint(SQLiteDatabase db, int routeId, String pointType,
                                     String stopName, String address,
                                     int timeOffset, int stopDuration) {
