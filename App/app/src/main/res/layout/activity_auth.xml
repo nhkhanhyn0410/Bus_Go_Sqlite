@@ -483,7 +483,14 @@
                         android:textSize="18sp"
                         app:cornerRadius="0dp" />
 
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center"
+                        android:text="Bằng cách đăng nhập, bạn đồng ý với Điều khoản\nDịch vụ và Thỏa thuận Xử lý Dữ liệu"
+                        android:textColor="@color/primary"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

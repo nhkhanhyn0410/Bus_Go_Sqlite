@@ -193,23 +193,19 @@ public class VerificationActivity extends AppCompatActivity {
             return;
         }
 
-        // Format SĐT: "0901234567" → "+84901234567"
         String formattedPhone = formatPhoneNumber(phone);
         Log.d(TAG, "Gửi SMS OTP đến: " + formattedPhone);
 
-        // Cấu hình gửi OTP
         PhoneAuthOptions.Builder optionsBuilder = PhoneAuthOptions.newBuilder(firebaseAuth)
                 .setPhoneNumber(formattedPhone)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(this)
                 .setCallbacks(phoneAuthCallbacks);
 
-        // Nếu có resendToken (gửi lại) → đính kèm token
         if (resendToken != null) {
             optionsBuilder.setForceResendingToken(resendToken);
         }
 
-        // Gửi OTP
         PhoneAuthProvider.verifyPhoneNumber(optionsBuilder.build());
         Toast.makeText(this, "Đang gửi SMS đến " + formattedPhone + "...",
                 Toast.LENGTH_SHORT).show();
@@ -232,7 +228,6 @@ public class VerificationActivity extends AppCompatActivity {
                 @Override
                 public void onCodeSent(@NonNull String verId,
                                        @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                    // Firebase đã gửi SMS → lưu verificationId để verify sau
                     verificationId = verId;
                     resendToken = token;
                     Log.d(TAG, "SMS OTP đã gửi, verificationId: " + verId);
@@ -243,13 +238,11 @@ public class VerificationActivity extends AppCompatActivity {
 
                 @Override
                 public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                    // Bắt buộc override nhưng không tự động điền/verify
                     Log.d(TAG, "onVerificationCompleted - user tự nhập OTP");
                 }
 
                 @Override
                 public void onVerificationFailed(@NonNull FirebaseException e) {
-                    // Gửi SMS thất bại
                     Log.e(TAG, "Firebase Phone Auth thất bại: " + e.getMessage());
                     Toast.makeText(VerificationActivity.this,
                             "Gửi SMS thất bại: " + e.getMessage()
@@ -258,17 +251,12 @@ public class VerificationActivity extends AppCompatActivity {
                 }
             };
 
-
-
-
     private void startCountdownTimer() {
-        // Hủy timer cũ trước khi tạo mới (tránh nhiều timer chạy đồng thời)
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
 
         canResend = false;
-        // Khóa nút toggle trong lúc đếm ngược
         tvUsePhone.setEnabled(false);
         tvUsePhone.setAlpha(0.5f);
 
@@ -299,25 +287,22 @@ public class VerificationActivity extends AppCompatActivity {
             otpBuilder.append(input.getText().toString());
         }
         String otp = otpBuilder.toString();
-
-        // Kiểm tra đủ 6 số
         if (otp.length() != 6) {
             Toast.makeText(this, "Vui lòng nhập đủ 6 số OTP", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Loading state
         btnVerify.setEnabled(false);
         btnVerify.setText(R.string.loading);
 
         if (!isUsingEmail && verificationId != null) {
-            // === CHẾ ĐỘ SĐT + Firebase đã cấu hình ===
+
             verifyPhoneOtp(otp);
         } else if (isUsingEmail && generatedEmailOtp != null) {
-            // === CHẾ ĐỘ EMAIL ===
+
             verifyEmailOtp(otp);
         } else {
-            // === FALLBACK: Mock OTP ===
+
             verifyMockOtp(otp);
         }
     }
@@ -332,9 +317,7 @@ public class VerificationActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
                         Log.d(TAG, "Firebase Phone verify thành công");
-                        // Đăng xuất Firebase (ta chỉ dùng Firebase để verify, không lưu user)
                         firebaseAuth.signOut();
-                        // Chuyển sang ConfirmInfoActivity
                         navigateToConfirmInfo();
                     } else {
                         Log.e(TAG, "Firebase Phone verify thất bại", task.getException());
@@ -346,12 +329,10 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     private void verifyEmailOtp(String otp) {
-        // Delay nhẹ để giống UX thật
         new android.os.Handler().postDelayed(() -> {
             btnVerify.setEnabled(true);
             btnVerify.setText(R.string.register);
 
-            // So sánh với OTP đã gửi qua email HOẶC mock OTP
             if (otp.equals(generatedEmailOtp) || otp.equals(MOCK_OTP)) {
                 Log.d(TAG, "Email OTP verify thành công");
                 navigateToConfirmInfo();
@@ -415,14 +396,11 @@ public class VerificationActivity extends AppCompatActivity {
         if (!canSendOtp()) return;
 
         otpSendCount++;
-
-        // Gửi OTP theo phương thức đang dùng
         if (isUsingEmail) {
             sendEmailOtp();
         } else {
             sendPhoneOtp();
         }
-
         String method = isUsingEmail ? "email" : "số điện thoại";
         Toast.makeText(this, "Đã gửi lại mã OTP qua " + method
                         + " (lần " + otpSendCount + "/" + MAX_OTP_SENDS + ")",
@@ -439,20 +417,16 @@ public class VerificationActivity extends AppCompatActivity {
         isUsingEmail = !isUsingEmail;
 
         if (isUsingEmail) {
-            // Chuyển về email
             tvSubtitle.setText("Nhập mã xác minh được gửi đến");
             tvEmail.setText(email);
             tvUsePhone.setText("Sử dụng số điện thoại");
             tvUseAnotherEmail.setText("Sử dụng một địa chỉ email khác");
-            // Gửi email OTP
             sendEmailOtp();
         } else {
-            // Chuyển sang SĐT
             tvSubtitle.setText("Nhập mã xác minh được gửi đến số");
             tvEmail.setText(phone);
             tvUsePhone.setText("Sử dụng email");
             tvUseAnotherEmail.setText("Sử dụng một số điện thoại khác");
-            // Gửi SMS OTP
             sendPhoneOtp();
         }
 
