@@ -296,7 +296,6 @@ public class AuthActivity extends AppCompatActivity {
         btnRegister.setEnabled(false);
         btnRegister.setText(R.string.loading);
 
-        // Kiểm tra email tồn tại trong background
         new Thread(() -> {
             if (userDAO.isEmailExists(email)) {
                 runOnUiThread(() -> {

@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Navigate to TripListActivity
         Intent intent = new Intent(MainActivity.this, SearchTripActivity.class);
         intent.putExtra("departure", selectedDeparture);
         intent.putExtra("destination", selectedDestination);

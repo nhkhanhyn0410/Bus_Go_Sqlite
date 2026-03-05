@@ -157,13 +157,11 @@ public class TripDetailActivity extends AppCompatActivity {
         }).start();
     }
 
-    // ==================== HEADER ====================
 
     private void displayHeader() {
         Bus bus = trip.getBus();
         Route route = trip.getRoute();
 
-        // Tên nhà xe
         if (bus != null && bus.getCompanyName() != null) {
             tvCompanyName.setText(bus.getCompanyName());
         } else {

@@ -136,9 +136,7 @@ public class TripDataHelper {
         return seats;
     }
 
-    /**
-     * Tính giá vé dựa trên loại xe và khoảng cách
-     */
+
     private static double calculatePrice(String busType, int distance) {
         double pricePerKm;
 
