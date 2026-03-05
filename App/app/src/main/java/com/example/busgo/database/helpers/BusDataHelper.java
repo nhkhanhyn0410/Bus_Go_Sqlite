@@ -55,7 +55,7 @@ public class BusDataHelper {
             String[] company = COMPANIES[i % COMPANIES.length];
             double rating = 4.3 + (i % 7) * 0.1;
 
-            insertBus(db, busNumber, "Giường nằm", 38, "2-1",
+            insertBus(db, busNumber, "Giường nằm", 40, "2-1",
                     company[0], company[1], rating,
                     SLEEPER_AMENITIES[i]);
         }

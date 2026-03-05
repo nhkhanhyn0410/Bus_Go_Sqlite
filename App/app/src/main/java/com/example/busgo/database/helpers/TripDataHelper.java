@@ -13,18 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-/**
- * TripDataHelper - Tạo dữ liệu chuyến đi mẫu
- *
- * Mục đích: Insert chuyến đi cho 7 ngày tới
- * Logic:
- *  - Mỗi tuyến tạo 4 chuyến/ngày (6:00, 9:00, 13:00, 17:00)
- *  - Tính giờ đến = giờ đi + duration
- *  - Giá vé:
- *    + Ghế ngồi: 200,000 - 300,000 VNĐ
- *    + Giường nằm: 300,000 - 450,000 VNĐ
- *  - Tự động tạo ghế cho mỗi chuyến
- */
+
 public class TripDataHelper {
 
     private static final SimpleDateFormat DATE_FORMAT =
@@ -34,10 +23,8 @@ public class TripDataHelper {
 
     public static void insertSampleTrips(SQLiteDatabase db) {
 
-        // Lấy danh sách routes
         List<RouteInfo> routes = getRoutes(db);
 
-        // Lấy danh sách buses
         List<BusInfo> buses = getBuses(db);
 
         if (routes.isEmpty() || buses.isEmpty()) {
@@ -46,25 +33,15 @@ public class TripDataHelper {
 
         Random random = new Random();
 
-        // Tạo chuyến cho 7 ngày tới
         for (int day = 0; day < 7; day++) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_YEAR, day);
 
             for (RouteInfo route : routes) {
-                // Mỗi tuyến tạo 5 chuyến/ngày
                 for (String timeStr : DEPARTURE_TIMES) {
-                    // Random chọn xe
                     BusInfo bus = buses.get(random.nextInt(buses.size()));
-
-                    // Clone calendar để tránh bị drift khi cộng duration vào giờ đến
-                    // (nếu không clone, calendar bị lệch ngày cho chuyến tiếp theo)
                     Calendar tripCal = (Calendar) cal.clone();
-
-                    // Tạo chuyến
                     long tripId = insertTrip(db, route, bus, tripCal, timeStr);
-
-                    // Tạo ghế cho chuyến này
                     if (tripId > 0) {
                         createSeatsForTrip(db, tripId, bus);
                     }
@@ -73,13 +50,9 @@ public class TripDataHelper {
         }
     }
 
-    /**
-     * Insert 1 chuyến đi
-     */
     private static long insertTrip(SQLiteDatabase db, RouteInfo route, BusInfo bus,
                                    Calendar calendar, String timeStr) {
         try {
-            // Parse giờ khởi hành
             String[] timeParts = timeStr.split(":");
             int hour = Integer.parseInt(timeParts[0]);
             int minute = Integer.parseInt(timeParts[1]);
@@ -89,12 +62,9 @@ public class TripDataHelper {
             calendar.set(Calendar.SECOND, 0);
 
             String departureTime = DATE_FORMAT.format(calendar.getTime());
-
-            // Tính giờ đến = giờ đi + duration
             calendar.add(Calendar.MINUTE, route.duration);
             String arrivalTime = DATE_FORMAT.format(calendar.getTime());
 
-            // Tính giá vé
             double basePrice = calculatePrice(bus.busType, route.distance);
 
             ContentValues values = new ContentValues();
@@ -113,9 +83,6 @@ public class TripDataHelper {
         }
     }
 
-    /**
-     * Tạo ghế cho 1 chuyến đi
-     */
     private static void createSeatsForTrip(SQLiteDatabase db, long tripId, BusInfo bus) {
         List<String> seatNumbers = generateSeatNumbers(bus.totalSeats, bus.seatLayout);
 
@@ -176,20 +143,16 @@ public class TripDataHelper {
         double pricePerKm;
 
         if ("Ghế ngồi".equals(busType)) {
-            pricePerKm = 5000; // 5,000 VNĐ/km
+            pricePerKm = 1000;
         } else {
-            pricePerKm = 7000; // 7,000 VNĐ/km (giường nằm)
+            pricePerKm = 1500;
         }
 
         double basePrice = distance * pricePerKm;
 
-        // Làm tròn đến 10,000
         return Math.round(basePrice / 10000) * 10000;
     }
 
-    /**
-     * Lấy danh sách routes
-     */
     private static List<RouteInfo> getRoutes(SQLiteDatabase db) {
         List<RouteInfo> routes = new ArrayList<>();
 
@@ -209,9 +172,6 @@ public class TripDataHelper {
         return routes;
     }
 
-    /**
-     * Lấy danh sách buses
-     */
     private static List<BusInfo> getBuses(SQLiteDatabase db) {
         List<BusInfo> buses = new ArrayList<>();
 
@@ -232,7 +192,6 @@ public class TripDataHelper {
         return buses;
     }
 
-    // Helper classes
     private static class RouteInfo {
         int id;
         int distance;

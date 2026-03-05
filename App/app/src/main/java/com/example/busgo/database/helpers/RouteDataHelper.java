@@ -13,14 +13,12 @@ public class RouteDataHelper {
                 {"TP.HCM", "Phan Thiết", "200", "240"},
                 {"TP.HCM", "Cần Thơ", "170", "210"},
 
-                // Từ Hà Nội
                 {"Hà Nội", "Hải Phòng", "120", "150"},
                 {"Hà Nội", "Hạ Long", "165", "210"},
                 {"Hà Nội", "Sapa", "350", "420"},
                 {"Hà Nội", "Ninh Bình", "95", "120"},
                 {"Hà Nội", "Thanh Hóa", "160", "195"},
 
-                // Các tuyến khác
                 {"Đà Nẵng", "Huế", "100", "135"},
                 {"Đà Nẵng", "Hội An", "30", "45"},
                 {"Nha Trang", "Đà Lạt", "135", "180"},

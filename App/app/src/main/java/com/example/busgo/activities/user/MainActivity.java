@@ -65,21 +65,10 @@ public class MainActivity extends AppCompatActivity {
         controller.setAppearanceLightStatusBars(false);
 
         sessionManager = SessionManager.getInstance(this);
-
-        // Initialize views
         initViews();
 
-        // Setup RecyclerViews
-
-
-        // Set click listeners
         setupClickListeners();
-
-        // Setup bottom navigation bar (dùng chung BottomNavHelper)
         BottomNavHelper.setup(this, BottomNavHelper.TAB_HOME);
-
-
-
     }
 
     private void initViews() {
@@ -102,10 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        // Autocomplete cho điểm đi: load từ DB
         setupDepartureAutocomplete();
-
-        // Khi chọn điểm đi xong → cập nhật gợi ý điểm đến
         tvDeparture.setOnItemClickListener((parent, view, position, id) -> {
             selectedDeparture = (String) parent.getItemAtPosition(position);
             setupDestinationAutocomplete(selectedDeparture);
@@ -114,18 +100,14 @@ public class MainActivity extends AppCompatActivity {
             tvDestination.requestFocus();
         });
 
-        // Khi chọn điểm đến
         tvDestination.setOnItemClickListener((parent, view, position, id) -> {
             selectedDestination = (String) parent.getItemAtPosition(position);
         });
 
-        // Date picker
         layoutDate.setOnClickListener(v -> showDatePicker());
 
-        // Swap locations
         btnSwapLocations.setOnClickListener(v -> swapLocations());
 
-        // Search button
         btnSearchTrip.setOnClickListener(v -> performSearch());
     }
 
