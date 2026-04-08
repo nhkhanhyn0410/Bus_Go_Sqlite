@@ -39,7 +39,7 @@ public class BookingDAO {
             values.put("user_id", booking.getUserId());
             values.put("trip_id", booking.getTripId());
 
-            // Lưu danh sách ghế dạng chuỗi (vd: "A1,A2,B3")
+            // Lưu danh sách ghế dạng chuỗi
             values.put("seat_numbers", String.join(",", seatNumbers));
             values.put("num_seats", seatNumbers.size());
 
@@ -67,7 +67,6 @@ public class BookingDAO {
                 return -1;
             }
 
-            // Step 2: Update seats status
             for (String seatNumber : seatNumbers) {
                 boolean updated = seatDAO.updateSeatStatus(
                         booking.getTripId(), seatNumber, true, (int) bookingId);
@@ -77,7 +76,6 @@ public class BookingDAO {
                 }
             }
 
-            // Step 3: Decrease available_seats in trip
             tripDAO.decreaseAvailableSeats(booking.getTripId(), seatNumbers.size());
 
             db.setTransactionSuccessful();
