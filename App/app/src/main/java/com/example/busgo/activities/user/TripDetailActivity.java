@@ -244,12 +244,10 @@ public class TripDetailActivity extends AppCompatActivity {
             itemView = LayoutInflater.from(this)
                     .inflate(R.layout.item_timeline_dropoff, timelineContainer, false);
         } else {
-            // rest_stop
             itemView = LayoutInflater.from(this)
                     .inflate(R.layout.item_timeline_rest, timelineContainer, false);
         }
 
-        // Set dữ liệu text chung cho cả 3 loại
         TextView tvInfo = itemView.findViewById(R.id.tvInfo);
         if (tvInfo != null) {
             tvInfo.setText(info);
