@@ -306,6 +306,15 @@ public class AuthActivity extends AppCompatActivity {
                 return;
             }
 
+            if (userDAO.isPhoneExists(phone)) {
+                runOnUiThread(() -> {
+                    btnRegister.setEnabled(true);
+                    btnRegister.setText(R.string.register);
+                    etPhone.setError(getString(R.string.phone_exists));
+                });
+                return;
+            }
+
             runOnUiThread(() -> {
                 btnRegister.setEnabled(true);
                 btnRegister.setText(R.string.register);
