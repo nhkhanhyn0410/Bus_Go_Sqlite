@@ -9,15 +9,11 @@ import com.example.busgo.until.SessionManager;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowInsetsControllerCompat;
-
-import android.widget.Button;
 import android.widget.TextView;
 import com.example.busgo.database.model.User;
 import com.example.busgo.R;
 import com.example.busgo.until.BottomNavHelper;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.google.android.material.card.MaterialCardView;
 public class ProfileActivity extends AppCompatActivity {
 
@@ -38,77 +34,53 @@ public class ProfileActivity extends AppCompatActivity {
         WindowInsetsControllerCompat controller =
                 new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         controller.setAppearanceLightStatusBars(false);
-        initViews();
-        loadUserInfo();
-        setupListeners();
-
+        bindLoggedInUserInfo();
+        setupEditProfileNavigation();
+        setupLogout();
         BottomNavHelper.setup(this, BottomNavHelper.TAB_PROFILE);
     }
 
-    private void initViews() {
-        tvFullname = findViewById(R.id.tvFullname);
-        tvPhoneHeader = findViewById(R.id.tvPhoneHeader);
-        ivEditProfile = findViewById(R.id.ivEditProfile);
-
-        itemReferral = findViewById(R.id.itemReferral);
-        itemPromo = findViewById(R.id.itemPromo);
-        itemSupport = findViewById(R.id.itemSupport);
-        itemAbout = findViewById(R.id.itemAbout);
-        itemLogout = findViewById(R.id.itemLogout);
-
-        sessionManager = SessionManager.getInstance(this);
+    private void setupEditProfileNavigation() {
+        ImageView ivEditProfile = findViewById(R.id.ivEditProfile);
+        ivEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
     }
+    //Hiển thị thông tin đăng nhập
+    private void bindLoggedInUserInfo() {
+        TextView tvProfileName = findViewById(R.id.tvProfileName);
+        TextView tvProfilePhone = findViewById(R.id.tvProfilePhone);
 
-    private void loadUserInfo() {
-        User user = sessionManager.getLoggedInUser();
-        if (user != null) {
-            tvFullname.setText(user.getFullname());
-            tvPhoneHeader.setText(user.getPhone());
+        User loggedInUser = SessionManager.getInstance(this).getLoggedInUser();
+        if (loggedInUser == null) {
+            tvProfileName.setText(R.string.fullname);
+            tvProfilePhone.setText(R.string.phone);
+            return;
         }
+
+        tvProfileName.setText(loggedInUser.getFullname());
+        tvProfilePhone.setText(loggedInUser.getPhone());
+    }
+    private void setupLogout() {
+        findViewById(R.id.layoutLogout).setOnClickListener(v -> showLogoutConfirmationDialog());
     }
 
-    private void setupListeners() {
-        ivEditProfile.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
-
-        itemReferral.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
-
-        itemPromo.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
-
-        itemSupport.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
-
-        itemAbout.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
-
-        itemLogout.setOnClickListener(v -> showLogoutDialog());
-    }
-
-    private void showLogoutDialog() {
+    private void showLogoutConfirmationDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Đăng xuất")
-                .setMessage("Bạn có chắc muốn đăng xuất không?")
-                .setPositiveButton("Đăng xuất", (dialog, which) -> logout())
-                .setNegativeButton("Hủy", null)
+                .setTitle(R.string.logout)
+                .setMessage(R.string.logout_confirmation_message)
+                .setPositiveButton(R.string.yes, (dialog, which) -> handleLogout())
+                .setNegativeButton(R.string.no, null)
                 .show();
     }
 
-    private void logout() {
-        sessionManager.clearSession();
-        Intent intent = new Intent(this, AuthActivity.class);
+    private void handleLogout() {
+        SessionManager.getInstance(this).clearSession();
+
+        Intent intent = new Intent(ProfileActivity.this, AuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
         finish();
     }
 }

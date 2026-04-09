@@ -85,7 +85,6 @@ public class SessionManager {
         editor.apply();
     }
 
-
     public void clearSession() {
         editor.clear();
         editor.apply();

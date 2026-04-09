@@ -6,6 +6,7 @@
     <string name="login">Đăng nhập</string>
     <string name="register">Đăng ký</string>
     <string name="logout">Đăng xuất</string>
+    <string name="logout_confirmation_message">Bạn có muốn đăng xuất không?</string>
     <string name="password">Mật khẩu</string>
     <string name="confirm_password">Xác nhận mật khẩu</string>
     <string name="fullname">Họ và tên</string>

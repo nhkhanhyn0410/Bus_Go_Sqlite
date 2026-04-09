@@ -29,7 +29,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Hồ sơ"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -96,6 +96,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
 
+
                 <!-- ITEM: Giới thiệu bạn bè & Nhận thưởng -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/itemReferral"
@@ -106,10 +107,7 @@
                     app:cardElevation="6dp"
                     app:strokeWidth="1dp"
                     app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -118,7 +116,9 @@
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
                         android:paddingEnd="16dp"
-                        >
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <ImageView
                             android:layout_width="22dp"
@@ -149,10 +149,7 @@
                     app:cardElevation="6dp"
                     app:strokeWidth="1dp"
                     app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -161,7 +158,9 @@
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
                         android:paddingEnd="16dp"
-                        >
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <ImageView
                             android:layout_width="22dp"
@@ -192,10 +191,7 @@
                     app:cardElevation="6dp"
                     app:strokeWidth="1dp"
                     app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -204,7 +200,9 @@
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
                         android:paddingEnd="16dp"
-                        >
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <ImageView
                             android:layout_width="22dp"
@@ -235,10 +233,7 @@
                     app:cardElevation="6dp"
                     app:strokeWidth="1dp"
                     app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -246,8 +241,10 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
-                        android:paddingEnd="16dp"
-                        >
+                        android:paddingEnd="16dp"                        >
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <ImageView
                             android:layout_width="22dp"
@@ -282,6 +279,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">
+                    app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
                         android:id="@+id/layoutLogout"
@@ -290,8 +288,10 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
-                        android:paddingEnd="16dp"
-                        >
+                        android:paddingEnd="16dp"  
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <ImageView
                             android:layout_width="22dp"
