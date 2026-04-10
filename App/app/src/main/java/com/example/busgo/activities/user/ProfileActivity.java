@@ -81,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
 
         itemAbout.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
+                startActivity(new Intent(this, AboutUsActivity.class)));
 
         itemLogout.setOnClickListener(v -> showLogoutDialog());
     }

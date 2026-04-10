@@ -12,7 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
-
+            android:name=".activities.user.UserAgreementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.LicenseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.TermsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.BookingDetailActivity"
             android:exported="false" />
         <activity
