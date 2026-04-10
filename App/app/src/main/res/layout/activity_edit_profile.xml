@@ -232,6 +232,7 @@
             </LinearLayout>
 
             <!-- Nút cập nhật -->
+
             <Button
                 android:id="@+id/btnUpdate"
                 android:layout_width="match_parent"
@@ -239,7 +240,7 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="42dp"
                 android:layout_marginEnd="18dp"
-                android:background="@drawable/bg_btn_green"
+                android:background="@drawable/bg_btn_update_profile"
                 android:backgroundTint="@null"
                 android:text="Cập nhật"
                 android:textAllCaps="false"
