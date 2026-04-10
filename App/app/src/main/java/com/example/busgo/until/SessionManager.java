@@ -14,7 +14,6 @@ public class SessionManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_BIRTHDAY = "birthday";
     private static final String KEY_GENDER = "gender";
-
     private static SessionManager instance;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -69,12 +68,6 @@ public class SessionManager {
         return user;
     }
 
-    public void updateProfile(String fullname, String phone, String email) {
-        editor.putString(KEY_FULLNAME, fullname);
-        editor.putString(KEY_PHONE, phone);
-        editor.putString(KEY_EMAIL, email);
-        editor.apply();
-    }
 
     public void updateProfile(String fullname, String phone, String email, String birthday, String gender) {
         editor.putString(KEY_FULLNAME, fullname);

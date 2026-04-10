@@ -71,8 +71,7 @@ public class UserDAO {
         cursor.close();
         return user;
     }
-
-    //Cập nhật đây đủ thông tin
+    // Cập nhật đầy đủ thông tin (dùng cho Edit Profile)
     public boolean updateProfile(int userId, String fullname, String phone, String email,
                                  String birthday, String gender) {
         ContentValues values = new ContentValues();
@@ -128,7 +127,26 @@ public class UserDAO {
         cursor.close();
         return exists;
     }
+    // Kiểm tra trùng dữ liệu nhưng loại trừ user hiện tại
+    public boolean isPhoneExistsForOtherUser(String phone, int currentUserId) {
+        Cursor cursor = db.query("users", new String[]{"id"},
+                "phone = ? AND id != ?", new String[]{phone, String.valueOf(currentUserId)},
+                null, null, null);
 
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
+    public boolean isEmailExistsForOtherUser(String email, int currentUserId) {
+        Cursor cursor = db.query("users", new String[]{"id"},
+                "email = ? AND id != ?", new String[]{email, String.valueOf(currentUserId)},
+                null, null, null);
+
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
     //Ánh xạ thông tin user
     private User cursorToUser(Cursor cursor) {
         User user = new User();
