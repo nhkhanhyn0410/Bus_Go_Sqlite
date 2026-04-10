@@ -108,4 +108,12 @@ public class ProfileActivity extends AppCompatActivity {
         loadUserInfo();
     }
 
+     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+        finish();
+        }
 }
