@@ -14,7 +14,7 @@ import com.example.busgo.database.model.Bus;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "busgo.db";
-    public static final int DATABASE_VERSION = 12;//quan trọng
+    public static final int DATABASE_VERSION = 14;//quan trọng
 
     private static DatabaseHelper instance;
     private Context context;
@@ -66,7 +66,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "email TEXT NOT NULL," +
                 "birthday TEXT," +
                 "gender TEXT," +
-                "age INTEGER," +
                 "created_at DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 "is_active INTEGER DEFAULT 1" +
                 ")";

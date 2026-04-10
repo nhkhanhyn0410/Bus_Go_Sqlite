@@ -1,5 +1,6 @@
 package com.example.busgo.activities.user;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -19,12 +20,14 @@ import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.database.model.User;
 import com.example.busgo.until.SessionManager;
 
+import java.util.Calendar;
+
 public class EditProfileActivity extends AppCompatActivity {
 
     private ImageView btnBack;
     private TextView tvTitle;
     private ImageView ivAvatar;
-    private EditText etFullname, etPhone, etEmail, etAge;
+    private EditText etFullname, etPhone, etEmail, etBirthday;
     private RadioGroup rgGender;
     private RadioButton rbMale, rbFemale, rbOther;
     private Button btnUpdate;
@@ -50,7 +53,7 @@ public class EditProfileActivity extends AppCompatActivity {
         etFullname = findViewById(R.id.etFullname);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
-        etAge = findViewById(R.id.etAge);
+        etBirthday = findViewById(R.id.etBirthday);
         rgGender = findViewById(R.id.rgGender);
         rbMale = findViewById(R.id.rbMale);
         rbFemale = findViewById(R.id.rbFemale);
@@ -88,8 +91,8 @@ public class EditProfileActivity extends AppCompatActivity {
         etPhone.setText(user.getPhone());
         etEmail.setText(user.getEmail());
 
-        if (user.getAge() != null) {
-            etAge.setText(String.valueOf(user.getAge()));
+        if (user.getBirthday() != null) {
+            etBirthday.setText(user.getBirthday());
         }
 
         String gender = user.getGender();
@@ -104,14 +107,44 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void setupListeners() {
         btnBack.setOnClickListener(v -> finish());
+        etBirthday.setOnClickListener(v -> showDatePicker());
         btnUpdate.setOnClickListener(v -> handleUpdateProfile());
+    }
+
+    private void showDatePicker() {
+        Calendar cal = Calendar.getInstance();
+
+        // Nếu đã có ngày sinh, parse để hiển thị đúng trên DatePicker
+        String current = etBirthday.getText().toString().trim();
+        if (!TextUtils.isEmpty(current)) {
+            try {
+                String[] parts = current.split("/");
+                cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(parts[0]));
+                cal.set(Calendar.MONTH, Integer.parseInt(parts[1]) - 1);
+                cal.set(Calendar.YEAR, Integer.parseInt(parts[2]));
+            } catch (Exception ignored) {
+            }
+        }
+
+        DatePickerDialog dialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    String date = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year);
+                    etBirthday.setText(date);
+                },
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+
+        // Không cho chọn ngày trong tương lai
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.show();
     }
 
     private void handleUpdateProfile() {
         String fullname = etFullname.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
-        String ageText = etAge.getText().toString().trim();
+        String birthday = etBirthday.getText().toString().trim();
         String gender = getSelectedGender();
 
         // Validate cơ bản
@@ -133,22 +166,6 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        Integer age = null;
-        if (!TextUtils.isEmpty(ageText)) {
-            try {
-                age = Integer.parseInt(ageText);
-                if (age < 1 || age > 120) {
-                    etAge.setError("Tuổi từ 1 đến 120");
-                    etAge.requestFocus();
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                etAge.setError("Tuổi phải là số");
-                etAge.requestFocus();
-                return;
-            }
-        }
-
         // Kiểm tra trùng phone/email với user khác
         if (userDAO.isPhoneExistsForOtherUser(phone, currentUser.getId())) {
             etPhone.setError("Số điện thoại đã tồn tại");
@@ -163,10 +180,10 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         // Update vào SQLite
-        boolean updated = userDAO.updateProfile(currentUser.getId(), fullname, phone, email, age, gender);
+        boolean updated = userDAO.updateProfile(currentUser.getId(), fullname, phone, email, birthday, gender);
 
         if (updated) {
-            sessionManager.updateProfile(fullname, phone, email, currentUser.getBirthday(), gender, age);
+            sessionManager.updateProfile(fullname, phone, email, birthday, gender);
             Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
             finish();
         } else {
