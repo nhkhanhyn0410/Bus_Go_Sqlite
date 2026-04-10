@@ -14,7 +14,7 @@ public class SessionManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_BIRTHDAY = "birthday";
     private static final String KEY_GENDER = "gender";
-
+    private static final String KEY_AGE = "age";
     private static SessionManager instance;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -42,6 +42,11 @@ public class SessionManager {
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putString(KEY_BIRTHDAY, user.getBirthday());
         editor.putString(KEY_GENDER, user.getGender());
+        if (user.getAge() != null) {
+            editor.putInt(KEY_AGE, user.getAge());
+        } else {
+            editor.remove(KEY_AGE);
+        }
         editor.apply();
     }
 
@@ -65,14 +70,23 @@ public class SessionManager {
         user.setEmail(pref.getString(KEY_EMAIL, ""));
         user.setBirthday(pref.getString(KEY_BIRTHDAY, null));
         user.setGender(pref.getString(KEY_GENDER, null));
+        if (pref.contains(KEY_AGE)) {
+            user.setAge(pref.getInt(KEY_AGE, 0));
+        }
 
         return user;
     }
 
-    public void updateProfile(String fullname, String phone, String email) {
+
+    public void updateProfile(String fullname, String phone, String email, String birthday, String gender, Integer age) {
         editor.putString(KEY_FULLNAME, fullname);
         editor.putString(KEY_PHONE, phone);
         editor.putString(KEY_EMAIL, email);
+        if (age != null) {
+            editor.putInt(KEY_AGE, age);
+        } else {
+            editor.remove(KEY_AGE);
+        }
         editor.apply();
     }
 

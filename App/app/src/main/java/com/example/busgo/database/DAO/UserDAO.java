@@ -32,6 +32,7 @@ public class UserDAO {
         values.put("email", user.getEmail());
         values.put("birthday", user.getBirthday());
         values.put("gender", user.getGender());
+        values.put("age", user.getAge());
         values.put("is_active", 1);
 
         long result = db.insert("users", null, values);
@@ -71,7 +72,21 @@ public class UserDAO {
         cursor.close();
         return user;
     }
+    // Cập nhật đầy đủ thông tin (dùng cho Edit Profile)
+    public boolean updateProfile(int userId, String fullname, String phone, String email,
+                                 Integer age, String gender) {
+        ContentValues values = new ContentValues();
+        values.put("fullname", fullname);
+        values.put("phone", phone);
+        values.put("email", email);
+        values.put("age", age);
+        values.put("gender", gender);
 
+        int rows = db.update("users", values,
+                "id = ?", new String[]{String.valueOf(userId)});
+
+        return rows > 0;
+    }
     //Cập nhật đây đủ thông tin
     public boolean updateProfile(int userId, String fullname, String phone, String email,
                                  String birthday, String gender) {
@@ -128,7 +143,26 @@ public class UserDAO {
         cursor.close();
         return exists;
     }
+    // Kiểm tra trùng dữ liệu nhưng loại trừ user hiện tại
+    public boolean isPhoneExistsForOtherUser(String phone, int currentUserId) {
+        Cursor cursor = db.query("users", new String[]{"id"},
+                "phone = ? AND id != ?", new String[]{phone, String.valueOf(currentUserId)},
+                null, null, null);
 
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
+    public boolean isEmailExistsForOtherUser(String email, int currentUserId) {
+        Cursor cursor = db.query("users", new String[]{"id"},
+                "email = ? AND id != ?", new String[]{email, String.valueOf(currentUserId)},
+                null, null, null);
+
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
     //Ánh xạ thông tin user
     private User cursorToUser(Cursor cursor) {
         User user = new User();
@@ -136,6 +170,10 @@ public class UserDAO {
         user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
         user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
         user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("email")));
+        int ageIndex = cursor.getColumnIndexOrThrow("age");
+        if (!cursor.isNull(ageIndex)) {
+            user.setAge(cursor.getInt(ageIndex));
+        }
         int birthdayIndex = cursor.getColumnIndexOrThrow("birthday");
         if (!cursor.isNull(birthdayIndex)) {
             user.setBirthday(cursor.getString(birthdayIndex));

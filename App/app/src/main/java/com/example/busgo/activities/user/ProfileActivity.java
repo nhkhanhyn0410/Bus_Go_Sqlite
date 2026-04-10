@@ -69,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setupListeners() {
         ivEditProfile.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
+                startActivity(new Intent(this, EditProfileActivity.class)));
 
         itemReferral.setOnClickListener(v ->
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
@@ -102,7 +102,11 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserInfo();
+    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
