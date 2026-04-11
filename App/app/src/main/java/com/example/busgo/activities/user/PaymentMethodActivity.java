@@ -119,7 +119,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private void displayPaymentDetails() {
         int numSeats = (seatNumbers != null) ? seatNumbers.size() : 0;
 
-        // Thông tin vé: "2x Ghế ngồi" hoặc "1x Giường nằm"
         String ticketLabel = numSeats + "x vé";
         tvTicketInfo.setText(ticketLabel);
 
@@ -129,7 +128,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
         // Phí nền tảng
         tvPlatformFee.setText(formatPrice(PLATFORM_FEE));
 
-        // Tổng cộng (giá vé + phí nền tảng)
         double grandTotal = totalPrice + PLATFORM_FEE;
         tvTotalPrice.setText(formatPrice(grandTotal));
     }
@@ -167,9 +165,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Xử lý thanh toán tiền mặt: tạo booking → chuyển sang BookingSuccessActivity
-     */
     private void processPayment() {
         int userId = sessionManager.getLoggedInUserId();
         if (userId == -1) {
@@ -179,7 +174,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         String bookingCode = generateBookingCode();
 
-        // Tạo booking object
         Booking booking = new Booking();
         booking.setBookingCode(bookingCode);
         booking.setUserId(userId);
@@ -199,8 +193,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
         booking.setPaymentStatus("unpaid");
         booking.setPaymentMethod("cash");
 
-        // BookingDAO.createBooking() đã tự quản lý transaction
-        // (insert booking → update seats → decrease available_seats)
         long bookingId = bookingDAO.createBooking(booking, seatNumbers);
 
         if (bookingId == -1) {
@@ -217,16 +209,11 @@ public class PaymentMethodActivity extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * Format giá tiền: 600000 → "600.000VNĐ"
-     */
+
     private String formatPrice(double price) {
         return String.format(Locale.getDefault(), "%,.0fVNĐ", price).replace(",", ".");
     }
 
-    /**
-     * Tạo mã booking: BK + timestamp + 4 số random
-     */
     private String generateBookingCode() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
         String timestamp = sdf.format(new Date());

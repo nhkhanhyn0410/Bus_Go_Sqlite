@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:padding="4dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_back"/>
@@ -348,6 +348,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tvTotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

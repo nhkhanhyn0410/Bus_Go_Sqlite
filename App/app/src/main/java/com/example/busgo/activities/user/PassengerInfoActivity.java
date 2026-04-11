@@ -1,5 +1,7 @@
 package com.example.busgo.activities.user;
 
+import static com.example.busgo.until.PriceCalculator.formatPrice;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
 
     // UI
     private ImageView btnBack;
-    private TextView tvPickupName, tvDropoffName;
+    private TextView tvPickupName, tvDropoffName, tvTotalPrice;
     private EditText etPassengerName, etPassengerPhone, etPassengerEmail;
     private EditText etBirthDate, etGender;
     private Button btnContinue;
@@ -59,6 +61,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
         initViews();
         getDataFromIntent();
         preFillUserInfo();
+        setupTotalPrice();
         setupListeners();
     }
 
@@ -71,6 +74,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
         etPassengerEmail = findViewById(R.id.etPassengerEmail);
         etBirthDate = findViewById(R.id.etBirthDate);
         etGender = findViewById(R.id.etGender);
+        tvTotalPrice = findViewById(R.id.tvTotalPrice);
         btnContinue = findViewById(R.id.btnContinue);
 
         lnBottomLayout = findViewById(R.id.lnBottomLayout);
@@ -142,6 +146,10 @@ public class PassengerInfoActivity extends AppCompatActivity {
         });
     }
 
+    private void setupTotalPrice() {
+        tvTotalPrice.setText(formatPrice(totalPrice));
+    }
+
     private void showDatePicker() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR) - 30;
@@ -210,6 +218,7 @@ public class PassengerInfoActivity extends AppCompatActivity {
 
         return true;
     }
+
 
     private void proceedToConfirmation() {
         String passengerName = etPassengerName.getText().toString().trim();

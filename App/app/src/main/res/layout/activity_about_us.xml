@@ -84,7 +84,8 @@
                 android:lineSpacingExtra="1dp"
                 android:text="Bus Go giúp bạn đặt vé xe nhanh chóng, chọn chỗ dễ dàng và thanh toán an toàn chỉ trong vài bước. Chúng tôi luôn mong muốn mang đến trải nghiệm di chuyển tiện lợi và tiết kiệm thời gian cho bạn."
                 android:textColor="#666666"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
