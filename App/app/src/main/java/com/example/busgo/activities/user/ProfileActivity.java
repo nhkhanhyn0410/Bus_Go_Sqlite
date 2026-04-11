@@ -9,7 +9,7 @@ import com.example.busgo.until.SessionManager;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowInsetsControllerCompat;
-
+import android.widget.LinearLayout;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.busgo.database.model.User;
@@ -18,14 +18,14 @@ import com.example.busgo.until.BottomNavHelper;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.material.card.MaterialCardView;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView tvFullname, tvPhoneHeader;
     private ImageView ivEditProfile;
 
     // Menu items
-    private MaterialCardView itemReferral, itemPromo, itemSupport, itemAbout, itemLogout;
+    private LinearLayout itemReferral, itemPromo, itemSupport, itemAbout, itemLogout;
 
     private SessionManager sessionManager;
 
@@ -69,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setupListeners() {
         ivEditProfile.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
+                startActivity(new Intent(this, EditProfileActivity.class)));
 
         itemReferral.setOnClickListener(v ->
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
@@ -80,10 +80,8 @@ public class ProfileActivity extends AppCompatActivity {
         itemSupport.setOnClickListener(v ->
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
 
-        itemAbout.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, AboutUsActivity.class);
-            startActivity(intent);
-        });
+        itemAbout.setOnClickListener(v ->
+                startActivity(new Intent(this, AboutUsActivity.class)));
 
         itemLogout.setOnClickListener(v -> showLogoutDialog());
     }
@@ -104,13 +102,18 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserInfo();
+    }
+
+     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         overridePendingTransition(0, 0);
         finish();
-    }
+        }
 }

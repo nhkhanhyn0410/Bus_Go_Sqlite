@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_grey"
+    android:orientation="vertical"
     tools:context=".activities.user.ProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingBottom="90dp">
+        android:paddingBottom="12dp">
 
         <!-- HEADER -->
         <LinearLayout
@@ -97,35 +99,35 @@
                 android:paddingBottom="10dp">
 
                 <!-- ITEM: Giới thiệu bạn bè & Nhận thưởng -->
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                     android:id="@+id/itemReferral"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:layout_marginVertical="6dp"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@android:color/white"
                     android:clickable="true"
                     android:focusable="true"
+                    android:elevation="6dp"
+                    android:translationZ="2dp"
                     android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="407dp"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
-                        android:paddingEnd="16dp"
-                        >
+                        android:paddingEnd="16dp">
 
                         <ImageView
                             android:layout_width="22dp"
                             android:layout_height="22dp"
+                            android:contentDescription="Giới thiệu bạn bè và Nhận thưởng"
                             android:src="@drawable/ic_gift"
-                            app:tint="@color/primary"
-                            android:contentDescription="Giới thiệu bạn bè và Nhận thưởng" />
+                            app:tint="@color/primary" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -137,21 +139,19 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
                 <!-- ITEM: Ưu đãi / Khuyến mãi -->
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                     android:id="@+id/itemPromo"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginVertical="6dp"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
+                    android:background="@android:color/white"
                     android:clickable="true"
                     android:focusable="true"
+                    android:elevation="6dp"
+                    android:translationZ="2dp"
                     android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
@@ -179,22 +179,20 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
+                </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
 
                 <!-- ITEM: Câu hỏi thường gặp & Hỗ trợ -->
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                     android:id="@+id/itemSupport"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginVertical="6dp"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
+                    android:background="@android:color/white"
                     android:clickable="true"
                     android:focusable="true"
+                    android:elevation="6dp"
+                    android:translationZ="2dp"
                     android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
@@ -223,21 +221,19 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
                 <!-- ITEM: Về chúng tôi -->
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                     android:id="@+id/itemAbout"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginVertical="6dp"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
+                    android:background="@android:color/white"
                     android:clickable="true"
                     android:focusable="true"
+                    android:elevation="6dp"
+                    android:translationZ="2dp"
                     android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
@@ -266,21 +262,19 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
                 <!-- ITEM: Đăng xuất -->
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                     android:id="@+id/itemLogout"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginVertical="6dp"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="6dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#E0E0E0"
-                    app:cardBackgroundColor="@android:color/white"
+                    android:background="@android:color/white"
                     android:clickable="true"
                     android:focusable="true"
+                    android:elevation="6dp"
+                    android:translationZ="2dp"
                     android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
@@ -310,16 +304,15 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
+        <!-- Bottom nav pill -->
 
     </LinearLayout>
-
-    <!-- Bottom nav pill -->
     <include
         layout="@layout/bottom_nav_pill"
-        app:layout_anchorGravity="bottom" />
+        />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
