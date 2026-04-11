@@ -3,7 +3,9 @@ package com.example.busgo.activities.auth;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.busgo.R;
 import com.example.busgo.activities.user.MainActivity;
@@ -32,7 +35,7 @@ public class ConfirmInfoActivity extends AppCompatActivity {
 
     private EditText etFullname, etBirthday;
     private Spinner spinnerGender;
-    private MaterialButton btnConfirm;
+    private Button btnConfirm;
     private TextView tvUpdateLater;
 
     private String email, phone, password;
@@ -49,6 +52,9 @@ public class ConfirmInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_confirm_info);
+
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false);
 
         email = getIntent().getStringExtra("email");
         phone = getIntent().getStringExtra("phone");
@@ -76,6 +82,15 @@ public class ConfirmInfoActivity extends AppCompatActivity {
 
         btnConfirm = findViewById(R.id.btnConfirm);
         tvUpdateLater = findViewById(R.id.tvUpdateLater);
+
+        final int originalbtnConfirm = ((ViewGroup.MarginLayoutParams) btnConfirm.getLayoutParams()).bottomMargin;
+        ViewCompat.setOnApplyWindowInsetsListener(btnConfirm, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.bottomMargin = originalbtnConfirm + insets.bottom;
+            view.setLayoutParams(params);
+            return windowInsets;
+        });
 
         selectedDate = Calendar.getInstance();
     }

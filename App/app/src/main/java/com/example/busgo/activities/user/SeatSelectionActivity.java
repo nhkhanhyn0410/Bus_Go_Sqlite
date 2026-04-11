@@ -48,8 +48,8 @@ public class SeatSelectionActivity extends AppCompatActivity {
 
     // Seat grids
     private LinearLayout layoutFloorLabels, layoutDualGrid;
-    private ExpandableGridView gridFloor1, gridFloor2; // Xe giường: 2 grid cạnh nhau
-    private ExpandableGridView gridSeats;              // Xe ngồi: 1 grid duy nhất
+    private ExpandableGridView gridFloor1, gridFloor2;
+    private ExpandableGridView gridSeats;
 
     // Bottom bar
     private TextView tvSelectedSeatsLabel, tvSelectedSeatsValue;

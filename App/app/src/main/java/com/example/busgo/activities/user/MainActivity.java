@@ -13,16 +13,21 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.busgo.R;
 import com.example.busgo.database.DatabaseHelper;
+import com.example.busgo.database.model.Route;
 import com.example.busgo.until.BottomNavHelper;
 import com.example.busgo.until.SessionManager;
+import com.example.busgo.adapters.RouteAdapter;
 import com.example.busgo.database.DAO.TripDAO;
 import com.example.busgo.activities.user.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -40,12 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private TripDAO tripDAO;
 
     // RecyclerViews
-    private RecyclerView rvPopularTrips, rvRecentSearches, rvOtherTrips;
+    private RecyclerView rvPopularTrips, rvOtherTrips;
 
-    // Adapters
-//    private PopularRouteAdapter popularRouteAdapter;
-//    private RecentSearchAdapter recentSearchAdapter;
-//    private PopularRouteAdapter otherTripsAdapter;
+        // Adapters
+    private RouteAdapter popularRouteAdapter;
+    private RouteAdapter otherTripsAdapter;
 
     // Data
     private String selectedDeparture = "";
@@ -67,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = SessionManager.getInstance(this);
         initViews();
 
+        setupRecyclerViews();
+
+        loadSampleData();
+
         setupClickListeners();
         BottomNavHelper.setup(this, BottomNavHelper.TAB_HOME);
     }
@@ -86,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         // RecyclerViews
         rvPopularTrips = findViewById(R.id.rvPopularTrips);
-        rvRecentSearches = findViewById(R.id.rvRecentSearches);
         rvOtherTrips = findViewById(R.id.rvOtherTrips);
     }
 
@@ -109,6 +116,37 @@ public class MainActivity extends AppCompatActivity {
         btnSwapLocations.setOnClickListener(v -> swapLocations());
 
         btnSearchTrip.setOnClickListener(v -> performSearch());
+    }
+
+        private void setupRecyclerViews() {
+        // Popular Trips
+        rvPopularTrips.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        popularRouteAdapter = new RouteAdapter(this, new ArrayList<>());
+        popularRouteAdapter.setOnRouteClickListener(this::onRouteClick);
+        rvPopularTrips.setAdapter(popularRouteAdapter);
+        
+        // Other Trips
+        rvOtherTrips.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        otherTripsAdapter = new RouteAdapter(this, new ArrayList<>());
+        otherTripsAdapter.setOnRouteClickListener(this::onRouteClick);
+        rvOtherTrips.setAdapter(otherTripsAdapter);
+    }
+
+        private void loadSampleData() {
+        // Popular trips
+        List<Route> popularRoutes = new ArrayList<>();
+        popularRoutes.add(new Route("TP.HCM", "Vũng Tàu", 125, 120, true));
+        popularRoutes.add(new Route("TP.HCM", "Đà Lạt", 310, 360, true));
+        popularRoutes.add(new Route("TP.HCM", "Nha Trang", 450, 480, true));
+        popularRoutes.add(new Route("TP.HCM", "Cần Thơ", 170, 180, true));
+        popularRouteAdapter.updateData(popularRoutes);
+        
+        // Other trips
+        List<Route> otherTrips = new ArrayList<>();
+        otherTrips.add(new Route("Hà Nội", "Hải Phòng", 120, 120, true));
+        otherTrips.add(new Route("Hà Nội", "Sapa", 320, 360, true));
+        otherTrips.add(new Route("Đà Nẵng", "Huế", 100, 120, true));
+        otherTripsAdapter.updateData(otherTrips);
     }
 
 
@@ -197,4 +235,28 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+        private void onRouteClick(Route route) {
+        selectedDeparture = route.getDeparture();
+        selectedDestination = route.getDestination();
+
+        tvDeparture.setText(selectedDeparture);
+        tvDestination.setText(selectedDestination);
+
+        if (selectedDate.isEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn ngày di chuyển", Toast.LENGTH_SHORT).show();
+            showDatePicker();
+        } else {
+            performSearch();
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        // Xác nhận thoát app
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Thoát ứng dụng")
+                .setMessage("Bạn có chắc muốn thoát?")
+                .setPositiveButton("Có", (dialog, which) -> finishAffinity())
+                .setNegativeButton("Không", null)
+                .show();
+    }
 }

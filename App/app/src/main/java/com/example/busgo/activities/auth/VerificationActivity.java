@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.text.Editable;
@@ -20,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.busgo.R;
 import com.example.busgo.until.EmailOtpSender;
@@ -39,7 +42,7 @@ public class VerificationActivity extends AppCompatActivity {
     private static final String TAG = "VerificationActivity";
     private TextView tvSubtitle, tvEmail, tvResendTimer, tvUseAnotherEmail, tvUsePhone;
     private EditText etOtp1, etOtp2, etOtp3, etOtp4, etOtp5, etOtp6;
-    private MaterialButton btnVerify;
+    private Button btnVerify;
     private EditText[] otpInputs;
 
     private String email, phone, password;
@@ -66,6 +69,9 @@ public class VerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_verification);
+
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false);
 
         email = getIntent().getStringExtra("email");
         phone = getIntent().getStringExtra("phone");
@@ -102,6 +108,15 @@ public class VerificationActivity extends AppCompatActivity {
         otpInputs = new EditText[]{etOtp1, etOtp2, etOtp3, etOtp4, etOtp5, etOtp6};
 
         btnVerify = findViewById(R.id.btnVerify);
+
+        final int originalbtnbtnVerify = ((ViewGroup.MarginLayoutParams) btnVerify.getLayoutParams()).bottomMargin;
+        ViewCompat.setOnApplyWindowInsetsListener(btnVerify, (view, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.bottomMargin = originalbtnbtnVerify + insets.bottom;
+            view.setLayoutParams(params);
+            return windowInsets;
+        });
     }
 
     private void initFirebase() {

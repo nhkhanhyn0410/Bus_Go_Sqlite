@@ -28,7 +28,7 @@ public class TripDAO {
                 "routes.departure, routes.destination, routes.distance, routes.duration, " +
                 "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
                 "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
-                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id) AS stops_count " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id AND stop_points.point_type = 'rest_stop') AS stops_count " +
                 "FROM trips " +
                 "JOIN routes ON trips.route_id = routes.id " +
                 "JOIN buses ON trips.bus_id = buses.id " +
@@ -55,7 +55,7 @@ public class TripDAO {
                 "routes.departure, routes.destination, routes.distance, routes.duration, " +
                 "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
                 "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
-                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id) AS stops_count " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id AND stop_points.point_type = 'rest_stop') AS stops_count " +
                 "FROM trips " +
                 "JOIN routes ON trips.route_id = routes.id " +
                 "JOIN buses ON trips.bus_id = buses.id " +

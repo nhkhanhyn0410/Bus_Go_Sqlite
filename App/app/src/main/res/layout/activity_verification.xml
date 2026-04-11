@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="false">
     
     <ScrollView
         android:layout_width="match_parent"
@@ -236,7 +236,7 @@
             android:textSize="18sp" />
 
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnVerify"
             android:layout_width="match_parent"
             android:layout_height="48dp"

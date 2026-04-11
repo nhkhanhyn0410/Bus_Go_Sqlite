@@ -61,12 +61,10 @@
             android:exported="false" />
         <activity
             android:name=".activities.auth.VerificationActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:exported="false" />
         <activity
             android:name=".activities.auth.ConfirmInfoActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:exported="false" />
         <activity
             android:name=".activities.common.SplashActivity"
             android:exported="true">
@@ -78,7 +76,6 @@
         <activity
             android:name=".activities.auth.AuthActivity"
             android:exported="true"
-            android:theme="@style/Theme.BusGo"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.user.MainActivity"
