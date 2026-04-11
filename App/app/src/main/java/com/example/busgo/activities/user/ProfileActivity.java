@@ -80,8 +80,10 @@ public class ProfileActivity extends AppCompatActivity {
         itemSupport.setOnClickListener(v ->
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
 
-        itemAbout.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
+        itemAbout.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, AboutUsActivity.class);
+            startActivity(intent);
+        });
 
         itemLogout.setOnClickListener(v -> showLogoutDialog());
     }

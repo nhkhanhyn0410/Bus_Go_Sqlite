@@ -29,19 +29,19 @@ public class TermsActivity extends AppCompatActivity {
         tvUpdatedAt.setText("Cập nhật lần cuối: 01/03/2026");
         tvContent.setText(
                 "1. Giới thiệu\n" +
-                        "BUS GO là nền tảng đặt vé xe khách trực tuyến, cho phép người dùng tìm chuyến, chọn chỗ và thanh toán.\n\n" +
+                        "BUS GO là nền tảng đặt vé xe khách trực tuyến, cho phép người dùng tìm chuyến, chọn ghế và thanh toán. Khi sử dụng dịch vụ, bạn đồng ý với các điều khoản này.\n\n" +
                         "2. Phạm vi dịch vụ\n" +
-                        "BUS GO là đơn vị trung gian kết nối nhà xe và hành khách.\n\n" +
+                        "BUS GO là đơn vị trung gian kết nối hành khách với nhà xe, không trực tiếp vận hành phương tiện. Thông tin về lịch trình, giá vé và chính sách do nhà xe cung cấp, có thể thay đổi theo thời điểm.\n\n" +
                         "3. Tài khoản người dùng\n" +
-                        "Người dùng cần cung cấp thông tin chính xác và bảo mật tài khoản.\n\n" +
+                        "Người dùng cần cung cấp thông tin chính xác, tự bảo mật tài khoản và chịu trách nhiệm với mọi hoạt động phát sinh. BUS GO có quyền khóa tài khoản nếu phát hiện vi phạm.\n\n" +
                         "4. Đặt vé và thanh toán\n" +
-                        "Việc đặt vé chỉ hoàn tất khi thanh toán thành công.\n\n" +
+                        "Vé được xác nhận khi thanh toán thành công. Người dùng cần kiểm tra kỹ thông tin chuyến đi trước khi đặt. Giá vé có thể gồm một số khoản phí theo quy định.\n\n" +
                         "5. Hủy vé và hoàn tiền\n" +
-                        "Áp dụng theo quy định của từng nhà xe.\n\n" +
+                        "Chính sách hủy vé và hoàn tiền áp dụng theo quy định của từng nhà xe. Thời gian hoàn tiền phụ thuộc vào phương thức thanh toán và đơn vị liên quan.\n\n" +
                         "6. Giới hạn trách nhiệm\n" +
-                        "BUS GO không chịu trách nhiệm với các lỗi ngoài tầm kiểm soát.\n\n" +
+                        "BUS GO không chịu trách nhiệm với việc thay đổi lịch trình, hủy chuyến hoặc sự cố từ phía nhà xe, nhưng sẽ hỗ trợ người dùng trong phạm vi dịch vụ.\n\n" +
                         "7. Thay đổi điều khoản\n" +
-                        "BUS GO có quyền cập nhật điều khoản khi cần."
+                        " BUS GO có quyền cập nhật các điều khoản để phù hợp với quy định pháp luật và hoạt động thực tế."
         );
 
         btnBack.setOnClickListener(v -> finish());
