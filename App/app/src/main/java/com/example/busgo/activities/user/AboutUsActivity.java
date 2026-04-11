@@ -36,54 +36,34 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void initActions() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        btnBack.setOnClickListener(v -> finish());
+
+        itemTerms.setOnClickListener(v -> {
+            Intent intent = new Intent(AboutUsActivity.this, TermsActivity.class);
+            startActivity(intent);
         });
 
-        itemTerms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AboutUsActivity.this, TermsActivity.class);
-                startActivity(intent);
-            }
+        itemPrivacy.setOnClickListener(v -> {
+            Intent intent = new Intent(AboutUsActivity.this, PrivacyPolicyActivity.class);
+            startActivity(intent);
         });
 
-        itemPrivacy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AboutUsActivity.this, PrivacyPolicyActivity.class);
-                startActivity(intent);
-            }
+        itemWebsite.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://ve-xe-nhanh-testing-frontend.vercel.app/")
+            );
+            startActivity(intent);
         });
 
-        itemWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://your-website.com")
-                );
-                startActivity(intent);
-            }
+        itemLicense.setOnClickListener(v -> {
+            Intent intent = new Intent(AboutUsActivity.this, LicenseActivity.class);
+            startActivity(intent);
         });
 
-        itemLicense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AboutUsActivity.this, LicenseActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        itemAgreement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AboutUsActivity.this, UserAgreementActivity.class);
-                startActivity(intent);
-            }
+        itemAgreement.setOnClickListener(v -> {
+            Intent intent = new Intent(AboutUsActivity.this, UserAgreementActivity.class);
+            startActivity(intent);
         });
     }
 }
