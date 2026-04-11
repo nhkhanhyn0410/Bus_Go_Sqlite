@@ -42,7 +42,7 @@
                     android:gravity="center"
                     android:text="Chào mừng bạn tới với Bus Go"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold|italic" />
 
                 <TextView
@@ -53,7 +53,7 @@
                     android:gravity="center"
                     android:text="Sử dụng số điện thoại hoặc email\ncủa bạn để đăng nhập hoặc đăng ký"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </FrameLayout>
         <LinearLayout

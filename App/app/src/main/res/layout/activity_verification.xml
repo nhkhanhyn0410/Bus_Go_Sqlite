@@ -39,7 +39,7 @@
                 android:layout_marginTop="60dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingHorizontal="24dp">
+                android:paddingHorizontal="10dp">
 
                 <TextView
                     android:id="@+id/tvWelcome"
@@ -48,7 +48,7 @@
                     android:gravity="center"
                     android:text="Chào mừng bạn tới với Bus Go"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold|italic" />
 
                 <TextView
@@ -59,7 +59,7 @@
                     android:gravity="center"
                     android:text="Nhập mã xác minh được gửi đến"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tvEmail"
@@ -69,7 +69,7 @@
                     android:gravity="center"
                     android:text="abc@gmail.com"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
