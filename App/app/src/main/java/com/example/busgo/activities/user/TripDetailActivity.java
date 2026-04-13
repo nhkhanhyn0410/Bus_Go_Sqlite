@@ -326,7 +326,7 @@ public class TripDetailActivity extends AppCompatActivity {
         int itemsInRow = 0;
 
         for (int i = 0; i < amenities.size(); i++) {
-            if (itemsInRow >= 3) {
+            if (itemsInRow >= 2) {
                 currentRow = createAmenityRow();
                 amenitiesContainer.addView(currentRow);
                 itemsInRow = 0;

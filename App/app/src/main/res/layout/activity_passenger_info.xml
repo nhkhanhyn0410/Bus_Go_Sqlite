@@ -364,7 +364,6 @@
             android:layout_height="48dp"
             android:minWidth="180dp"
             android:background="@drawable/bg_btn_green"
-            android:backgroundTint="@null"
             android:paddingHorizontal="18dp"
             android:text="Tiếp tục thanh toán"
             android:textAllCaps="false"
@@ -372,7 +371,8 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:singleLine="true"
-            android:ellipsize="end" />
+            android:ellipsize="end"
+            app:backgroundTint="@null"/>
     </LinearLayout>
 
 </LinearLayout>

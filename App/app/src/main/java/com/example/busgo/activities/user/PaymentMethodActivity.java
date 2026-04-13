@@ -9,13 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.busgo.R;
 import com.example.busgo.database.DAO.BookingDAO;
@@ -139,10 +137,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         selectPaymentMethod("cash");
 
         rowCash.setOnClickListener(v -> selectPaymentMethod("cash"));
-
-        rowMomo.setOnClickListener(v -> {
-            Toast.makeText(this, "Tính năng MoMo đang được phát triển", Toast.LENGTH_SHORT).show();
-        });
+        rowMomo.setOnClickListener(v -> selectPaymentMethod("momo"));
 
         btnPay.setOnClickListener(v -> processPayment());
     }
@@ -166,6 +161,36 @@ public class PaymentMethodActivity extends AppCompatActivity {
     }
 
     private void processPayment() {
+        if ("momo".equals(selectedMethod)) {
+            processMoMoPayment();
+        } else {
+            processCashPayment();
+        }
+    }
+
+    /**
+     * Chuyển sang PaymentProcessingActivity để xử lý MoMo
+     */
+    private void processMoMoPayment() {
+        Intent intent = new Intent(this, PaymentProcessingActivity.class);
+        intent.putExtra("trip_id", tripId);
+        intent.putExtra("pickup_point_id", pickupPointId);
+        intent.putExtra("dropoff_point_id", dropoffPointId);
+        intent.putExtra("pickup_time", pickupTime);
+        intent.putExtra("dropoff_time", dropoffTime);
+        intent.putExtra("total_price", totalPrice);
+        intent.putStringArrayListExtra("seat_numbers", seatNumbers);
+        intent.putExtra("passenger_name", passengerName);
+        intent.putExtra("passenger_phone", passengerPhone);
+        intent.putExtra("passenger_email", passengerEmail);
+        intent.putExtra("note", note);
+        startActivity(intent);
+    }
+
+    /**
+     * Xử lý thanh toán tiền mặt (logic gốc)
+     */
+    private void processCashPayment() {
         int userId = sessionManager.getLoggedInUserId();
         if (userId == -1) {
             Toast.makeText(this, "Lỗi: Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
@@ -201,14 +226,13 @@ public class PaymentMethodActivity extends AppCompatActivity {
         }
 
         // Chuyển sang màn hình thành công
-        Intent intent = new Intent(this, BookingSuccessActivity.class);
+        Intent intent = new Intent(this, PaymentSuccessActivity.class);
         intent.putExtra("booking_code", bookingCode);
         intent.putExtra("payment_status", "unpaid");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
-
 
     private String formatPrice(double price) {
         return String.format(Locale.getDefault(), "%,.0fVNĐ", price).replace(",", ".");
@@ -220,6 +244,4 @@ public class PaymentMethodActivity extends AppCompatActivity {
         int random = (int) (Math.random() * 9000) + 1000;
         return "BK" + timestamp + random;
     }
-
-
 }

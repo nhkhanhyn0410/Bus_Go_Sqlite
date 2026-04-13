@@ -83,7 +83,7 @@
             android:layout_width="220dp"
             android:layout_height="48dp"
             android:background="@drawable/bg_btn_green"
-            android:backgroundTint="@null"
+            app:backgroundTint="@null"
             android:text="Xem vé của bạn"
             android:textAllCaps="false"
             android:textColor="@color/white"

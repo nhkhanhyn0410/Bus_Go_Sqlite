@@ -3,8 +3,8 @@ package com.example.busgo.activities.user;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,13 +14,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.busgo.R;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
 
-public class BookingSuccessActivity extends AppCompatActivity {
+public class PaymentSuccessActivity extends AppCompatActivity {
 
 
-    private MaterialButton btnViewTicket;
+    private Button btnViewTicket;
     private String bookingCode;
     private LinearLayout lnBottomLayout;
 
@@ -28,7 +26,7 @@ public class BookingSuccessActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_booking_success);
+        setContentView(R.layout.activity_payment_success);
 
         initViews();
         getDataFromIntent();

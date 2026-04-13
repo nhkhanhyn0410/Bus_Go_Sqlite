@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -30,10 +32,26 @@
             android:name=".activities.user.BookingDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.user.BookingSuccessActivity"
+            android:name=".activities.user.PaymentSuccessActivity"
             android:exported="false" />
         <activity
             android:name=".activities.user.PaymentMethodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PaymentProcessingActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="busgo"
+                    android:host="momo_return" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.user.PaymentFailedActivity"
             android:exported="false" />
         <activity
             android:name=".activities.user.EditProfileActivity"

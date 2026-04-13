@@ -222,9 +222,7 @@ public class BookingDetailActivity extends AppCompatActivity {
         // Đếm tổng điểm dừng (pickup + dropoff + rest)
         List<StopPoint> pickups = stopPointDAO.getPickupPointsByRouteId(trip.getRouteId());
         List<StopPoint> dropoffs = stopPointDAO.getDropoffPointsByRouteId(trip.getRouteId());
-        int totalStops = (pickups != null ? pickups.size() : 0)
-                + (dropoffs != null ? dropoffs.size() : 0)
-                + (restStops != null ? restStops.size() : 0);
+        int totalStops = trip.getStopsCount();
         tvStopCount.setText(totalStops + " Điểm");
 
         if (restStops == null || restStops.isEmpty()) {
