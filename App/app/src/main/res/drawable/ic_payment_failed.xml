@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="144dp"
+    android:height="141dp"
+    android:viewportWidth="144"
+    android:viewportHeight="141">
+
+    <!-- Outer light red circle -->
+    <path
+        android:pathData="M70.5,0L73.5,0A70.5,70.5 0,0 1,144 70.5L144,70.5A70.5,70.5 0,0 1,73.5 141L70.5,141A70.5,70.5 0,0 1,0 70.5L0,70.5A70.5,70.5 0,0 1,70.5 0z"
+        android:fillColor="#FCCFCF" />
+
+    <!-- Inner red circle -->
+    <path
+        android:pathData="M72.5,17L72.5,17A53.5,53.5 0,0 1,126 70.5L126,71.5A53.5,53.5 0,0 1,72.5 125L72.5,125A53.5,53.5 0,0 1,19 71.5L19,70.5A53.5,53.5 0,0 1,72.5 17z"
+        android:fillColor="#E53935" />
+
+    <!-- X circle outline -->
+    <path
+        android:pathData="M72,48C59.85,48 50,57.85 50,70C50,82.15 59.85,92 72,92C84.15,92 94,82.15 94,70C94,57.85 84.15,48 72,48ZM72,52C81.94,52 90,60.06 90,70C90,79.94 81.94,88 72,88C62.06,88 54,79.94 54,70C54,60.06 62.06,52 72,52Z"
+        android:fillColor="#ffffff"
+        android:fillType="evenOdd" />
+
+    <!-- X mark -->
+    <path
+        android:pathData="M62.34,60.34L63.76,58.93L72,67.17L80.24,58.93L81.66,60.34L73.41,68.59L81.66,76.83L80.24,78.24L72,70L63.76,78.24L62.34,76.83L70.59,68.59Z"
+        android:fillColor="#ffffff" />
+</vector>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:developers.momo.vn)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -s \"https://api.github.com/repos/momo-wallet/payment/contents/nodejs\")",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
+}
