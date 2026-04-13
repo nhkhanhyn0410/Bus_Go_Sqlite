@@ -41,9 +41,6 @@ public class BottomNavHelper {
 
     private boolean isAnimating = false;
 
-    private boolean navigateToRight = true;
-
-
     public static void setup(Activity activity, String selectedTab) {
         new BottomNavHelper(activity, selectedTab);
     }
