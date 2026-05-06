@@ -1,0 +1,111 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+
+
+# ===================================
+# Android
+# ===================================
+# Gradle files
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/*/build/
+android-app/local.properties
+android-app/.gradle
+android-app/gradle-app.setting
+
+# IntelliJ IDEA
+android-app/.idea/
+android-app/*.iml
+android-app/*.iws
+android-app/*.ipr
+android-app/out/
+
+# Android Studio
+android-app/.navigation/
+android-app/captures/
+android-app/.externalNativeBuild/
+android-app/.cxx/
+android-app/app/release/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services
+android-app/google-services.json
+android-app/app/google-services.json
+
+# ===================================
+# Shared
+# ===================================
+.env
+.env.local
+.env.*.local
+*.log
+
+
+# ===================================
+# IDE
+# ===================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.bak
+
+# ===================================
+# Sensitive Files
+# ===================================
+# Firebase
+**/firebase-service-account*.json
+backend/src/main/resources/firebase-service-account*.json
+
+# Application secrets
+backend/src/main/resources/application-secrets.yml
+backend/src/main/resources/application-local.yml
+
+# Database
+*.sql.gz
+*.sql.bak
+
+# SSL Certificates
+*.pem
+*.crt
+*.key
+*.p12
+
+# ===================================
+# Docker
+# ===================================
+docker-compose.override.yml
+
+# ===================================
+# Logs
+# ===================================
+logs/
+*.log.*
+
+
+
+# ===================================
+# Build artifacts
+# ===================================
+dist/
+build/
+out/

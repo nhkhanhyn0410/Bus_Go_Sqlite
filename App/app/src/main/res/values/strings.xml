@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bus Go</string>
+
+    <string name="login">Đăng nhập</string>
+    <string name="register">Đăng ký</string>
+    <string name="login_failed">Sai số điện thoại/email hoặc mật khẩu</string>
+    <string name="register_success">Đăng ký thành công!</string>
+    <string name="register_failed">Đăng ký thất bại. Vui lòng thử lại</string>
+    <string name="phone_exists">Số điện thoại đã được sử dụng</string>
+    <string name="email_exists">Email đã được sử dụng</string>
+
+    <string name="departure">Điểm đi</string>
+    <string name="destination">Điểm đến</string>
+    <string name="departure_date">Ngày đi</string>
+    <string name="no_trips_found">Không tìm thấy chuyến nào</string>
+
+    <string name="bus_type">Loại xe</string>
+
+    <string name="cancel">Hủy</string>
+    <string name="info">Thông tin</string>
+    <string name="available_seats">Số ghế trống</string>
+
+    <string name="confirm">Xác nhận</string>
+    <string name="loading">Đang tải…</string>
+</resources>

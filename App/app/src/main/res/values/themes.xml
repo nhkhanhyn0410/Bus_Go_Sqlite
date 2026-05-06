@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.BusGo" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="Theme.BusGo" parent="Base.Theme.BusGo" />
+</resources>

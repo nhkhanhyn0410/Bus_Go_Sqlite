@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BusGo">
+        <activity
+            android:name=".activities.user.UserAgreementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.LicenseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.TermsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.BookingDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PaymentSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PaymentMethodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PaymentProcessingActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="busgo"
+                    android:host="momo_return" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.user.PaymentFailedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PassengerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.SeatSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.PickupDropoffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.TripDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.SearchTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.BookingHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.user.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.auth.VerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.auth.ConfirmInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.common.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.auth.AuthActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.user.MainActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>
