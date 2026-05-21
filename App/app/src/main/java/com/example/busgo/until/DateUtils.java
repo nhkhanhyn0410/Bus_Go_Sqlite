@@ -11,6 +11,9 @@ public class DateUtils {
     private static final SimpleDateFormat DATABASE_FORMAT =
             new SimpleDateFormat(Constants.DATE_FORMAT_DATABASE, Locale.getDefault());
 
+    private static final SimpleDateFormat SQL_FORMAT =
+            new SimpleDateFormat(Constants.DATE_FORMAT_SQL, Locale.getDefault());
+
     private static final SimpleDateFormat DATE_DISPLAY_FORMAT =
             new SimpleDateFormat(Constants.DATE_FORMAT_DISPLAY, Locale.getDefault());
 
@@ -36,10 +39,29 @@ public class DateUtils {
         }
     }
 
+    //"2026-01-12" -> Date | null
+    public static Date parseSqlDate(String sqlDate) {
+        try {
+            return sqlDate == null ? null : SQL_FORMAT.parse(sqlDate);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    //Date -> "2026-01-12"
+    public static String formatSqlDate(Date date) {
+        return SQL_FORMAT.format(date);
+    }
+
+    //"2026-01-12" -> "12/01/2026"
+    public static String sqlDateToDisplay(String sqlDate) {
+        Date d = parseSqlDate(sqlDate);
+        return d == null ? sqlDate : DATE_DISPLAY_FORMAT.format(d);
+    }
+
     //@return yyyy-MM-dd
     public static String getCurrentDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return sdf.format(new Date());
+        return SQL_FORMAT.format(new Date());
     }
      //@return Chuỗi dạng "6 giờ 30 phút"
     public static String calculateDuration(String startTime, String endTime) {

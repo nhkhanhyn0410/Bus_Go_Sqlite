@@ -10,7 +10,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowInsetsControllerCompat;
 import android.widget.LinearLayout;
-import android.widget.Button;
 import android.widget.TextView;
 import com.example.busgo.database.model.User;
 import com.example.busgo.R;
@@ -24,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvFullname, tvPhoneHeader;
     private ImageView ivEditProfile;
 
-    private LinearLayout itemReferral, itemPromo, itemSupport, itemAbout, itemLogout;
+    private LinearLayout itemReferral, itemStatistics, itemSupport, itemAbout, itemLogout;
 
     private SessionManager sessionManager;
 
@@ -50,7 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         ivEditProfile = findViewById(R.id.ivEditProfile);
 
         itemReferral = findViewById(R.id.itemReferral);
-        itemPromo = findViewById(R.id.itemPromo);
+        itemStatistics = findViewById(R.id.itemStatistics);
         itemSupport = findViewById(R.id.itemSupport);
         itemAbout = findViewById(R.id.itemAbout);
         itemLogout = findViewById(R.id.itemLogout);
@@ -73,8 +72,8 @@ public class ProfileActivity extends AppCompatActivity {
         itemReferral.setOnClickListener(v ->
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
 
-        itemPromo.setOnClickListener(v ->
-                Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());
+        itemStatistics.setOnClickListener(v ->
+                startActivity(new Intent(this, SpendingStatisticsActivity.class)));
 
         itemSupport.setOnClickListener(v ->
                 Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show());

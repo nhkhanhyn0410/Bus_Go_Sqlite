@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusGo">
         <activity
+            android:name=".activities.user.SpendingStatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.user.UserAgreementActivity"
             android:exported="false" />
         <activity

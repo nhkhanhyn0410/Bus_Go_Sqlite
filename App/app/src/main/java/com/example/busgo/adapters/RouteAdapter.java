@@ -54,11 +54,11 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
         holder.tvDeparture.setText(route.getDeparture());
         holder.tvDestination.setText(route.getDestination());
 
-        double originalPrice = route.getDistance() * 1000 * 1.2; // Example original price calculation
+        double originalPrice = route.getDistance() * 1000 * 1.2;
         holder.tvOriginalPrice.setText(PriceCalculator.formatPrice(originalPrice));
         holder.tvOriginalPrice.setPaintFlags(holder.tvOriginalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        double currentPrice = route.getDistance() * 1000; // Example current price calculation
+        double currentPrice = route.getDistance() * 1000;
         holder.tvCurrentPrice.setText(PriceCalculator.formatPrice(currentPrice));
 
         holder.itemView.setOnClickListener(v -> {

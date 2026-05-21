@@ -3,7 +3,6 @@ package com.example.busgo.database.DAO;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
 import com.example.busgo.database.DatabaseHelper;
 import com.example.busgo.database.model.Booking;
@@ -161,6 +160,7 @@ public class BookingDAO {
         cursor.close();
         return booking;
     }
+
     public List<Booking> getBookingsByUserId(int userId) {
         List<Booking> bookings = new ArrayList<>();
 
@@ -184,6 +184,28 @@ public class BookingDAO {
         return bookings;
     }
 
+    public double getTotalSpending(int userId) {
+        double total = 0;
+        String query = "SELECT SUM(total_price) FROM bookings WHERE user_id = ? AND payment_status = 'paid'";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+        if (cursor.moveToFirst()) {
+            total = cursor.getDouble(0);
+        }
+        cursor.close();
+        return total;
+    }
+
+    public double getMonthlySpending(int userId, String yearMonth) {
+        // yearMonth format: yyyy-MM
+        double total = 0;
+        String query = "SELECT SUM(total_price) FROM bookings WHERE user_id = ? AND payment_status = 'paid' AND strftime('%Y-%m', created_at) = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(userId), yearMonth});
+        if (cursor.moveToFirst()) {
+            total = cursor.getDouble(0);
+        }
+        cursor.close();
+        return total;
+    }
 
     public String generateBookingCode() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());

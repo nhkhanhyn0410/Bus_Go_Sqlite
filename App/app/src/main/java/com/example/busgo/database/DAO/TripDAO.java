@@ -50,6 +50,36 @@ public class TripDAO {
         return trips;
     }
 
+    public List<Trip> searchTripsByDateRange(String departure, String destination,
+                                             String fromDate, String toDate) {
+        List<Trip> trips = new ArrayList<>();
+
+        String query = "SELECT trips.*, " +
+                "routes.departure, routes.destination, routes.distance, routes.duration, " +
+                "buses.bus_number, buses.bus_type, buses.total_seats, buses.seat_layout, " +
+                "buses.company_name, buses.bus_model, buses.rating, buses.amenities, " +
+                "(SELECT COUNT(*) FROM stop_points WHERE stop_points.route_id = trips.route_id AND stop_points.point_type = 'rest_stop') AS stops_count " +
+                "FROM trips " +
+                "JOIN routes ON trips.route_id = routes.id " +
+                "JOIN buses ON trips.bus_id = buses.id " +
+                "WHERE routes.departure = ? " +
+                "AND routes.destination = ? " +
+                "AND DATE(trips.departure_time) BETWEEN ? AND ? " +
+                "AND trips.status = 'scheduled' " +
+                "AND trips.available_seats > 0 " +
+                "ORDER BY trips.base_price ASC";
+
+        Cursor cursor = db.rawQuery(query, new String[]{departure, destination, fromDate, toDate});
+
+        while (cursor.moveToNext()) {
+            Trip trip = cursorToTrip(cursor);
+            trips.add(trip);
+        }
+
+        cursor.close();
+        return trips;
+    }
+
     public Trip getTripById(int tripId) {
         String query = "SELECT trips.*, " +
                 "routes.departure, routes.destination, routes.distance, routes.duration, " +
